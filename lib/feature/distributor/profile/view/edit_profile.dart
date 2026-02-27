@@ -24,7 +24,7 @@ class EditProfile extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Row(
                   children: [
-                    Container(height: 100, width: 100),
+                    SizedBox(height: 100, width: 100),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

@@ -6,6 +6,7 @@ class AppRadioButton extends StatelessWidget {
   final Function(String) onChanged;
 
   const AppRadioButton({
+    super.key,
     required this.value,
     required this.groupValue,
     required this.onChanged,

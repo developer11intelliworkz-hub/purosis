@@ -1,18 +1,9 @@
-import 'dart:io';
-import 'dart:ui';
-
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:purosis/feature/admin/product/model/image_model.dart';
 import 'package:purosis/feature/admin/product/model/product_model.dart';
 import 'package:purosis/utils/api_service.dart';
-import 'package:purosis/utils/app_toast.dart';
 
 import '../../../../consts/app_url.dart';
-import '../../../../utils/commmon_function.dart';
 import '../model/product_categories.dart';
-import '../model/query/add_product_query.dart';
 import '../model/query/sub_category_query.dart';
 import '../model/sub_category_model.dart';
 

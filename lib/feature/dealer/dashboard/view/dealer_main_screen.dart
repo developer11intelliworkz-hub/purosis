@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:purosis/feature/dealer/dashboard/view/dealer_dashboard_view.dart';
 
-import '../../../distributor/marketing/view/posts_view.dart';
 import '../../branding/view/branding_view.dart';
-import '../../reel/view/reel_list_view.dart';
-import '../../video/view/video_view.dart';
 
 class DealerMainScreen extends StatelessWidget {
   const DealerMainScreen({super.key});

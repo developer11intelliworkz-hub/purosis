@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';

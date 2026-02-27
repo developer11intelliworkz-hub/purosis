@@ -1,9 +1,7 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:purosis/feature/admin/product/controller/add_product_controller.dart';
-import 'package:purosis/feature/admin/product/controller/product_controller.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_drop_down.dart';
@@ -11,7 +9,6 @@ import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
-import '../../../../utils/commmon_function.dart';
 import '../../../../widget/image_picker.dart';
 
 class AddProduct extends StatefulWidget {

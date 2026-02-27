@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:purosis/feature/admin/product/controller/product_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/common_widget.dart';

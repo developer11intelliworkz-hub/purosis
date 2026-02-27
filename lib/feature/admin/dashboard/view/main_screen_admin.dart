@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:purosis/feature/admin/dashboard/controller/dashboard_controller.dart';
-import 'package:purosis/feature/admin/dashboard/view/dashboard_view.dart';
-import 'package:purosis/feature/admin/product/view/product_view.dart';
 import 'package:purosis/widget/common_widget.dart';
-
-import '../../marketing/view/marketing_content.dart';
 
 class MainScreenAdmin extends StatelessWidget {
   const MainScreenAdmin({super.key});

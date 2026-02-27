@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text.dart';
-import 'package:purosis/widget/common_widget.dart';
 
 class DealerProfileView extends StatelessWidget {
   const DealerProfileView({super.key});
@@ -22,15 +21,15 @@ class DealerProfileView extends StatelessWidget {
                     width: 60,
                     height: 60,
                     alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
                     child: AppText(
                       text: "MG",
                       color: Color(0xFF0067B1),
                       fontWeight: FontWeight.w600,
                       fontSize: 24,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
                     ),
                   ),
                   SizedBox(width: 20),

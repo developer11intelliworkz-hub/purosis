@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:purosis/feature/admin/stock/view/widget/items_list.dart';
 import 'package:purosis/feature/admin/stock/view/widget/transaction_history_list.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text.dart';
@@ -33,11 +32,11 @@ class PromotionalStock extends StatelessWidget {
                 child: Container(
                   height: 40,
                   alignment: Alignment.center,
-                  child: AppText(text: "Items", fontWeight: FontWeight.w600),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                   ),
+                  child: AppText(text: "Items", fontWeight: FontWeight.w600),
                 ),
               ),
               SizedBox(width: 10),
@@ -45,13 +44,13 @@ class PromotionalStock extends StatelessWidget {
                 child: Container(
                   height: 40,
                   alignment: Alignment.center,
-                  child: AppText(
-                    text: "Transactions History",
-                    fontWeight: FontWeight.w600,
-                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
+                  ),
+                  child: AppText(
+                    text: "Transactions History",
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),

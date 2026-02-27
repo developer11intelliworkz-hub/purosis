@@ -7,11 +7,11 @@ class AppImageUpload extends StatefulWidget {
   final List<String>? allowedExtensions;
 
   const AppImageUpload({
-    Key? key,
+    super.key,
     required this.onFileSelected,
     this.title = "Upload File",
     this.allowedExtensions,
-  }) : super(key: key);
+  });
 
   @override
   State<AppImageUpload> createState() => _AppImageUploadState();

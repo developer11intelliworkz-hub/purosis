@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:purosis/feature/admin/marketing/controller/add_content_controller.dart';
 import 'package:purosis/utils/common_validation.dart';

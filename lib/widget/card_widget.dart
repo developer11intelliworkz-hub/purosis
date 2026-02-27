@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/widget/app_text.dart';
 
 class CardWidget extends StatelessWidget {

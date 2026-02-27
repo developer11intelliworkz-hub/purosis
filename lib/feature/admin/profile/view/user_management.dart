@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
@@ -90,13 +88,13 @@ class UserManagement extends StatelessWidget {
                                   vertical: 3,
                                   horizontal: 10,
                                 ),
-                                child: AppText(
-                                  text: "Active",
-                                  color: Colors.white,
-                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: AppText(
+                                  text: "Active",
+                                  color: Colors.white,
                                 ),
                               ),
                             ],

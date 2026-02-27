@@ -7,7 +7,6 @@ import 'package:purosis/feature/admin/profile/view/admin_profile_edit.dart';
 import 'package:purosis/feature/admin/profile/view/user_detail_view.dart';
 import 'package:purosis/feature/auth/view/otp_screen.dart';
 import 'package:purosis/feature/auth/view/splash_screen.dart';
-import 'package:purosis/feature/distributor/dashboard/view/main_screen.dart';
 import 'package:purosis/widget/filter_widget.dart';
 
 import '../feature/admin/marketing/view/add_new_post.dart';

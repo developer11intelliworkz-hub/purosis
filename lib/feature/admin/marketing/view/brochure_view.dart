@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/common_widget.dart';
 
-import '../../../../widget/app_button.dart';
-import '../../../../widget/app_drop_down.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
-import '../../../../widget/app_text_field.dart';
 
 class BrochureView extends StatefulWidget {
   const BrochureView({super.key});

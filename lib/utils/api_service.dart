@@ -72,7 +72,7 @@ class ApiService {
         queryParameters: queryParameters,
       );
       return response.data;
-    } on DioException catch (e) {
+    } on DioException {
       return null;
     }
   }
@@ -81,7 +81,7 @@ class ApiService {
     try {
       final response = await _dio.post(endpoint, data: data);
       return response.data;
-    } on DioException catch (e) {
+    } on DioException {
       return null;
     }
   }
@@ -90,7 +90,7 @@ class ApiService {
     try {
       final response = await _dio.post(endpoint, data: formData);
       return response.data;
-    } on DioException catch (e) {
+    } on DioException {
       return null;
     }
   }
