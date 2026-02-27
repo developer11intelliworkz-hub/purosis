@@ -22,27 +22,32 @@ class CustomizePost extends StatelessWidget {
                   height: 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.shade300
+                    color: Colors.grey.shade300,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  CircleAvatar(backgroundColor: Color(0xFF0067B1),child: Icon(Icons.image_outlined,color: Colors.white,),),
-                  AppText(text: "Logo")
-                ],),),
-                SizedBox(width: 3,),
+                      CircleAvatar(
+                        backgroundColor: Color(0xFF0067B1),
+                        child: Icon(Icons.image_outlined, color: Colors.white),
+                      ),
+                      AppText(text: "Logo"),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 3),
                 Expanded(
                   child: Column(
                     children: [
                       AppTextField(labelText: "Address"),
-                      SizedBox(height: 3,),
+                      SizedBox(height: 3),
                       AppTextField(labelText: "Mail Id"),
-                      SizedBox(height: 3,),
+                      SizedBox(height: 3),
                       Row(
                         children: [
                           Expanded(child: AppTextField(labelText: "Call")),
-                          SizedBox(width: 3,),
+                          SizedBox(width: 3),
                           Expanded(child: AppTextField(labelText: "Whats app")),
                         ],
                       ),
@@ -51,12 +56,28 @@ class CustomizePost extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10,),
-            Row(children: [
-              Expanded(child: AppButton(text: "Cancel", isLoading: false, onPressed: () {},color: Colors.grey,)),
-              SizedBox(width: 5,),
-              Expanded(child: AppButton(text: "Preview", isLoading: false, onPressed: () {},color: Color(0xFF8EBF1F),)),
-            ],)
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  child: AppButton(
+                    text: "Cancel",
+                    isLoading: false,
+                    onPressed: () {},
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(width: 5),
+                Expanded(
+                  child: AppButton(
+                    text: "Preview",
+                    isLoading: false,
+                    onPressed: () {},
+                    color: Color(0xFF8EBF1F),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),

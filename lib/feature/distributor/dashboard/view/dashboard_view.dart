@@ -41,7 +41,7 @@ class DashboardView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     2,
-                        (index) => Container(
+                    (index) => Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       width: //_currentIndex == index
                       true
@@ -54,7 +54,7 @@ class DashboardView extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color:
-                        true //_currentIndex == index
+                            true //_currentIndex == index
                             ? Colors.grey
                             : Colors.grey,
                       ),
@@ -66,20 +66,37 @@ class DashboardView extends StatelessWidget {
           ),
           Row(
             children: [
-              SizedBox(width: 10,),
-              Expanded(child: CardWidget(icon: AppImage.cartIcon, count: '3', bottomText: "Purchased Orders",)),
-              SizedBox(width: 10,),
-              Expanded(child: CardWidget(icon: AppImage.giftIcon, count: '5', bottomText: "Promo Items Orders",)),
-              SizedBox(width: 10,),
+              SizedBox(width: 10),
+              Expanded(
+                child: CardWidget(
+                  icon: AppImage.cartIcon,
+                  count: '3',
+                  bottomText: "Purchased Orders",
+                ),
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: CardWidget(
+                  icon: AppImage.giftIcon,
+                  count: '5',
+                  bottomText: "Promo Items Orders",
+                ),
+              ),
+              SizedBox(width: 10),
             ],
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(children: [
-              AppText(text: "Latest Marketing Content",fontWeight: FontWeight.w600,),
-              Spacer(),
-              AppText(text: "View All")
-            ],),
+            child: Row(
+              children: [
+                AppText(
+                  text: "Latest Marketing Content",
+                  fontWeight: FontWeight.w600,
+                ),
+                Spacer(),
+                AppText(text: "View All"),
+              ],
+            ),
           ),
           SizedBox(
             height: 250,
@@ -92,30 +109,41 @@ class DashboardView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: SizedBox(width: 150,)),
+                        Expanded(child: SizedBox(width: 150)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            crossAxisAlignment:CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AppText(text: "Christmas Post",fontWeight: FontWeight.w700,),
-                              AppText(text: "25 Dec 2025",fontWeight: FontWeight.w700,color: Colors.grey,),
-                            ],),
+                              AppText(
+                                text: "Christmas Post",
+                                fontWeight: FontWeight.w700,
+                              ),
+                              AppText(
+                                text: "25 Dec 2025",
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
-
-                      ],),
+                      ],
+                    ),
                   ),
                 );
-              },),
+              },
+            ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(children: [
-              AppText(text: "Products",fontWeight: FontWeight.w600,),
-              Spacer(),
-              AppText(text: "View All")
-            ],),
+            child: Row(
+              children: [
+                AppText(text: "Products", fontWeight: FontWeight.w600),
+                Spacer(),
+                AppText(text: "View All"),
+              ],
+            ),
           ),
           SizedBox(
             height: 250,
@@ -128,14 +156,21 @@ class DashboardView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: SizedBox(width: 150,)),
+                        Expanded(child: SizedBox(width: 150)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            crossAxisAlignment:CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AppText(text: "PuroAqua RO Cabi",fontWeight: FontWeight.w700,),
-                              AppText(text: "Expereince the purity in every drop.",fontWeight: FontWeight.w700,color: Colors.grey,),
+                              AppText(
+                                text: "PuroAqua RO Cabi",
+                                fontWeight: FontWeight.w700,
+                              ),
+                              AppText(
+                                text: "Expereince the purity in every drop.",
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey,
+                              ),
                               Row(
                                 children: [
                                   Expanded(
@@ -143,33 +178,53 @@ class DashboardView extends StatelessWidget {
                                       height: 40,
                                       // padding: EdgeInsets.only(right: 25,left: 25),
                                       alignment: Alignment.center,
-                                      decoration: BoxDecoration(color: Color(0xFF8EBF1F),borderRadius: BorderRadius.circular(5)),
-                                      child: AppText(text: "View Details",fontWeight: FontWeight.w600,color: Colors.white,),),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFF8EBF1F),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: AppText(
+                                        text: "View Details",
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(width: 10),
                                   Container(
                                     height: 40,
                                     width: 40,
-                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Color(0xFF0067B1)),
-                                    child: Image.asset(AppImage.cartIcon,color: Colors.white,scale: 1.5,),)
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: Color(0xFF0067B1),
+                                    ),
+                                    child: Image.asset(
+                                      AppImage.cartIcon,
+                                      color: Colors.white,
+                                      scale: 1.5,
+                                    ),
+                                  ),
                                 ],
-                              )
-                            ],),
+                              ),
+                            ],
+                          ),
                         ),
-
-                      ],),
+                      ],
+                    ),
                   ),
                 );
-              },),
+              },
+            ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(children: [
-              AppText(text: "Reels",fontWeight: FontWeight.w600,),
-              Spacer(),
-              AppText(text: "View All")
-            ],),
+            child: Row(
+              children: [
+                AppText(text: "Reels", fontWeight: FontWeight.w600),
+                Spacer(),
+                AppText(text: "View All"),
+              ],
+            ),
           ),
           SizedBox(
             height: 250,
@@ -182,21 +237,30 @@ class DashboardView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child: SizedBox(width: 150,)),
+                        Expanded(child: SizedBox(width: 150)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            crossAxisAlignment:CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              AppText(text: "Christmas Post",fontWeight: FontWeight.w700,),
-                              AppText(text: "25 Dec 2025",fontWeight: FontWeight.w700,color: Colors.grey,),
-                            ],),
+                              AppText(
+                                text: "Christmas Post",
+                                fontWeight: FontWeight.w700,
+                              ),
+                              AppText(
+                                text: "25 Dec 2025",
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
-
-                      ],),
+                      ],
+                    ),
                   ),
                 );
-              },),
+              },
+            ),
           ),
         ],
       ),

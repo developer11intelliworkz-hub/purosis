@@ -4,15 +4,22 @@ import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../widget/app_radio_button.dart';
 
-class UserActivityLocation extends StatelessWidget {
-  UserActivityLocation({super.key});
-  List<String> radioList=["App Open","Orders","Both"];
-  String selectValue="Both";
+class UserActivityLocation extends StatefulWidget {
+  const UserActivityLocation({super.key});
+
+  @override
+  State<UserActivityLocation> createState() => _UserActivityLocationState();
+}
+
+class _UserActivityLocationState extends State<UserActivityLocation> {
+  List<String> radioList = ["App Open", "Orders", "Both"];
+
+  String selectValue = "Both";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.AppAppBar(title: "company Name"),
+      appBar: CommonWidget.appAppBar(title: "company Name"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -31,7 +38,7 @@ class UserActivityLocation extends StatelessWidget {
                   ),
                   child: AppText(text: "Today"),
                 ),
-                SizedBox(width: 5,),
+                SizedBox(width: 5),
                 Container(
                   height: 40,
                   width: 100,
@@ -42,7 +49,7 @@ class UserActivityLocation extends StatelessWidget {
                   ),
                   child: AppText(text: "7 Days"),
                 ),
-                SizedBox(width: 5,),
+                SizedBox(width: 5),
                 Container(
                   height: 40,
                   width: 100,
@@ -53,7 +60,7 @@ class UserActivityLocation extends StatelessWidget {
                   ),
                   child: AppText(text: "30 Days"),
                 ),
-                SizedBox(width: 5,),
+                SizedBox(width: 5),
                 Container(
                   height: 40,
                   width: 80,
@@ -67,22 +74,41 @@ class UserActivityLocation extends StatelessWidget {
               ],
             ),
           ),
-          Row(children: radioList.map((e) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: AppRadioButton(value: e, groupValue: selectValue, onChanged: (value) {
-
-            },),
-          ),).toList(),),
+          Row(
+            children: radioList
+                .map(
+                  (e) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: AppRadioButton(
+                      value: e,
+                      groupValue: selectValue,
+                      onChanged: (value) {},
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
           Expanded(child: SizedBox()),
-          AppText(text: "Order Placed",fontWeight: FontWeight.w700,fontSize: 14,),
-          AppText(text: "Mumbai,India",fontSize: 10,),
-          Divider(),
-          AppText(text: "Order Value: ₹42 500"),
-          AppText(text: "Date: 10 Jan 2026"),
-          AppText(text: "Time: 11:11 AM"),
-          AppText(text: "Device: Android Tablet"),
-
-                  ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(
+                  text: "Order Placed",
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+                AppText(text: "Mumbai,India", fontSize: 10),
+                Divider(),
+                AppText(text: "Order Value: ₹42 500"),
+                AppText(text: "Date: 10 Jan 2026"),
+                AppText(text: "Time: 11:11 AM"),
+                AppText(text: "Device: Android Tablet"),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -28,15 +28,15 @@ class AppRadioButton extends StatelessWidget {
             ),
             child: isSelected
                 ? Center(
-              child: Container(
-                width: 14,
-                height: 14,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue,
-                ),
-              ),
-            )
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  )
                 : null,
           ),
           SizedBox(width: 8),

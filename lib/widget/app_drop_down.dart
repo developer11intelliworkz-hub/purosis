@@ -20,7 +20,9 @@ class AppDropDown<T> extends StatelessWidget {
     this.selectedItem,
     this.onChanged,
     this.itemAsString,
-    this.showSearchBox = true, this.compareFn,this.validator,
+    this.showSearchBox = true,
+    this.compareFn,
+    this.validator,
   });
 
   @override
@@ -42,10 +44,11 @@ class AppDropDown<T> extends StatelessWidget {
       decoratorProps: DropDownDecoratorProps(
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 8,
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         ),
       ),
       itemAsString: itemAsString,

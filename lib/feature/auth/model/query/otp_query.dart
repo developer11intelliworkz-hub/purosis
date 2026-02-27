@@ -16,8 +16,6 @@ class OtpQuery {
   }
 
   FormData toFormData() {
-    return FormData.fromMap({
-      'phone_no': phoneNo ?? "",
-    });
+    return FormData.fromMap({'phone_no': phoneNo ?? ""});
   }
 }

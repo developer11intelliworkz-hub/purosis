@@ -8,40 +8,56 @@ class VideoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Row(
-        children: [
-          Expanded(child: AppSearchField()),
-          IconButton(onPressed: () {
-
-          }, icon: Icon(Icons.tune))
-        ],
-      ),
-      SizedBox(height: 10,),
-      Expanded(
-        child: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2,crossAxisSpacing: 5,mainAxisSpacing: 5), itemBuilder: (context, index) {
-          return Card(
-            child: SizedBox(
-              width: 200,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: SizedBox(width: 150,)),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment:CrossAxisAlignment.start,
-                      children: [
-                        AppText(text: "Some symbols don’t just shield from rain — They...",fontWeight: FontWeight.w700,),
-                        AppText(text: "25 Dec 2025",fontWeight: FontWeight.w700,color: Colors.grey,),
-                      ],),
-                  ),
-
-                ],),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: AppSearchField()),
+            IconButton(onPressed: () {}, icon: Icon(Icons.tune)),
+          ],
+        ),
+        SizedBox(height: 10),
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
             ),
-          );
-        },),
-      )
-    ],);
+            itemBuilder: (context, index) {
+              return Card(
+                child: SizedBox(
+                  width: 200,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: SizedBox(width: 150)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(
+                              text:
+                                  "Some symbols don’t just shield from rain — They...",
+                              fontWeight: FontWeight.w700,
+                            ),
+                            AppText(
+                              text: "25 Dec 2025",
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

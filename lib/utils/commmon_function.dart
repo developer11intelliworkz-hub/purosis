@@ -1,8 +1,8 @@
+import 'dart:ui';
+
 import 'package:file_picker/file_picker.dart';
 
-
-class CommonFunction{
-
+class CommonFunction {
   static Future<List<PlatformFile>> pickMultipleImages({
     required int alreadySelected,
     int maxLimit = 6,
@@ -21,4 +21,8 @@ class CommonFunction{
     return [];
   }
 
+  static String colorToHex(Color color) {
+    // return value like #000000
+    return "#${color.value.toRadixString(16).padLeft(8, '0').substring(2).toUpperCase()}";
+  }
 }

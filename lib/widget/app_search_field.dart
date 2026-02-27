@@ -24,7 +24,7 @@ class AppSearchField extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey)
+        border: Border.all(color: Colors.grey),
         // boxShadow: [
         //   BoxShadow(
         //     color: Colors.black.withOpacity(0.15),
@@ -39,11 +39,7 @@ class AppSearchField extends StatelessWidget {
         onTap: onTap,
         onChanged: onChanged,
         decoration: InputDecoration(
-          icon: const Icon(
-            Icons.search,
-            color: Colors.blue,
-            size: 26,
-          ),
+          icon: const Icon(Icons.search, color: Colors.blue, size: 26),
           hintText: hintText,
           border: InputBorder.none,
         ),

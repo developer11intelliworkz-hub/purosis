@@ -18,10 +18,10 @@ class OrderHistory extends StatelessWidget {
             Row(
               children: [
                 Expanded(child: AppSearchField()),
-                SizedBox(width: 5,),
+                SizedBox(width: 5),
                 Image.asset(AppImage.shortArrowIcon),
-                SizedBox(width: 5,),
-                AppText(text: "Sort by")
+                SizedBox(width: 5),
+                AppText(text: "Sort by"),
               ],
             ),
             Expanded(
@@ -58,7 +58,9 @@ class OrderHistory extends StatelessWidget {
                             children: [
                               Image.asset(AppImage.manIcon),
                               SizedBox(width: 5),
-                              AppText(text: "Distributor : Mumbai Water Solutions"),
+                              AppText(
+                                text: "Distributor : Mumbai Water Solutions",
+                              ),
                             ],
                           ),
                           SizedBox(height: 3),
@@ -106,7 +108,9 @@ class OrderHistory extends StatelessWidget {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Color(0xFF8EBF1F)),
+                                    border: Border.all(
+                                      color: Color(0xFF8EBF1F),
+                                    ),
                                   ),
                                   child: AppText(
                                     text: "View Details",
@@ -136,7 +140,9 @@ class OrderHistory extends StatelessWidget {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(color: Color(0xFFBF1F1F)),
+                                    border: Border.all(
+                                      color: Color(0xFFBF1F1F),
+                                    ),
                                   ),
                                   child: AppText(
                                     text: "Decline",

@@ -38,7 +38,7 @@ class CustomHorizontalStepper extends StatelessWidget {
                       ? Colors.green
                       : Colors.grey,
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -51,13 +51,9 @@ class CustomHorizontalStepper extends StatelessWidget {
       width: 22,
       height: 22,
       decoration: BoxDecoration(
-        color: step.isCompleted || step.isActive
-            ? Colors.green
-            : Colors.white,
+        color: step.isCompleted || step.isActive ? Colors.green : Colors.white,
         border: Border.all(
-          color: step.isCompleted || step.isActive
-              ? Colors.green
-              : Colors.grey,
+          color: step.isCompleted || step.isActive ? Colors.green : Colors.grey,
           width: 2,
         ),
         shape: BoxShape.circle,
@@ -68,7 +64,6 @@ class CustomHorizontalStepper extends StatelessWidget {
     );
   }
 }
-
 
 class StepItem {
   final String title;

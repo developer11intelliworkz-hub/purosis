@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:purosis/feature/auth/view/login_screen.dart';
+import 'package:purosis/routes/app_pages.dart';
+import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/utils/api_service.dart';
+import 'package:purosis/utils/app_theme.dart';
+import 'package:purosis/utils/storage_service.dart';
+import 'package:purosis/widget/filter_widget.dart';
 
 import 'feature/admin/dashboard/view/dashboard_view.dart';
 import 'feature/admin/dashboard/view/main_screen_admin.dart';
@@ -24,9 +31,13 @@ import 'feature/dealer/dashboard/view/dealer_main_screen.dart';
 import 'feature/dealer/profile/view/dealer_profile_view.dart';
 import 'feature/distributor/profile/view/help_support_screen.dart';
 
-
 void main() {
+  initDependencies();
   runApp(const MyApp());
+}
+
+void initDependencies() {
+  Get.put(StorageService(), permanent: true);
 }
 
 class MyApp extends StatelessWidget {
@@ -35,12 +46,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: LoginScreen(),
+    return GetMaterialApp(
+      title: 'Purosis',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.themeData(),
+      initialRoute: AppPages.initial,
+      getPages: AppPages.routes,
     );
   }
 }

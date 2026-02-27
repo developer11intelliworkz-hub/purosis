@@ -22,10 +22,9 @@ class _AppImageUploadState extends State<AppImageUpload> {
 
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: widget.allowedExtensions != null
-          ? FileType.custom
-          : FileType.any,
+      type: widget.allowedExtensions != null ? FileType.custom : FileType.any,
       allowedExtensions: widget.allowedExtensions,
+      withData: true,
     );
 
     if (result != null) {
@@ -58,27 +57,24 @@ class _AppImageUploadState extends State<AppImageUpload> {
             ),
             child: selectedFile == null
                 ? const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Select file"),
-                Icon(Icons.upload_file),
-              ],
-            )
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text("Select file"), Icon(Icons.upload_file)],
+                  )
                 : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    selectedFile!.name,
-                    overflow: TextOverflow.ellipsis,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          selectedFile!.name,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.close, color: Colors.red),
+                        onPressed: removeFile,
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close, color: Colors.red),
-                  onPressed: removeFile,
-                )
-              ],
-            ),
           ),
         ),
       ],

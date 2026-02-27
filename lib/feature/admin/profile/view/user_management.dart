@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:purosis/consts/app_image.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
@@ -9,7 +13,7 @@ class UserManagement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.AppAppBar(title: "User Management"),
+      appBar: CommonWidget.appAppBar(title: "User Management"),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -97,21 +101,49 @@ class UserManagement extends StatelessWidget {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(height: 10),
                           Row(
                             children: [
                               Expanded(
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.userDetail);
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF8EBF1F),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: AppText(
+                                      text: "View",
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Expanded(
                                 child: Container(
                                   height: 40,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: Color(0xFF8EBF1F),
+                                    ),
+                                  ),
+                                  child: AppText(
+                                    text: "Edit",
                                     color: Color(0xFF8EBF1F),
-                                    borderRadius: BorderRadius.circular(4),
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  child: AppText(text: "View", color: Colors.white,fontWeight: FontWeight.w600,),
                                 ),
                               ),
-                              SizedBox(width: 5,),
+                              SizedBox(width: 5),
                               Expanded(
                                 child: Container(
                                   height: 40,
@@ -119,22 +151,15 @@ class UserManagement extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color(0xFF8EBF1F))
+                                    border: Border.all(
+                                      color: Color(0xFF888888),
+                                    ),
                                   ),
-                                  child: AppText(text: "Edit", color: Color(0xFF8EBF1F),fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              SizedBox(width: 5,),
-                              Expanded(
-                                child: Container(
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(4),
-                                    border: Border.all(color: Color(0xFF888888))
+                                  child: AppText(
+                                    text: "Deactivate",
+                                    color: Color(0xFF888888),
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  child: AppText(text: "Deactivate", color: Color(0xFF888888),fontWeight: FontWeight.w600),
                                 ),
                               ),
                             ],

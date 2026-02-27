@@ -10,19 +10,32 @@ class StockOutward extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CommonWidget.AppAppBar(title: "Stock Outward"),body: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(children: [
-        AppDropDown(label: "Item", items: (p0, p1) => [],compareFn: (p0, p1) => p0==p1,),
-        SizedBox(height: 10,),
-        AppTextField(labelText: "Quantity",),
-        SizedBox(height: 10,),
-        AppDropDown(label: "Recipient Type", items: (p0, p1) => [],compareFn: (p0, p1) => p0==p1,),
-        SizedBox(height: 10,),
-        AppTextField(labelText: "Notes",maxLines: 3,),
-        SizedBox(height: 10,),
-        AppButton(text: "Submit",color: Color(0xFF8EBF1F),)
-      ],),
-    ),);
+    return Scaffold(
+      appBar: CommonWidget.appAppBar(title: "Stock Outward"),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            AppDropDown(
+              label: "Item",
+              items: (p0, p1) => [],
+              compareFn: (p0, p1) => p0 == p1,
+            ),
+            SizedBox(height: 10),
+            AppTextField(labelText: "Quantity"),
+            SizedBox(height: 10),
+            AppDropDown(
+              label: "Recipient Type",
+              items: (p0, p1) => [],
+              compareFn: (p0, p1) => p0 == p1,
+            ),
+            SizedBox(height: 10),
+            AppTextField(labelText: "Notes", maxLines: 3),
+            SizedBox(height: 10),
+            AppButton(text: "Submit", color: Color(0xFF8EBF1F)),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,6 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:purosis/feature/admin/product/controller/add_product_controller.dart';
+import 'package:purosis/feature/admin/product/controller/product_controller.dart';
+import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_drop_down.dart';
 import 'package:purosis/widget/app_text.dart';
@@ -18,111 +22,255 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  List<PlatformFile> selectedImages = [];
-  Color selectedColor = Color(0xFF000000);
-
-  void addImages() async {
-    final images = await CommonFunction.pickMultipleImages(alreadySelected: selectedImages.length,maxLimit: 6);
-    setState(() {
-      selectedImages.addAll(images);
-    });
-  }
-
-  void removeImage(int index) {
-    setState(() {
-      selectedImages.removeAt(index);
-    });
-  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: CommonWidget.AppAppBar(title: "Add New Product"),body: SingleChildScrollView(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-        AppTextField(labelText: "Product Name",),
-        SizedBox(height: 10,),
-        AppDropDown(label: 'Category', items: (data,value) => [],compareFn: (p0, p1) => p0==p1,),
-        SizedBox(height: 10,),
-        AppTextField(labelText: "Description",),
-        SizedBox(height: 10,),
-        Column(children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
-            decoration: BoxDecoration(border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(8)),
-            child: Row(children: [
-              AppText(text: "Mate Black"),
-              Spacer(),
-              IconButton(onPressed: () {
-
-              }, icon: Icon(Icons.close))
-            ],),
-          )
-        ],),
-        AppText(text: "Product Image",fontSize: 15,fontWeight: FontWeight.w600,),
-        SizedBox(height: 5,),
-        ImagePicker(
-          images: selectedImages,
-          onAdd: addImages,
-          onRemove: removeImage,
-        ),
-          SizedBox(height: 5,),
-        Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text("Pick a color"),
-                    content: SingleChildScrollView(
-                      child: ColorPicker(
-                        pickerColor: selectedColor,
-                        onColorChanged: (color) {
-                          setState(() => selectedColor = color);
+    return Scaffold(
+      appBar: CommonWidget.appAppBar(title: "Add New Product"),
+      body: GetBuilder<AddProductController>(
+        init: AddProductController(),
+        builder: (controller) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: controller.allFieldValidationKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppTextField(
+                    labelText: "Product Name",
+                    controller: controller.productNameTEC,
+                    validator: CommonValidation.fieldValidation,
+                  ),
+                  SizedBox(height: 10),
+                  AppDropDown(
+                    label: 'Category',
+                    items: (data, value) => controller.productCategoriesApi(),
+                    compareFn: (p0, p1) => p0.categoryName == p1.categoryName,
+                    itemAsString: (p0) => p0.categoryName ?? "",
+                    onChanged: (value) {
+                      controller.selectedProductCategories = value;
+                    },
+                    validator: CommonValidation.dropdownValidation,
+                  ),
+                  SizedBox(height: 10),
+                  AppDropDown(
+                    label: 'Sub Category',
+                    items: (data, value) =>
+                        controller.productSubCategoriesApi(),
+                    compareFn: (p0, p1) =>
+                        p0.subCategoryName == p1.subCategoryName,
+                    itemAsString: (p0) => p0.subCategoryName ?? "",
+                    onChanged: (value) {
+                      controller.selectedSubCategoryModel = value;
+                    },
+                    validator: CommonValidation.dropdownValidation,
+                  ),
+                  SizedBox(height: 10),
+                  AppTextField(
+                    labelText: "Description",
+                    controller: controller.descriptionTEC,
+                    validator: CommonValidation.fieldValidation,
+                  ),
+                  SizedBox(height: 10),
+                  AppText(
+                    text: "Product Image",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  SizedBox(height: 5),
+                  Column(
+                    children: controller.imageModelList
+                        .map(
+                          (e) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 0,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  AppText(text: e.colorName ?? ""),
+                                  Spacer(),
+                                  IconButton(
+                                    onPressed: () {
+                                      controller.imageModelList.remove(e);
+                                      controller.update();
+                                    },
+                                    icon: Icon(Icons.close),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  SizedBox(height: 5),
+                  ImagePicker(
+                    images: controller.selectedImages,
+                    onAdd: controller.addImages,
+                    onRemove: controller.removeImage,
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: const Text("Pick a color"),
+                              content: SingleChildScrollView(
+                                child: ColorPicker(
+                                  pickerColor: controller.selectedColor,
+                                  onColorChanged: (color) {
+                                    controller.selectedColor = color;
+                                    controller.update();
+                                  },
+                                  showLabel: true,
+                                  pickerAreaHeightPercent: 0.8,
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text("Done"),
+                                ),
+                              ],
+                            ),
+                          );
                         },
-                        showLabel: true,
-                        pickerAreaHeightPercent: 0.8,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: controller.selectedColor),
+                          ),
+                          padding: EdgeInsets.all(3),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: controller.selectedColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("Done"),
-                      )
+                      SizedBox(width: 5),
+                      Expanded(
+                        flex: 4,
+                        child: Form(
+                          key: controller.imageValidationKey,
+                          child: AppTextField(
+                            labelText: "Color Name",
+                            controller: controller.colorNameTEC,
+                            validator: CommonValidation.fieldValidation,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Expanded(
+                        child: AppButton(
+                          text: "Add",
+                          color: Color(0xFF8EBF1F),
+                          onPressed: () {
+                            if ((controller.imageValidationKey.currentState
+                                        ?.validate() ??
+                                    false) &&
+                                controller.selectedImages.isNotEmpty) {
+                              controller.addImageToList();
+                            }
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                );
-              },
-                child: Container(width: 50,height: 50,decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),border: Border.all(color: selectedColor)),padding: EdgeInsets.all(3),child: Container(decoration: BoxDecoration(color: selectedColor,borderRadius: BorderRadius.circular(8)),),)),
-            SizedBox(width: 5,),
-            Expanded(flex:4,child: AppTextField(labelText: "Color Name",)),
-            SizedBox(width: 5,),
-            Expanded(child: AppButton(text: "Add",color: Color(0xFF8EBF1F),))
-          ],
-        ),
-        SizedBox(height: 10,),
-        Row(children: [
-          Expanded(child: AppTextField(labelText: "Unit per Box",)),
-          SizedBox(width: 3,),
-          Expanded(child: AppTextField(labelText: "Weight per Box (kg)",))
-        ],),
-        SizedBox(height: 10,),
-        AppText(text: "Dimensions (cm) - for CBM calculation",fontSize: 15,fontWeight: FontWeight.w600,),
-        SizedBox(height: 5,),
-        Row(children: [
-          Expanded(child: AppTextField(labelText: "Length",)),
-          SizedBox(width: 3,),
-          Expanded(child: AppTextField(labelText: "Width",)),
-          SizedBox(width: 3,),
-          Expanded(child: AppTextField(labelText: "Height",)),
-        ],),
-        SizedBox(height: 10,),
-        AppTextField(labelText: "Technical Video URL",),
-        SizedBox(height: 10,),
-        AppButton(text: "Add Product",color: Color(0xFF8EBF1F),),
-          SizedBox(height: 10,),
-      ],),
-    ),);
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppTextField(
+                          labelText: "Unit per Box",
+                          controller: controller.unitPerBoxTEC,
+                          validator: CommonValidation.fieldValidation,
+                        ),
+                      ),
+                      SizedBox(width: 3),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: "Weight per Box (kg)",
+                          controller: controller.weightPerBoxTEC,
+                          validator: CommonValidation.fieldValidation,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  AppText(
+                    text: "Dimensions (cm) - for CBM calculation",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppTextField(
+                          labelText: "Length",
+                          controller: controller.lengthTEC,
+                          validator: CommonValidation.fieldValidation,
+                        ),
+                      ),
+                      SizedBox(width: 3),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: "Width",
+                          controller: controller.widthTEC,
+                          validator: CommonValidation.fieldValidation,
+                        ),
+                      ),
+                      SizedBox(width: 3),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: "Height",
+                          controller: controller.heightTEC,
+                          validator: CommonValidation.fieldValidation,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  AppTextField(
+                    labelText: "Technical Video URL",
+                    controller: controller.technicalVideoUrlTEC,
+                    validator: CommonValidation.fieldValidation,
+                  ),
+                  SizedBox(height: 10),
+                  AppButton(
+                    text: "Add Product",
+                    color: Color(0xFF8EBF1F),
+                    onPressed: () {
+                      if ((controller.allFieldValidationKey.currentState
+                              ?.validate() ??
+                          false)) {
+                        controller.addProductApi();
+                      }
+                    },
+                    isLoading: controller.isAddProductLoading,
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
