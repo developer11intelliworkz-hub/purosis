@@ -81,6 +81,7 @@ class AddNewPost extends StatelessWidget {
                   AppButton(
                     text: "Upload",
                     color: Color(0xFF8EBF1F),
+                    isLoading: controller.isDataLoading,
                     onPressed: () {
                       if (controller.selectedFile == null) {
                         AppToast.error(message: "Please upload the file");

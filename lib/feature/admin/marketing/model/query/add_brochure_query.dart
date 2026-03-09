@@ -56,8 +56,8 @@ class AddBrochureQuery {
       "description": description,
       "is_featured": isFeatured,
       if (mediaFile != null)
-        "media_file": MultipartFile.fromFile(
-          mediaFile!.path!,
+        "media_file": MultipartFile.fromBytes(
+          mediaFile!.bytes!.toList(),
           filename: mediaFile!.path!.split('/').last,
           contentType: DioMediaType.parse("application/pdf"),
         ),

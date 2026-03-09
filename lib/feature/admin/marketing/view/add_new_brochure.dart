@@ -91,7 +91,7 @@ class AddNewBrochure extends StatelessWidget {
                         controller.addBrochureApi();
                       }
                     },
-                    isLoading: controller.isAddBrochuresLoading,
+                    isLoading: controller.isDataLoading,
                   ),
                 ],
               ),

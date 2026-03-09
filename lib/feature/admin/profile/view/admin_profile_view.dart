@@ -127,7 +127,13 @@ class _AdminProfileViewState extends State<AdminProfileView> {
               Spacer(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: AppButton(text: "Logout", color: Color(0xFF8EBF1F)),
+                child: AppButton(
+                  text: "Logout",
+                  color: Color(0xFF8EBF1F),
+                  onPressed: () async {
+                    await controller.logout();
+                  },
+                ),
               ),
               SizedBox(height: 10),
             ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/common_widget.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -32,7 +34,7 @@ class _BrochureViewState extends State<BrochureView> {
                 SizedBox(height: 5),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () => controller.getBrochuresApi(),
+                    onRefresh: () async => await controller.getBrochuresApi(),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -55,7 +57,13 @@ class _BrochureViewState extends State<BrochureView> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(child: SizedBox(width: 150)),
+                                  Expanded(
+                                    child: Image.asset(
+                                      width: double.maxFinite,
+                                      AppImage.pdfThumbImage,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -77,30 +85,38 @@ class _BrochureViewState extends State<BrochureView> {
                                           color: Colors.grey,
                                         ),
                                         SizedBox(height: 5),
-                                        Container(
-                                          height: 40,
-                                          // padding: EdgeInsets.only(right: 25,left: 25),
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF8EBF1F),
-                                            borderRadius: BorderRadius.circular(
-                                              5,
+                                        InkWell(
+                                          onTap: () async {
+                                            await launchUrlString(
+                                              controller
+                                                      .brochuresModelList[index]
+                                                      .mediaFile ??
+                                                  "",
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF8EBF1F),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
                                             ),
-                                          ),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              AppText(
-                                                text: "Download",
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(width: 5),
-                                              Icon(
-                                                Icons.arrow_downward,
-                                                color: Colors.white,
-                                              ),
-                                            ],
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                AppText(
+                                                  text: "Download",
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(width: 5),
+                                                Icon(
+                                                  Icons.arrow_downward,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],

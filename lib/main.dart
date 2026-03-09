@@ -4,13 +4,18 @@ import 'package:purosis/routes/app_pages.dart';
 import 'package:purosis/utils/app_theme.dart';
 import 'package:purosis/utils/storage_service.dart';
 
-void main() {
-  initDependencies();
+void main() async {
+  await initDependencies();
   runApp(const MyApp());
 }
 
-void initDependencies() {
+Future<void> initDependencies() async {
+  // WidgetsFlutterBinding.ensureInitialized();
   Get.put(StorageService(), permanent: true);
+  // await FlutterDownloader.initialize(
+  //   debug: true,
+  //   ignoreSsl: true,
+  // );
 }
 
 class MyApp extends StatelessWidget {

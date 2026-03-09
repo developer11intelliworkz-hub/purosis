@@ -19,51 +19,55 @@ class LoginScreen extends StatelessWidget {
       body: GetBuilder(
         init: AuthController(),
         builder: (controller) {
-          return Column(
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: 300,
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        height: double.maxFinite,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        autoPlayAnimationDuration: const Duration(
-                          milliseconds: 800,
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 300,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: double.maxFinite,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 3),
+                          autoPlayAnimationDuration: const Duration(
+                            milliseconds: 800,
+                          ),
+                          viewportFraction: 1,
+                          onPageChanged: (index, reason) {
+                            controller.posterCurrentIndex = index;
+                            controller.update();
+                          },
                         ),
-                        viewportFraction: 1,
-                        onPageChanged: (index, reason) {
-                          controller.posterCurrentIndex = index;
-                          controller.update();
-                        },
-                      ),
-                      items: sliderImageList(),
-                    ),
-                  ),
-                  SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      3,
-                      (index) => Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        width: controller.posterCurrentIndex == index ? 10 : 8,
-                        height: controller.posterCurrentIndex == index ? 10 : 8,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: controller.posterCurrentIndex == index
-                              ? Colors.grey
-                              : Colors.grey,
-                        ),
+                        items: sliderImageList(),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Padding(
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        3,
+                        (index) => Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: controller.posterCurrentIndex == index
+                              ? 10
+                              : 8,
+                          height: controller.posterCurrentIndex == index
+                              ? 10
+                              : 8,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: controller.posterCurrentIndex == index
+                                ? Colors.grey
+                                : Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15, right: 15),
@@ -122,8 +126,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

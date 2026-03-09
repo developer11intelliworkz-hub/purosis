@@ -107,7 +107,7 @@ class _EditBrochureState extends State<EditBrochure> {
                         controller.addBrochureApi();
                       }
                     },
-                    isLoading: controller.isAddBrochuresLoading,
+                    isLoading: controller.isDataLoading,
                   ),
                 ],
               ),

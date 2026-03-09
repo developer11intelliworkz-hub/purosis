@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/consts/storage_keys.dart';
 import 'package:purosis/feature/auth/model/user_model.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/utils/api_service.dart';
 
 import '../../../../consts/app_url.dart';
@@ -23,6 +24,12 @@ class AdminProfileController extends GetxController {
     adminNameTEC.text = userModel?.name ?? "";
     mobileNumberTEC.text = userModel?.phoneNo ?? "";
     emailAddressTEC.text = userModel?.email ?? "";
+  }
+
+  logout() async {
+    await storage.remove(StorageKeys.userData);
+    await storage.clearAuth();
+    Get.offAllNamed(AppRoutes.login);
   }
 
   updateProfileApi() async {

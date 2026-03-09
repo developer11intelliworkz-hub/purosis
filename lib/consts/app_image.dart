@@ -23,11 +23,17 @@ class AppImage {
   static const productIcon = "assets/icon/product_icon.png";
   static const imageIcon = "assets/icon/image_icon.png";
   static const mapDistance = "assets/icon/map_distance.png";
+  static const reelIcon = "assets/icon/reel_icon.png";
+  static const videoIcon = "assets/icon/video_icon.png";
+  static const brandingIcon = "assets/icon/branding_icon.png";
+  static const postIcon = "assets/icon/post_icon.png";
+  static const profileIcon = "assets/icon/profile_icon.png";
 
   static const loginLayer1 = "assets/image/login_layer1.png";
   static const loginLayer2 = "assets/image/login_layer2.png";
   static const loginLayer3 = "assets/image/login_layer3.png";
   static const splash = "assets/image/splash.jpg";
+  static const pdfThumbImage = "assets/image/pdf_thumb_image.png";
 
   static const emptyBoxAnimation = "assets/anim/empty_box.json";
 }
