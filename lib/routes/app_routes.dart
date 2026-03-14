@@ -20,6 +20,10 @@ abstract class AppRoutes {
   static const addLeaflet = '/add_leaflet';
   static const video = '/video';
   static const addVideo = '/add_video';
+  static const promotionalStock = '/promotional_stock';
+  static const inwardPromotionalStock = '/inward_promotional_stock';
+  static const outwardPromotionalStock = '/outward_promotional_stock';
+  static const addUser = '/add_user';
 
   //distributor
   static const distributorDashboard = '/distributor_dashboard';
@@ -36,4 +40,10 @@ abstract class AppRoutes {
   static const postDealer = '/post_dealer';
   static const reelDealer = '/reel_dealer';
   static const videoDealer = '/video_dealer';
+  static const profileDealer = '/profile_dealer';
+  static const filterMarketingPost = '/filter_marketing_post';
+  static const filterMarketingReel = '/filter_marketing_reel';
+  static const filterMarketingVideo = '/filter_marketing_video';
+  static const filterMarketingBrochures = '/filter_marketing_brochures';
+  static const filterMarketingLeaflets = '/filter_marketing_leaflets';
 }

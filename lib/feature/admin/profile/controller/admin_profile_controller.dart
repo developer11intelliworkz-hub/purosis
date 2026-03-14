@@ -8,6 +8,7 @@ import 'package:purosis/utils/api_service.dart';
 import '../../../../consts/app_url.dart';
 import '../../../../utils/app_toast.dart';
 import '../../../../utils/storage_service.dart';
+import '../model/added_user_model.dart';
 
 class AdminProfileController extends GetxController {
   final storage = Get.find<StorageService>();
@@ -18,6 +19,8 @@ class AdminProfileController extends GetxController {
   TextEditingController emailAddressTEC = TextEditingController();
   GlobalKey<FormState> validationKey = GlobalKey();
   bool isUpdateProfileLoading = false;
+  bool isUserLoading = false;
+  List<AddedUserModel> addUserModelList = [];
 
   fetchProfileData() {
     userModel = UserModel.fromJson(storage.read(StorageKeys.userData));
@@ -32,7 +35,15 @@ class AdminProfileController extends GetxController {
     Get.offAllNamed(AppRoutes.login);
   }
 
-  updateProfileApi() async {
+  getUserStatus(value) {
+    if (value == 1) {
+      return "Active";
+    } else {
+      return "Deactivate";
+    }
+  }
+
+  Future<void> updateProfileApi() async {
     isUpdateProfileLoading = true;
     update();
     await apiService
@@ -49,6 +60,27 @@ class AdminProfileController extends GetxController {
         })
         .catchError((value) {
           isUpdateProfileLoading = false;
+          update();
+        });
+  }
+
+  Future<void> getUserApi() async {
+    isUserLoading = true;
+    // update();
+    await apiService
+        .get(AppUrl.getUserUrl)
+        .then((response) {
+          if (response["success"] == true) {
+            addUserModelList.clear();
+            for (final data in response["data"]) {
+              addUserModelList.add(AddedUserModel.fromJson(data));
+            }
+            isUserLoading = false;
+            update();
+          }
+        })
+        .catchError((value) {
+          isUserLoading = false;
           update();
         });
   }

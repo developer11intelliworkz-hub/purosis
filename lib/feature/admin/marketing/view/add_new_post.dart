@@ -9,6 +9,7 @@ import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../utils/app_toast.dart';
+import '../../../../utils/common_api.dart';
 
 class AddNewPost extends StatelessWidget {
   const AddNewPost({super.key});
@@ -32,7 +33,16 @@ class AddNewPost extends StatelessWidget {
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
-                  AppTextField(labelText: "Category"),
+                  AppDropDown(
+                    label: "Category",
+                    items: (p0, p1) async =>
+                        (await CommonApi().getDetailApi()).postCategory ?? [],
+                    compareFn: (p0, p1) => p0.value == p1.value,
+                    itemAsString: (p0) => p0.value,
+                    onChanged: (value) {
+                      controller.selectedCategory = value;
+                    },
+                  ),
                   SizedBox(height: 10),
                   AppImageUpload(
                     allowedExtensions: ["jpg", "jpeg", "png"],

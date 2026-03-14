@@ -8,7 +8,9 @@ import '../consts/app_url.dart';
 
 class DioClient {
   static final DioClient _instance = DioClient._internal();
+
   factory DioClient() => _instance;
+
   DioClient._internal() {
     _initDio();
   }
@@ -32,6 +34,7 @@ class DioClient {
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+          options.headers['X-API-TOKEN'] = 'PURO_6a0c4d_FINE';
           return handler.next(options);
         },
         onError: (DioException e, handler) async {

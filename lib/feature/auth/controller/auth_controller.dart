@@ -18,14 +18,20 @@ class AuthController extends GetxController {
   bool sendOTPLoading = false;
   bool verifyOTPLoading = false;
   int posterCurrentIndex = 0;
+  String? selectYourCategory;
 
   sendOTPApi() async {
     sendOTPLoading = true;
     update();
     await apiService
         .postFormData(
-          AppUrl.sendOTPUrl,
-          OtpQuery(phoneNo: mobileNumberTEC.text).toFormData(),
+          selectYourCategory == "admin"
+              ? AppUrl.sendOTPUrl
+              : AppUrl.sendUserOTPUrl,
+          OtpQuery(
+            phoneNo: mobileNumberTEC.text,
+            userType: selectYourCategory,
+          ).toFormData(),
         )
         .then((response) {
           if (response["success"] == true) {
@@ -49,8 +55,14 @@ class AuthController extends GetxController {
     update();
     await apiService
         .postFormData(
-          AppUrl.verifyOTPUrl,
-          VerifyOtpQuery(phoneNo: mobileNumber, otp: otp).toFormData(),
+          selectYourCategory == "admin"
+              ? AppUrl.verifyOTPUrl
+              : AppUrl.verifyUserOTPUrl,
+          VerifyOtpQuery(
+            phoneNo: mobileNumber,
+            otp: otp,
+            userType: selectYourCategory,
+          ).toFormData(),
         )
         .then((response) {
           if (response["success"] == true) {
@@ -59,10 +71,18 @@ class AuthController extends GetxController {
             final storage = Get.find<StorageService>();
             storage.saveToken(userModel.token ?? "");
             storage.write(StorageKeys.userData, userModel.toJson());
-            Get.offAllNamed(AppRoutes.adminDashboard);
-            verifyOTPLoading = false;
-            update();
+            if (selectYourCategory == "admin") {
+              Get.offAllNamed(AppRoutes.adminDashboard);
+            } else if (selectYourCategory == "distributor") {
+              Get.offAllNamed(AppRoutes.distributorDashboard);
+            } else {
+              Get.offAllNamed(AppRoutes.dealerDashboard);
+            }
+          } else {
+            AppToast.error(message: response["message"]);
           }
+          verifyOTPLoading = false;
+          update();
         })
         .catchError((value) {
           verifyOTPLoading = false;

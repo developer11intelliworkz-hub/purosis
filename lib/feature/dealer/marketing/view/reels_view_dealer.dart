@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -28,7 +30,7 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: widget.isAppBarShow
-          ? CommonWidget.appAppBar(title: "Posts")
+          ? CommonWidget.appAppBar(title: "Reel")
           : null,
       body: GetBuilder<MarketingController>(
         init: marketingController,
@@ -37,7 +39,33 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                Row(
+                  children: [
+                    Expanded(child: AppSearchField()),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterReelSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingReel,
+                            arguments: controller.filterReelSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterReelSelectedValue = value;
+                              controller.getReelApi(
+                                queryParameters:
+                                    controller.filterReelSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isReelsLoading

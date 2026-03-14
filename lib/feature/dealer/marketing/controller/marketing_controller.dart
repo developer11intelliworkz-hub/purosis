@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 
 import '../../../../consts/app_url.dart';
@@ -20,15 +22,23 @@ class MarketingController extends GetxController {
   List<ReelsModel> reelsModelList = [];
   List<LeafletModel> leafletModelList = [];
   List<VideoModel> videoModelList = [];
+  Map<String, dynamic>? filterPostSelectedValue = {};
+  Map<String, dynamic>? filterReelSelectedValue = {};
+  Map<String, dynamic>? filterVideoSelectedValue = {};
+  Map<String, dynamic>? filterLeafletsSelectedValue = {};
+  Map<String, dynamic>? filterBrochuresSelectedValue = {};
 
-  Future<void> getBrochuresApi() async {
+  Future<void> getBrochuresApi({Map<String, dynamic>? queryParameters}) async {
     isBrochuresLoading = true;
     update();
     await apiService
-        .get(AppUrl.getBrochureDistributorUrl)
+        .get(
+          AppUrl.getBrochureUserUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          brochuresModelList.clear();
           if (response["success"] == true) {
-            brochuresModelList.clear();
             for (final data in response['data']) {
               brochuresModelList.add(BrochuresModel.fromJson(data));
             }
@@ -42,14 +52,17 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getPostsApi() async {
+  Future<void> getPostsApi({Map<String, dynamic>? queryParameters}) async {
     isPostsLoading = true;
     update();
     await apiService
-        .get(AppUrl.getPostDistributorUrl)
+        .get(
+          AppUrl.getPostUserUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          postsModelList.clear();
           if (response["success"] == true) {
-            postsModelList.clear();
             for (final data in response['data']) {
               postsModelList.add(PostsModel.fromJson(data));
             }
@@ -63,14 +76,17 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getReelApi() async {
+  Future<void> getReelApi({Map<String, dynamic>? queryParameters}) async {
     isReelsLoading = true;
     update();
     await apiService
-        .get(AppUrl.getReelDistributorUrl)
+        .get(
+          AppUrl.getReelUserUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          reelsModelList.clear();
           if (response["success"] == true) {
-            reelsModelList.clear();
             for (final data in response['data']) {
               reelsModelList.add(ReelsModel.fromJson(data));
             }
@@ -84,14 +100,17 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getLeafletApi() async {
+  Future<void> getLeafletApi({Map<String, dynamic>? queryParameters}) async {
     isLeafletLoading = true;
     update();
     await apiService
-        .get(AppUrl.getLeafletDistributorUrl)
+        .get(
+          AppUrl.getLeafletUserUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          leafletModelList.clear();
           if (response["success"] == true) {
-            leafletModelList.clear();
             for (final data in response['data']) {
               leafletModelList.add(LeafletModel.fromJson(data));
             }
@@ -105,14 +124,17 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getVideoApi() async {
+  Future<void> getVideoApi({Map<String, dynamic>? queryParameters}) async {
     isVideoLoading = true;
     update();
     await apiService
-        .get(AppUrl.getVideoUrl)
+        .get(
+          AppUrl.getVideoUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          videoModelList.clear();
           if (response["success"] == true) {
-            videoModelList.clear();
             for (final data in response['data']) {
               videoModelList.add(VideoModel.fromJson(data));
             }

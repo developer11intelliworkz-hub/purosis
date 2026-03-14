@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_text.dart';
 
 import '../../../../consts/app_image.dart';
@@ -175,37 +177,45 @@ class DashboardView extends StatelessWidget {
               ),
             ),
           ),
-          Card(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Row(
-                children: [
-                  Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Color(0xFFDEF1FF),
-                    ),
-                    child: Image.asset(AppImage.giftIcon),
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        text: "Promotional",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
+          InkWell(
+            onTap: () {
+              Get.toNamed(AppRoutes.promotionalStock);
+            },
+            child: Card(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Color(0xFFDEF1FF),
                       ),
-                      SizedBox(height: 5),
-                      AppText(text: "Stock Management", color: Colors.grey),
-                    ],
-                  ),
-                  Spacer(),
-                  Icon(Icons.arrow_right_alt, color: Color(0xFF8EBF1F)),
-                ],
+                      child: Image.asset(AppImage.giftIcon),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          text: "Promotional",
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16,
+                        ),
+                        SizedBox(height: 5),
+                        AppText(text: "Stock Management", color: Colors.grey),
+                      ],
+                    ),
+                    Spacer(),
+                    Icon(Icons.arrow_right_alt, color: Color(0xFF8EBF1F)),
+                  ],
+                ),
               ),
             ),
           ),

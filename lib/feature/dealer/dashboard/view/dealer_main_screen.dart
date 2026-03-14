@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/dealer/dashboard/controller/dashboard_controller.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../marketing/controller/marketing_controller.dart';
@@ -30,7 +31,9 @@ class _DealerMainScreenState extends State<DealerMainScreen> {
             title: controller.titleList[controller.selectedIndex],
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(AppRoutes.profileDealer);
+                },
                 icon: Image.asset(AppImage.profileIcon),
               ),
             ],

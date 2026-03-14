@@ -48,47 +48,52 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                 ),
                             itemCount: controller.postsModelList.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: AppImageView(
-                                          width: double.maxFinite,
-                                          imageUrl: controller
-                                              .postsModelList[index]
-                                              .mediaFile,
-                                          fit: BoxFit.fill,
+                              return InkWell(
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.addPosts);
+                                },
+                                child: Card(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: AppImageView(
+                                            width: double.maxFinite,
+                                            imageUrl: controller
+                                                .postsModelList[index]
+                                                .mediaFile,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text:
-                                                  controller
-                                                      .postsModelList[index]
-                                                      .title ??
-                                                  "",
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            AppText(
-                                              text:
-                                                  "${controller.postsModelList[index].month ?? ""} ${controller.postsModelList[index].year ?? ""}",
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .postsModelList[index]
+                                                        .title ??
+                                                    "",
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                              AppText(
+                                                text:
+                                                    "${controller.postsModelList[index].month ?? ""} ${controller.postsModelList[index].year ?? ""}",
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

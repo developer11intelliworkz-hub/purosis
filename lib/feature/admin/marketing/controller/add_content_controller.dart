@@ -10,6 +10,7 @@ import 'package:purosis/utils/app_toast.dart';
 import '../../../../consts/app_url.dart';
 import '../../../../utils/commmon_function.dart';
 import '../model/brochures_model.dart';
+import '../model/detail_model.dart';
 import '../model/query/add_reel_query.dart';
 
 class AddContentController extends GetxController {
@@ -25,6 +26,8 @@ class AddContentController extends GetxController {
   VideoModel? selectedVideo;
   GlobalKey<FormState> validationKey = GlobalKey();
   List<PlatformFile> selectedImages = [];
+  CategoryItem? selectedCategory;
+  CategoryItem? selectedType;
 
   List<String> yearList = List.generate(
     2040 - 2015 + 1,
@@ -71,7 +74,7 @@ class AddContentController extends GetxController {
     update();
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
       title: titleTEC.text,
-      category: "brochure1",
+      category: selectedCategory?.key,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -105,7 +108,7 @@ class AddContentController extends GetxController {
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
       id: selectedBrochure?.id,
       title: titleTEC.text,
-      category: "brochure1",
+      category: selectedCategory?.key,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -139,7 +142,7 @@ class AddContentController extends GetxController {
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
       id: selectedBrochure?.id,
       title: titleTEC.text,
-      category: "post1",
+      category: selectedCategory?.key,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -173,7 +176,7 @@ class AddContentController extends GetxController {
     AddReelQuery addReelQuery = AddReelQuery(
       // id: selectedBrochure?.id,
       title: titleTEC.text,
-      category: "reel1",
+      category: selectedCategory?.key,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -205,8 +208,8 @@ class AddContentController extends GetxController {
     AddVideoQuery addVideoQuery = AddVideoQuery(
       videoId: selectedVideo?.id,
       title: titleTEC.text,
-      category: "videocat1",
-      type: "videotype1",
+      category: selectedCategory?.key,
+      type: selectedType?.key,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -233,5 +236,20 @@ class AddContentController extends GetxController {
           isDataLoading = false;
           update();
         });
+  }
+
+  Future<DetailModel> getDetailApi() async {
+    DetailModel detailModel = DetailModel();
+    await apiService
+        .get(AppUrl.getDetailsUrl)
+        .then((response) {
+          if (response["success"] == true) {
+            for (final data in response['data']) {
+              detailModel = DetailModel.fromJson(data);
+            }
+          }
+        })
+        .catchError((value) {});
+    return detailModel;
   }
 }

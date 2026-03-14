@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:purosis/feature/admin/marketing/controller/add_content_controller.dart';
 import 'package:purosis/utils/app_toast.dart';
+import 'package:purosis/utils/common_api.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -32,7 +33,17 @@ class AddNewBrochure extends StatelessWidget {
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
-                  AppTextField(labelText: "Category"),
+                  AppDropDown(
+                    label: "Category",
+                    items: (p0, p1) async =>
+                        (await CommonApi().getDetailApi()).brochureCategory ??
+                        [],
+                    compareFn: (p0, p1) => p0.value == p1.value,
+                    itemAsString: (p0) => p0.value,
+                    onChanged: (value) {
+                      controller.selectedCategory = value;
+                    },
+                  ),
                   SizedBox(height: 10),
                   AppImageUpload(
                     allowedExtensions: ["pdf"],

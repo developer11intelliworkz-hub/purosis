@@ -6,15 +6,23 @@ import '../../../../consts/app_image.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/card_widget.dart';
+import '../model/added_user_model.dart';
 
-class UserDetailView extends StatelessWidget {
+class UserDetailView extends StatefulWidget {
   const UserDetailView({super.key});
+
+  @override
+  State<UserDetailView> createState() => _UserDetailViewState();
+}
+
+class _UserDetailViewState extends State<UserDetailView> {
+  final AddedUserModel data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidget.appAppBar(
-        title: "Mumbai",
+        title: data.area,
         actions: [
           InkWell(
             onTap: () {
@@ -34,14 +42,14 @@ class UserDetailView extends StatelessWidget {
                 Expanded(
                   child: CardWidget(
                     icon: AppImage.cartIcon,
-                    count: '3',
+                    count: (data.totalOrders ?? 0).toString(),
                     bottomText: "Total Orders",
                   ),
                 ),
                 Expanded(
                   child: CardWidget(
                     icon: AppImage.imageIcon,
-                    count: '3',
+                    count: (data.assetsDownloaded ?? 0).toString(),
                     bottomText: "Assets Downloaded",
                   ),
                 ),
@@ -52,7 +60,7 @@ class UserDetailView extends StatelessWidget {
                 Expanded(
                   child: CardWidget(
                     icon: AppImage.cartIcon,
-                    count: '2 Days Ago',
+                    count: '${data.lastActive ?? 0} Days Ago',
                     bottomText: "Last Active",
                   ),
                 ),
@@ -85,7 +93,7 @@ class UserDetailView extends StatelessWidget {
                             color: Color(0xFFDEF1FF),
                           ),
                           child: AppText(
-                            text: "s",
+                            text: data.name?.trim()[0] ?? "",
                             color: Colors.blue,
                             fontWeight: FontWeight.w600,
                             fontSize: 24,
@@ -96,7 +104,7 @@ class UserDetailView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(
-                              text: "Mumbai Water Solutions",
+                              text: data.name ?? "",
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                             ),
@@ -126,11 +134,11 @@ class UserDetailView extends StatelessWidget {
                       children: [
                         Icon(Icons.call_outlined, color: Colors.grey),
                         SizedBox(width: 5),
-                        AppText(text: "+91 12345 67890"),
+                        AppText(text: data.phoneNo ?? ""),
                         Spacer(),
                         Image.asset(AppImage.whatsAppIcon),
                         SizedBox(width: 5),
-                        AppText(text: "+91 12345 67890"),
+                        AppText(text: data.whatsappNo ?? ""),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -138,7 +146,7 @@ class UserDetailView extends StatelessWidget {
                       children: [
                         Image.asset(AppImage.mailIcon, color: Colors.grey),
                         SizedBox(width: 5),
-                        AppText(text: "dealer@mumbaiwater.com"),
+                        AppText(text: data.email ?? ""),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -147,28 +155,25 @@ class UserDetailView extends StatelessWidget {
                     AppText(text: "GST Number:"),
                     SizedBox(height: 5),
                     AppText(
-                      text: "27AABCU9603R1ZV",
+                      text: data.gstNumber ?? "",
                       fontWeight: FontWeight.w700,
                     ),
                     SizedBox(height: 10),
                     AppText(text: "Area:"),
                     SizedBox(height: 5),
-                    AppText(
-                      text: "Mumbai Central",
-                      fontWeight: FontWeight.w700,
-                    ),
+                    AppText(text: data.area ?? "", fontWeight: FontWeight.w700),
                     SizedBox(height: 10),
                     AppText(text: "Billing Address:"),
                     SizedBox(height: 5),
                     AppText(
-                      text: "123 Market Street, Mumbai, Maharashtra 400001",
+                      text: data.billingAddress ?? "",
                       fontWeight: FontWeight.w700,
                     ),
                     SizedBox(height: 10),
                     AppText(text: "Shipping Address:"),
                     SizedBox(height: 5),
                     AppText(
-                      text: "123 Market Street, Mumbai, Maharashtra 400001",
+                      text: data.shippingAddressLine ?? "",
                       fontWeight: FontWeight.w700,
                     ),
                     SizedBox(height: 10),

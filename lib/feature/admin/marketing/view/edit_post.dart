@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:purosis/widget/app_text.dart';
+import 'package:purosis/feature/admin/marketing/controller/add_content_controller.dart';
+import 'package:purosis/utils/common_validation.dart';
+import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_drop_down.dart';
+import 'package:purosis/widget/app_image_upload.dart';
+import 'package:purosis/widget/app_text_field.dart';
+import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../utils/app_toast.dart';
-import '../../../../utils/common_api.dart';
-import '../../../../utils/common_validation.dart';
-import '../../../../widget/app_button.dart';
-import '../../../../widget/app_drop_down.dart';
-import '../../../../widget/app_image_upload.dart';
-import '../../../../widget/app_text_field.dart';
-import '../../../../widget/common_widget.dart';
-import '../controller/add_content_controller.dart';
 
-class AddNewReels extends StatelessWidget {
-  const AddNewReels({super.key});
+class EditPost extends StatelessWidget {
+  const EditPost({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Reels"),
+      appBar: CommonWidget.appAppBar(title: "Add New Post"),
       body: GetBuilder<AddContentController>(
         init: AddContentController(),
         builder: (controller) {
-          return SingleChildScrollView(
+          return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
               key: controller.validationKey,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppTextField(
                     labelText: "Title",
@@ -35,28 +32,8 @@ class AddNewReels extends StatelessWidget {
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
-                  AppDropDown(
-                    label: "Category",
-                    items: (p0, p1) async =>
-                        (await CommonApi().getDetailApi()).reelCategory ?? [],
-                    compareFn: (p0, p1) => p0.value == p1.value,
-                    itemAsString: (p0) => p0.value,
-                    onChanged: (value) {
-                      controller.selectedCategory = value;
-                    },
-                  ),
+                  AppTextField(labelText: "Category"),
                   SizedBox(height: 10),
-                  AppText(text: "Media File"),
-                  SizedBox(height: 5),
-                  AppImageUpload(
-                    allowedExtensions: ["mp4", "mov", "avi"],
-                    onFileSelected: (value) {
-                      controller.selectedMediaFile = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  AppText(text: "Thumbnail Image"),
-                  SizedBox(height: 5),
                   AppImageUpload(
                     allowedExtensions: ["jpg", "jpeg", "png"],
                     onFileSelected: (value) {
@@ -112,7 +89,7 @@ class AddNewReels extends StatelessWidget {
                       if ((controller.validationKey.currentState?.validate() ??
                               false) &&
                           controller.selectedFile != null) {
-                        controller.addReelsApi();
+                        controller.addPostApi();
                       }
                     },
                   ),

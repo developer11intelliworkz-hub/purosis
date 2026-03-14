@@ -4,7 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/auth/controller/auth_controller.dart';
+import 'package:purosis/utils/common_api.dart';
 import 'package:purosis/utils/common_validation.dart';
+import 'package:purosis/widget/app_drop_down.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/app_text_field.dart';
 
@@ -92,13 +94,32 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: 10),
                         Form(
                           key: controller.mobileNumberValidationKey,
-                          child: AppTextField(
-                            labelText: "Mobile Number",
-                            controller: controller.mobileNumberTEC,
-                            validator: CommonValidation.fieldValidation,
-                            inputFormatter: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              LengthLimitingTextInputFormatter(10),
+                          child: Column(
+                            children: [
+                              AppDropDown(
+                                label: "Select your Category",
+                                items: (p0, p1) async =>
+                                    (await CommonApi().getDetailApi())
+                                        .userTypes ??
+                                    [],
+                                validator: CommonValidation.dropdownValidation,
+                                selectedItem: controller.selectYourCategory,
+                                onChanged: (value) {
+                                  controller.selectYourCategory = value;
+                                },
+                                compareFn: (p0, p1) => p0 == p1,
+                                showSearchBox: false,
+                              ),
+                              SizedBox(height: 10),
+                              AppTextField(
+                                labelText: "Mobile Number",
+                                controller: controller.mobileNumberTEC,
+                                validator: CommonValidation.fieldValidation,
+                                inputFormatter: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(10),
+                                ],
+                              ),
                             ],
                           ),
                         ),

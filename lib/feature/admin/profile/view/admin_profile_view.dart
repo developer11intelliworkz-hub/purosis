@@ -15,7 +15,9 @@ class AdminProfileView extends StatefulWidget {
 }
 
 class _AdminProfileViewState extends State<AdminProfileView> {
-  AdminProfileController adminProfileController = AdminProfileController();
+  AdminProfileController adminProfileController = Get.put(
+    AdminProfileController(),
+  );
 
   @override
   void initState() {

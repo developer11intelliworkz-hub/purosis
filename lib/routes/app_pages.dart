@@ -6,6 +6,8 @@ import 'package:purosis/feature/admin/marketing/view/reels_view.dart';
 import 'package:purosis/feature/admin/marketing/view/social_media_post.dart';
 import 'package:purosis/feature/admin/profile/view/admin_profile_edit.dart';
 import 'package:purosis/feature/admin/profile/view/user_detail_view.dart';
+import 'package:purosis/feature/admin/stock/view/promotional_stock.dart';
+import 'package:purosis/feature/admin/stock/view/stock_outward.dart';
 import 'package:purosis/feature/auth/view/otp_screen.dart';
 import 'package:purosis/feature/auth/view/splash_screen.dart';
 import 'package:purosis/feature/dealer/marketing/view/brochures_view_dealer.dart';
@@ -14,6 +16,7 @@ import 'package:purosis/feature/dealer/marketing/view/reels_view_dealer.dart';
 import 'package:purosis/feature/dealer/marketing/view/video_view_dealer.dart';
 import 'package:purosis/feature/distributor/marketing/view/posts_view_distributor.dart';
 import 'package:purosis/feature/distributor/marketing/view/reels_view_distributor.dart';
+import 'package:purosis/widget/filter_marketing_widget.dart';
 import 'package:purosis/widget/filter_widget.dart';
 
 import '../feature/admin/marketing/view/add_new_leaflet.dart';
@@ -24,11 +27,14 @@ import '../feature/admin/marketing/view/brochure_view.dart';
 import '../feature/admin/marketing/view/leaflet_view.dart';
 import '../feature/admin/marketing/view/video_view.dart';
 import '../feature/admin/product/view/add_product.dart';
+import '../feature/admin/profile/view/add_user.dart';
 import '../feature/admin/profile/view/user_activity_location.dart';
 import '../feature/admin/profile/view/user_management.dart';
+import '../feature/admin/stock/view/stock_inward.dart';
 import '../feature/auth/view/login_screen.dart';
 import '../feature/dealer/dashboard/view/dealer_main_screen.dart';
 import '../feature/dealer/marketing/view/leafleats_view_dealer.dart';
+import '../feature/dealer/profile/view/dealer_profile_view.dart';
 import '../feature/distributor/dashboard/view/distributor_main_screen.dart';
 import '../feature/distributor/marketing/view/brochures_view_distributor.dart';
 import '../feature/distributor/marketing/view/leafleats_view_distributor.dart';
@@ -36,7 +42,7 @@ import '../feature/distributor/marketing/view/video_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
-  static const initial = AppRoutes.dealerDashboard;
+  static const initial = AppRoutes.splash;
 
   static final routes = [
     GetPage(name: AppRoutes.splash, page: () => const SplashScreen()),
@@ -70,6 +76,19 @@ class AppPages {
     GetPage(name: AppRoutes.addVideo, page: () => const AddNewVideo()),
     GetPage(name: AppRoutes.leaflet, page: () => const LeafletView()),
     GetPage(name: AppRoutes.addLeaflet, page: () => const AddNewLeaflet()),
+    GetPage(
+      name: AppRoutes.promotionalStock,
+      page: () => const PromotionalStock(),
+    ),
+    GetPage(
+      name: AppRoutes.inwardPromotionalStock,
+      page: () => const StockInward(),
+    ),
+    GetPage(
+      name: AppRoutes.outwardPromotionalStock,
+      page: () => const StockOutward(),
+    ),
+    GetPage(name: AppRoutes.addUser, page: () => const AddUser()),
 
     //Distributor
     GetPage(
@@ -113,5 +132,29 @@ class AppPages {
     GetPage(name: AppRoutes.postDealer, page: () => const PostsViewDealer()),
     GetPage(name: AppRoutes.reelDealer, page: () => const ReelsViewDealer()),
     GetPage(name: AppRoutes.videoDealer, page: () => const VideoViewDealer()),
+    GetPage(
+      name: AppRoutes.profileDealer,
+      page: () => const DealerProfileView(),
+    ),
+    GetPage(
+      name: AppRoutes.filterMarketingPost,
+      page: () => const FilterMarketingWidget(typeOfCategories: 'post'),
+    ),
+    GetPage(
+      name: AppRoutes.filterMarketingReel,
+      page: () => const FilterMarketingWidget(typeOfCategories: 'reel'),
+    ),
+    GetPage(
+      name: AppRoutes.filterMarketingVideo,
+      page: () => const FilterMarketingWidget(typeOfCategories: 'video'),
+    ),
+    GetPage(
+      name: AppRoutes.filterMarketingBrochures,
+      page: () => const FilterMarketingWidget(typeOfCategories: 'brochures'),
+    ),
+    GetPage(
+      name: AppRoutes.filterMarketingLeaflets,
+      page: () => const FilterMarketingWidget(typeOfCategories: 'leaflets'),
+    ),
   ];
 }

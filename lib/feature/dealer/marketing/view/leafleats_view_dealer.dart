@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -28,7 +30,33 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                Row(
+                  children: [
+                    Expanded(child: AppSearchField()),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterLeafletsSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingLeaflets,
+                            arguments: controller.filterLeafletsSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterLeafletsSelectedValue = value;
+                              controller.getLeafletApi(
+                                queryParameters:
+                                    controller.filterLeafletsSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isLeafletLoading

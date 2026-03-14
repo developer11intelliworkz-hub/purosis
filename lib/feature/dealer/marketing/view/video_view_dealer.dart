@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -36,7 +38,33 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                Row(
+                  children: [
+                    Expanded(child: AppSearchField()),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterVideoSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingVideo,
+                            arguments: controller.filterVideoSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterVideoSelectedValue = value;
+                              controller.getVideoApi(
+                                queryParameters:
+                                    controller.filterVideoSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isVideoLoading

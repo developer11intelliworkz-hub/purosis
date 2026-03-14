@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import '../../../../utils/app_toast.dart';
+import '../../../../utils/common_api.dart';
 import '../../../../utils/common_validation.dart';
 import '../../../../widget/app_button.dart';
 import '../../../../widget/app_drop_down.dart';
@@ -34,9 +35,27 @@ class AddNewVideo extends StatelessWidget {
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
-                  AppTextField(labelText: "Category"),
+                  AppDropDown(
+                    label: "Category",
+                    items: (p0, p1) async =>
+                        (await CommonApi().getDetailApi()).videoCategory ?? [],
+                    compareFn: (p0, p1) => p0.value == p1.value,
+                    itemAsString: (p0) => p0.value,
+                    onChanged: (value) {
+                      controller.selectedCategory = value;
+                    },
+                  ),
                   SizedBox(height: 10),
-                  AppTextField(labelText: "Type"),
+                  AppDropDown(
+                    label: "Type",
+                    items: (p0, p1) async =>
+                        (await CommonApi().getDetailApi()).videoType ?? [],
+                    compareFn: (p0, p1) => p0.value == p1.value,
+                    itemAsString: (p0) => p0.value,
+                    onChanged: (value) {
+                      controller.selectedType = value;
+                    },
+                  ),
                   SizedBox(height: 10),
                   AppText(text: "Media File"),
                   SizedBox(height: 5),
