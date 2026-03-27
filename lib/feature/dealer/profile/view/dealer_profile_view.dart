@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/profile/controller/profile_controller.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
@@ -54,25 +55,33 @@ class _DealerProfileViewState extends State<DealerProfileView> {
                           : Icon(Icons.person, color: Color(0xFF0067B1)),
                     ),
                     SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          text:
-                              controller.userModel?.name ??
-                              controller.userModel?.phoneNo ??
-                              "",
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                        ),
-                        AppText(
-                          text: "Guest",
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12,
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            text:
+                                controller.userModel?.name ??
+                                controller.userModel?.phoneNo ??
+                                "",
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                          AppText(
+                            text: "Guest",
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12,
+                          ),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.editProfileDealer);
+                      },
+                      icon: Icon(Icons.edit, color: Colors.white),
                     ),
                   ],
                 ),

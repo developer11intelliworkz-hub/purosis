@@ -3,6 +3,7 @@ import 'package:file_picker/file_picker.dart';
 
 class AddReelQuery {
   AddReelQuery({
+    this.id,
     this.title,
     this.category,
     this.month,
@@ -14,6 +15,7 @@ class AddReelQuery {
   });
 
   AddReelQuery.fromJson(dynamic json) {
+    id = json['id'];
     title = json['title'];
     category = json['category'];
     month = json['month'];
@@ -24,6 +26,7 @@ class AddReelQuery {
     isFeatured = json['is_featured'];
   }
 
+  num? id;
   String? title;
   String? category;
   String? month;
@@ -35,6 +38,7 @@ class AddReelQuery {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['id'] = id;
     map['title'] = title;
     map['category'] = category;
     map['month'] = month;
@@ -48,6 +52,7 @@ class AddReelQuery {
 
   Future<FormData> toFormData() async {
     return FormData.fromMap({
+      if (id != null) "reel_id": id,
       if (title != null) "title": title,
       if (category != null) "category": category,
       if (month != null) "month": month,

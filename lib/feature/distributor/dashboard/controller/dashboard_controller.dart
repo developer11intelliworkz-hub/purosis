@@ -7,6 +7,12 @@ import '../../product/view/product_view.dart';
 import '../../profile/view/profile_view.dart';
 
 class DashboardController extends GetxController {
+  List<String> screenNameList = [
+    "Dashboard",
+    "Products",
+    "Marketing Assets",
+    "Profile",
+  ];
   List<Widget> distributorList = [
     DashboardView(),
     ProductView(),

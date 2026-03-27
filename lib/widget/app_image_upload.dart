@@ -9,7 +9,7 @@ class AppImageUpload extends StatefulWidget {
   const AppImageUpload({
     super.key,
     required this.onFileSelected,
-    this.title = "Upload File",
+    this.title = "Select File",
     this.allowedExtensions,
   });
 
@@ -56,9 +56,17 @@ class _AppImageUploadState extends State<AppImageUpload> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: selectedFile == null
-                ? const Row(
+                ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text("Select file"), Icon(Icons.upload_file)],
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Icon(Icons.upload_file),
+                    ],
                   )
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

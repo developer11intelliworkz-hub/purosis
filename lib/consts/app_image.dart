@@ -11,6 +11,7 @@ class AppImage {
   static const pureIcon = "assets/icon/pure.png";
   static const filterCabIcon = "assets/icon/filter_cab.png";
   static const cart2Icon = "assets/icon/cart_2.png";
+  static const cart3Icon = "assets/icon/cart_3.png";
   static const shortArrowIcon = "assets/icon/short_arrow.png";
   static const calenderIcon = "assets/icon/calender_icon.png";
   static const shippingBoxIcon = "assets/icon/shipping_box.png";

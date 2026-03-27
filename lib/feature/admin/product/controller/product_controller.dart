@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
 import 'package:purosis/feature/admin/product/model/product_model.dart';
 import 'package:purosis/utils/api_service.dart';
 
@@ -15,15 +18,23 @@ class ProductController extends GetxController {
   Map<String, dynamic> selectedFilter = {};
   List<ProductModel> productModelList = [];
   bool isProductLoading = false;
+  bool isProductDetailLoading = false;
+  ProductDetailModel? productDetailModel;
+  int selectedProductIndex = 0;
 
-  Future<List<ProductModel>> getProductApi() async {
+  Future<List<ProductModel>> getProductApi({
+    Map<String, dynamic>? queryParameters,
+  }) async {
     isProductLoading = true;
     update();
     await apiService
-        .get(AppUrl.getProductsUrl)
+        .get(
+          AppUrl.getProductsUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          productModelList.clear();
           if (response["success"] == true) {
-            productModelList.clear();
             for (final data in response['data']) {
               productModelList.add(ProductModel.fromJson(data));
             }
@@ -38,6 +49,25 @@ class ProductController extends GetxController {
     return productModelList;
   }
 
+  Future<void> getProductDetailApi(String productId) async {
+    isProductDetailLoading = true;
+    await apiService
+        .get(AppUrl.getProductsUrl, queryParameters: {"product_id": productId})
+        .then((response) async {
+          if (response["success"] == true) {
+            for (final data in response['data']) {
+              productDetailModel = ProductDetailModel.fromJson(data);
+            }
+            isProductDetailLoading = false;
+            update();
+          }
+        })
+        .catchError((value) {
+          isProductDetailLoading = false;
+          update();
+        });
+  }
+
   Future<List<ProductCategories>> productCategoriesApi() async {
     productCategoriesLoading = true;
     update();
@@ -49,7 +79,6 @@ class ProductController extends GetxController {
             for (final data in response['data']) {
               productCategoriesList.add(ProductCategories.fromJson(data));
             }
-
             productCategoriesLoading = false;
             update();
           }

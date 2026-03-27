@@ -14,22 +14,27 @@ class FilterWidget extends StatefulWidget {
 }
 
 class _FilterWidgetState extends State<FilterWidget> {
-  int selectedLeftIndex = 0;
-  final Map<String, dynamic>? selectedValue = Get.arguments;
-
-  final List<String> leftMenu = [
-    "Product Categories",
-    "Sub Categories",
-    "Type",
-    "Year",
-    "Month",
-  ];
+  final List<String> leftMenu = ["Product Categories", "Sub Categories"];
 
   List<num> selectedProductCategories = [];
+  List<num> selectedProductSubCategories = [];
+  int selectedLeftIndex = 0;
+
+  final Map<String, dynamic>? passArguments = Get.arguments;
+  Map<String, dynamic>? selectedValue = {};
 
   @override
   void initState() {
-    selectedProductCategories = selectedValue?["product_category"] ?? [];
+    //create a copy of passed map
+    //because we need to modify the map
+    //-----------------------------
+    selectedValue = {
+      "categories": List<num>.from(passArguments?["categories"] ?? []),
+      "sub_categories": List<num>.from(passArguments?["sub_categories"] ?? []),
+    };
+    //---------------------------
+    selectedProductCategories = selectedValue?["categories"] ?? <num>[];
+    selectedProductSubCategories = selectedValue?["sub_categories"] ?? <num>[];
     super.initState();
   }
 
@@ -53,6 +58,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                     onTap: () {
                       setState(() {
                         selectedProductCategories.clear();
+                        selectedProductSubCategories.clear();
                       });
                     },
                     child: const Text(
@@ -137,8 +143,12 @@ class _FilterWidgetState extends State<FilterWidget> {
                     child: TextButton(
                       onPressed: () {
                         Map<String, dynamic> filterData = {};
-                        filterData["product_category"] =
-                            selectedProductCategories;
+                        if (selectedProductCategories.isNotEmpty ||
+                            selectedProductSubCategories.isNotEmpty) {
+                          filterData["categories"] = selectedProductCategories;
+                          filterData["sub_categories"] =
+                              selectedProductSubCategories;
+                        }
                         Navigator.pop(context, filterData);
                       },
                       child: const Text(
@@ -191,6 +201,40 @@ class _FilterWidgetState extends State<FilterWidget> {
           );
         },
       );
+    } else if (selectedLeftIndex == 1) {
+      return FutureBuilder(
+        future: productSubCategoriesApi(selectedProductCategories),
+        builder: (context, asyncSnapshot) {
+          if (asyncSnapshot.data == null) {
+            return Center(child: CommonWidget.commonLoading());
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: asyncSnapshot.data?.length ?? 0,
+            itemBuilder: (context, index) {
+              num? item = asyncSnapshot.data?[index].id;
+              bool isSelected = selectedProductSubCategories.contains(item);
+
+              return CheckboxListTile(
+                value: isSelected,
+                activeColor: Colors.green,
+                onChanged: (value) {
+                  setState(() {
+                    if (value == true) {
+                      selectedProductSubCategories.add(item!);
+                    } else {
+                      selectedProductSubCategories.remove(item);
+                    }
+                  });
+                },
+                title: Text(asyncSnapshot.data?[index].subCategoryName ?? ""),
+                controlAffinity: ListTileControlAffinity.leading,
+                contentPadding: EdgeInsets.zero,
+              );
+            },
+          );
+        },
+      );
     } else {
       return Container();
     }
@@ -217,23 +261,47 @@ class ProductCategories {
 }
 
 class SubCategoryModel {
-  SubCategoryModel({this.id, this.categoryId, this.subCategoryName});
+  SubCategoryModel({
+    this.id,
+    this.categoryId,
+    this.subCategoryName,
+    this.subCategoryUrl,
+    this.shortDescription,
+    this.deletedAt,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   SubCategoryModel.fromJson(dynamic json) {
     id = json['id'];
     categoryId = json['category_id'];
     subCategoryName = json['sub_category_name'];
+    subCategoryUrl = json['sub_category_url'];
+    shortDescription = json['short_description'];
+    deletedAt = json['deleted_at'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   num? id;
   num? categoryId;
   String? subCategoryName;
+  String? subCategoryUrl;
+  String? shortDescription;
+  dynamic deletedAt;
+  String? createdAt;
+  String? updatedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['category_id'] = categoryId;
     map['sub_category_name'] = subCategoryName;
+    map['sub_category_url'] = subCategoryUrl;
+    map['short_description'] = shortDescription;
+    map['deleted_at'] = deletedAt;
+    map['created_at'] = createdAt;
+    map['updated_at'] = updatedAt;
     return map;
   }
 }
@@ -253,10 +321,13 @@ Future<List<ProductCategories>> productCategoriesApi() async {
   return productCategoriesList;
 }
 
-Future<List<SubCategoryModel>> productSubCategoriesApi(String id) async {
+Future<List<SubCategoryModel>> productSubCategoriesApi(List<num> id) async {
   List<SubCategoryModel> productSubCategoriesList = [];
   await ApiService()
-      .get("${AppUrl.productSubCategoriesUrl}?category_id=$id")
+      .get(
+        AppUrl.productsSubCategoriesUrl,
+        queryParameters: {"category_ids": id.join(",")},
+      )
       .then((response) {
         if (response["success"] == true) {
           for (final data in response['data']) {

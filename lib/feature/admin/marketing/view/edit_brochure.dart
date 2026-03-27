@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/app_toast.dart';
+import '../../../../utils/common_api.dart';
 import '../../../../utils/common_validation.dart';
 import '../../../../widget/app_button.dart';
 import '../../../../widget/app_drop_down.dart';
@@ -47,9 +48,21 @@ class _EditBrochureState extends State<EditBrochure> {
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
-                  AppTextField(labelText: "Category"),
+                  AppDropDown(
+                    label: "Category",
+                    items: (p0, p1) async =>
+                        (await CommonApi().getDetailApi()).brochureCategory ??
+                        [],
+                    compareFn: (p0, p1) => p0.value == p1.value,
+                    itemAsString: (p0) => p0.value,
+                    selectedItem: controller.selectedCategory,
+                    onChanged: (value) {
+                      controller.selectedCategory = value;
+                    },
+                  ),
                   SizedBox(height: 10),
                   AppImageUpload(
+                    title: controller.selectedFileName ?? "",
                     onFileSelected: (value) {
                       controller.selectedFile = value;
                     },

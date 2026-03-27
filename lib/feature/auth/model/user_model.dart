@@ -1,52 +1,99 @@
 class UserModel {
+  int? id;
+  String? name;
+  String? companyName;
+  String? email;
+  String? phoneNo;
+  String? alternateMobileNo;
+  String? landlineNo;
+  String? whatsappNo;
+  String? otp;
+  String? otpExpiresAt;
+  String? gstNumber;
+  String? area;
+  String? billingAddress;
+  String? shippingAddressLine;
+  String? shippingAddressPinCode;
+  String? logo;
+  int? isActive;
+  String? createdAt;
+  String? updatedAt;
+  String? token;
+  String? role;
+
   UserModel({
     this.id,
     this.name,
+    this.companyName,
     this.email,
     this.phoneNo,
+    this.alternateMobileNo,
+    this.landlineNo,
+    this.whatsappNo,
     this.otp,
     this.otpExpiresAt,
+    this.gstNumber,
+    this.area,
+    this.billingAddress,
+    this.shippingAddressLine,
+    this.shippingAddressPinCode,
+    this.logo,
+    this.isActive,
     this.createdAt,
     this.updatedAt,
     this.token,
     this.role,
   });
 
-  UserModel.fromJson(dynamic json) {
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    phoneNo = json['phone_no'];
-    otp = json['otp'];
-    otpExpiresAt = json['otp_expires_at'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    token = json['token'];
-    role = json['role'];
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id'],
+      name: json['name'],
+      companyName: json['company_name'],
+      email: json['email'],
+      phoneNo: json['phone_no'],
+      alternateMobileNo: json['alternate_mobile_no'],
+      landlineNo: json['landline_no'],
+      whatsappNo: json['whatsapp_no'],
+      otp: json['otp'],
+      otpExpiresAt: json['otp_expires_at'],
+      gstNumber: json['gst_number'],
+      area: json['area'],
+      billingAddress: json['billing_address'],
+      shippingAddressLine: json['shipping_address_line'],
+      shippingAddressPinCode: json['shipping_address_pincode'],
+      logo: json['logo'],
+      isActive: json['is_active'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      token: json['token'],
+      role: json['role'],
+    );
   }
-  num? id;
-  String? name;
-  String? email;
-  String? phoneNo;
-  dynamic otp;
-  dynamic otpExpiresAt;
-  String? createdAt;
-  String? updatedAt;
-  String? token;
-  String? role;
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['email'] = email;
-    map['phone_no'] = phoneNo;
-    map['otp'] = otp;
-    map['otp_expires_at'] = otpExpiresAt;
-    map['created_at'] = createdAt;
-    map['updated_at'] = updatedAt;
-    map['token'] = token;
-    map['role'] = role;
-    return map;
+    return {
+      'id': id,
+      'name': name,
+      'company_name': companyName,
+      'email': email,
+      'phone_no': phoneNo,
+      'alternate_mobile_no': alternateMobileNo,
+      'landline_no': landlineNo,
+      'whatsapp_no': whatsappNo,
+      'otp': otp,
+      'otp_expires_at': otpExpiresAt,
+      'gst_number': gstNumber,
+      'area': area,
+      'billing_address': billingAddress,
+      'shipping_address_line': shippingAddressLine,
+      'shipping_address_pincode': shippingAddressPinCode,
+      'logo': logo,
+      'is_active': isActive,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'token': token,
+      'role': role,
+    };
   }
 }

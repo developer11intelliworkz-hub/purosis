@@ -18,6 +18,7 @@ class MainScreenAdmin extends StatelessWidget {
           body: controller.screenList[controller.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
             selectedIconTheme: IconThemeData(color: Color(0xFF8EBf1F)),
             selectedItemColor: Color(0xFF8EBf1F),
             onTap: (value) {

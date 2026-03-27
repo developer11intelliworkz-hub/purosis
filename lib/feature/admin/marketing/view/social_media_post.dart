@@ -50,7 +50,10 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Get.toNamed(AppRoutes.addPosts);
+                                  Get.toNamed(
+                                    AppRoutes.editPost,
+                                    arguments: controller.postsModelList[index],
+                                  );
                                 },
                                 child: Card(
                                   color: Colors.white,

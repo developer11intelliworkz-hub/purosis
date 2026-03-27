@@ -40,9 +40,11 @@ class AuthController extends GetxController {
               AppRoutes.otpScreen,
               arguments: mobileNumberTEC.text,
             );
-            sendOTPLoading = false;
-            update();
+          } else {
+            AppToast.success(response["message"]);
           }
+          sendOTPLoading = false;
+          update();
         })
         .catchError((value) {
           sendOTPLoading = false;

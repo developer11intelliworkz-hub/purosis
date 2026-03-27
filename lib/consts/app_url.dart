@@ -1,5 +1,5 @@
 class AppUrl {
-  static const String _baseUrl = "http://192.168.0.116";
+  static const String _baseUrl = "http://192.168.0.92";
   static const String baseUrlApi = "$_baseUrl/purosis_laravel_app/public/api/";
 
   static const String sendOTPUrl = "/admin/send-otp";
@@ -24,15 +24,33 @@ class AppUrl {
   static const String outwardStockUrl = "/admin/stock-outward";
   static const String addUpdateUserUrl = "/admin/add-update-distributor";
   static const String getUserUrl = "/admin/get-distributor";
+  static const String getDashboardData = "/admin/get-dashboard-data";
+  static const String getOrderHistory = "/admin/order-history";
+  static const String getOrderDetail = "/admin/order-details";
 
-  static const String getPostDistributorUrl = "distributor/get-posts";
-  static const String getBrochureDistributorUrl = "distributor/get-brochures";
-  static const String getLeafletDistributorUrl = "distributor/get-leaflets";
-  static const String getReelDistributorUrl = "distributor/get-reels";
+  static const String getPostDistributorUrl = "/distributor/get-posts";
+  static const String getBrochureDistributorUrl = "/distributor/get-brochures";
+  static const String getLeafletDistributorUrl = "/distributor/get-leaflets";
+  static const String getReelDistributorUrl = "/distributor/get-reels";
+  static const String addUpdateAddressUrl = "/distributor/add-update-address";
+  static const String getAddressUrl = "/distributor/get-addresses";
+  static const String deleteAddressUrl = "/distributor/delete-address";
+  static const String updateProfileDistributorUrl =
+      "/distributor/update-profile";
+  static const String addToCartUrl = "/distributor/add-to-cart";
+  static const String getCartUrl = "/distributor/view-cart";
+  static const String placeOrderUrl = "/distributor/place-order";
+  static const String getOrderHistoryUrl = "/distributor/order-history";
 
+  static const String productsSubCategoriesUrl = "/user/get-subcategories";
+  static const String getProductsUserUrl = "/user/get-products";
   static const String getDetailsUrl = "/user/get-details";
   static const String getPostUserUrl = "/user/get-posts";
   static const String getBrochureUserUrl = "/user/get-brochures";
   static const String getLeafletUserUrl = "/user/get-leaflets";
   static const String getReelUserUrl = "/user/get-reels";
+  static const String updateProfileUrl = "/dealer/update-profile";
+
+  static const String getPinCodeDetail =
+      "https://api.postalpincode.in/pincode/";
 }

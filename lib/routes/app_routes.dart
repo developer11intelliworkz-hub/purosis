@@ -24,6 +24,12 @@ abstract class AppRoutes {
   static const inwardPromotionalStock = '/inward_promotional_stock';
   static const outwardPromotionalStock = '/outward_promotional_stock';
   static const addUser = '/add_user';
+  static const editPost = '/edit_post';
+  static const editReel = '/edit_reel';
+  static const editVideo = '/edit_video';
+  static const productDetailView = '/product_detail_view';
+  static const orderHistoryAdmin = '/order_history_admin';
+  static const orderDetailView = '/order_detail_view';
 
   //distributor
   static const distributorDashboard = '/distributor_dashboard';
@@ -32,6 +38,16 @@ abstract class AppRoutes {
   static const videoViewDistributor = '/video_view_distributor';
   static const reelViewDistributor = '/reel_view_distributor';
   static const leafletViewDistributor = '/leaflet_view_distributor';
+  static const productDetail = '/product_detail';
+  static const addressView = '/address_view';
+  static const addAddressView = '/add_address_view';
+  static const editAddressView = '/edit_address';
+  static const editProfileView = '/edit_profile_view';
+  static const cartView = '/cart_view';
+  static const dealerInfoView = '/dealer_info_view';
+  static const transportView = '/transport_view';
+  static const reviewView = '/review_view';
+  static const orderHistory = '/order_history';
 
   //dealer
   static const dealerDashboard = '/dealer_dashboard';
@@ -46,4 +62,5 @@ abstract class AppRoutes {
   static const filterMarketingVideo = '/filter_marketing_video';
   static const filterMarketingBrochures = '/filter_marketing_brochures';
   static const filterMarketingLeaflets = '/filter_marketing_leaflets';
+  static const editProfileDealer = '/edit_profile_dealer';
 }

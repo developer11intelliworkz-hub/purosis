@@ -13,6 +13,7 @@ class AddProductQuery {
     this.width,
     this.height,
     this.technicalVideoUrl,
+    this.specifications,
     this.imageModelList,
   });
 
@@ -27,6 +28,7 @@ class AddProductQuery {
     width = json['width'];
     height = json['height'];
     technicalVideoUrl = json['technical_video_url'];
+    specifications = json['specifications'];
     imageModelList = json['image_model_list'];
   }
   String? productName;
@@ -39,6 +41,7 @@ class AddProductQuery {
   String? width;
   String? height;
   String? technicalVideoUrl;
+  List<String>? specifications;
   List<ImageModel>? imageModelList;
 
   Map<String, dynamic> toJson() {
@@ -72,18 +75,28 @@ class AddProductQuery {
     if (technicalVideoUrl != null) {
       map['technical_video_url'] = technicalVideoUrl;
     }
+    if (specifications != null) {
+      for (int i = 0; i < specifications!.length; i++) {
+        map['specifications[$i]'] = specifications![i];
+      }
+    }
     for (int i = 0; i < (imageModelList?.length ?? 0); i++) {
-      map["product_img[$i][color_name]"] = imageModelList?[i].colorName;
-      map["product_img[$i][color_code]"] = imageModelList?[i].colorCode;
-      map["product_img[$i][color_image]"] = imageModelList?[i].colorName;
-      await Future.wait(
-        imageModelList![i].filePath!.map(
-          (file) => MultipartFile.fromFile(
-            file.path,
-            filename: file.path.split('/').last,
-          ),
-        ),
-      );
+      final image = imageModelList![i];
+
+      map["product_img[$i][color_name]"] = image.colorName;
+      map["product_img[$i][color_code]"] = image.colorCode;
+
+      if (image.filePath != null && image.filePath!.isNotEmpty) {
+        for (int j = 0; j < image.filePath!.length; j++) {
+          final file = image.filePath![j];
+
+          map["product_img[$i][color_image][$j]"] =
+              await MultipartFile.fromFile(
+                file.path,
+                filename: file.path.split('/').last,
+              );
+        }
+      }
     }
 
     return FormData.fromMap(map);

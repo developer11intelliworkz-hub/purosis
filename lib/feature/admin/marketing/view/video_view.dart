@@ -48,47 +48,55 @@ class _VideoViewState extends State<VideoView> {
                                 ),
                             itemCount: controller.videoModelList.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: AppImageView(
-                                          width: double.maxFinite,
-                                          imageUrl: controller
-                                              .videoModelList[index]
-                                              .mediaFile,
-                                          fit: BoxFit.fill,
+                              return InkWell(
+                                onTap: () {
+                                  Get.toNamed(
+                                    AppRoutes.editVideo,
+                                    arguments: controller.videoModelList[index],
+                                  );
+                                },
+                                child: Card(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: AppImageView(
+                                            width: double.maxFinite,
+                                            imageUrl: controller
+                                                .videoModelList[index]
+                                                .mediaFile,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text:
-                                                  controller
-                                                      .videoModelList[index]
-                                                      .title ??
-                                                  "",
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            AppText(
-                                              text:
-                                                  "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .videoModelList[index]
+                                                        .title ??
+                                                    "",
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                              AppText(
+                                                text:
+                                                    "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

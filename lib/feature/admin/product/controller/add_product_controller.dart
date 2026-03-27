@@ -29,6 +29,7 @@ class AddProductController extends GetxController {
   Color selectedColor = Color(0xFF000000);
   GlobalKey<FormState> imageValidationKey = GlobalKey();
   GlobalKey<FormState> allFieldValidationKey = GlobalKey();
+  List<String> listOfSpecification = [];
 
   TextEditingController colorNameTEC = TextEditingController();
   TextEditingController productNameTEC = TextEditingController();
@@ -148,6 +149,8 @@ class AddProductController extends GetxController {
           if (response["success"] == true) {
             Get.back(result: true);
             AppToast.success(response["message"]);
+          } else {
+            AppToast.error(message: response["message"]);
           }
           isAddProductLoading = false;
           update();

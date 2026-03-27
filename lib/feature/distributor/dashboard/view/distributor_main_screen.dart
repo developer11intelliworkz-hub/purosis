@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
+import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/distributor/dashboard/controller/dashboard_controller.dart';
+import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/common_widget.dart';
 
 class DistributorMainScreen extends StatelessWidget {
   const DistributorMainScreen({super.key});
@@ -11,9 +14,27 @@ class DistributorMainScreen extends StatelessWidget {
       init: DashboardController(),
       builder: (controller) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: CommonWidget.appAppBar(
+            title: controller.screenNameList[controller.selectedIndex],
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Get.toNamed(AppRoutes.cartView);
+                },
+                icon: Image.asset(AppImage.cart3Icon, color: Colors.grey),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Image.asset(
+                  AppImage.notificationIcon,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
           body: controller.distributorList[controller.selectedIndex],
           bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,
             onTap: (value) {
               controller.selectedIndex = value;

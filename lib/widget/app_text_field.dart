@@ -12,6 +12,7 @@ class AppTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final int maxLines;
+  final bool readOnly;
   final List<TextInputFormatter>? inputFormatter;
 
   const AppTextField({
@@ -22,6 +23,7 @@ class AppTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.validator,
+    this.readOnly = false,
     this.onChanged,
     this.prefixIcon,
     this.suffixIcon,
@@ -38,12 +40,15 @@ class AppTextField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       maxLines: maxLines,
+      readOnly: readOnly,
+      cursorColor: Color(0xFF0067B1),
       inputFormatters: inputFormatter,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
+        labelStyle: TextStyle(color: Colors.black),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,

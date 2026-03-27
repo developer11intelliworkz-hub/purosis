@@ -1,9 +1,13 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:purosis/feature/admin/dashboard/view/main_screen_admin.dart';
+import 'package:purosis/feature/admin/dashboard/view/order_detail_view.dart';
+import 'package:purosis/feature/admin/dashboard/view/order_history_admin.dart';
 import 'package:purosis/feature/admin/marketing/view/add_new_brochure.dart';
 import 'package:purosis/feature/admin/marketing/view/edit_brochure.dart';
+import 'package:purosis/feature/admin/marketing/view/edit_video.dart';
 import 'package:purosis/feature/admin/marketing/view/reels_view.dart';
 import 'package:purosis/feature/admin/marketing/view/social_media_post.dart';
+import 'package:purosis/feature/admin/product/view/product_detail_view.dart';
 import 'package:purosis/feature/admin/profile/view/admin_profile_edit.dart';
 import 'package:purosis/feature/admin/profile/view/user_detail_view.dart';
 import 'package:purosis/feature/admin/stock/view/promotional_stock.dart';
@@ -14,8 +18,15 @@ import 'package:purosis/feature/dealer/marketing/view/brochures_view_dealer.dart
 import 'package:purosis/feature/dealer/marketing/view/posts_view_dealer.dart';
 import 'package:purosis/feature/dealer/marketing/view/reels_view_dealer.dart';
 import 'package:purosis/feature/dealer/marketing/view/video_view_dealer.dart';
+import 'package:purosis/feature/dealer/profile/view/edit_profile_view.dart';
+import 'package:purosis/feature/distributor/cart/view/cart_view.dart';
+import 'package:purosis/feature/distributor/cart/view/dealer_info_view.dart';
 import 'package:purosis/feature/distributor/marketing/view/posts_view_distributor.dart';
 import 'package:purosis/feature/distributor/marketing/view/reels_view_distributor.dart';
+import 'package:purosis/feature/distributor/product/view/product_detail.dart';
+import 'package:purosis/feature/distributor/profile/view/add_new_address.dart';
+import 'package:purosis/feature/distributor/profile/view/edit_address.dart';
+import 'package:purosis/feature/distributor/profile/view/order_history.dart';
 import 'package:purosis/widget/filter_marketing_widget.dart';
 import 'package:purosis/widget/filter_widget.dart';
 
@@ -24,6 +35,8 @@ import '../feature/admin/marketing/view/add_new_post.dart';
 import '../feature/admin/marketing/view/add_new_reels.dart';
 import '../feature/admin/marketing/view/add_new_video.dart';
 import '../feature/admin/marketing/view/brochure_view.dart';
+import '../feature/admin/marketing/view/edit_post.dart';
+import '../feature/admin/marketing/view/edit_reel.dart';
 import '../feature/admin/marketing/view/leaflet_view.dart';
 import '../feature/admin/marketing/view/video_view.dart';
 import '../feature/admin/product/view/add_product.dart';
@@ -35,10 +48,14 @@ import '../feature/auth/view/login_screen.dart';
 import '../feature/dealer/dashboard/view/dealer_main_screen.dart';
 import '../feature/dealer/marketing/view/leafleats_view_dealer.dart';
 import '../feature/dealer/profile/view/dealer_profile_view.dart';
+import '../feature/distributor/cart/view/review_view.dart';
+import '../feature/distributor/cart/view/transport_view.dart';
 import '../feature/distributor/dashboard/view/distributor_main_screen.dart';
 import '../feature/distributor/marketing/view/brochures_view_distributor.dart';
 import '../feature/distributor/marketing/view/leafleats_view_distributor.dart';
 import '../feature/distributor/marketing/view/video_view.dart';
+import '../feature/distributor/profile/view/address_view.dart';
+import '../feature/distributor/profile/view/edit_profile.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -89,6 +106,21 @@ class AppPages {
       page: () => const StockOutward(),
     ),
     GetPage(name: AppRoutes.addUser, page: () => const AddUser()),
+    GetPage(name: AppRoutes.editPost, page: () => const EditPost()),
+    GetPage(name: AppRoutes.editReel, page: () => const EditReel()),
+    GetPage(name: AppRoutes.editVideo, page: () => const EditVideo()),
+    GetPage(
+      name: AppRoutes.productDetailView,
+      page: () => const ProductDetailView(),
+    ),
+    GetPage(
+      name: AppRoutes.orderHistoryAdmin,
+      page: () => const OrderHistoryAdmin(),
+    ),
+    GetPage(
+      name: AppRoutes.orderDetailView,
+      page: () => const OrderDetailView(),
+    ),
 
     //Distributor
     GetPage(
@@ -115,6 +147,16 @@ class AppPages {
       name: AppRoutes.leafletViewDistributor,
       page: () => const LeafleatsViewDistributor(),
     ),
+    GetPage(name: AppRoutes.productDetail, page: () => const ProductDetail()),
+    GetPage(name: AppRoutes.addressView, page: () => const AddressView()),
+    GetPage(name: AppRoutes.addAddressView, page: () => AddNewAddress()),
+    GetPage(name: AppRoutes.editAddressView, page: () => EditAddress()),
+    GetPage(name: AppRoutes.editProfileView, page: () => EditProfile()),
+    GetPage(name: AppRoutes.cartView, page: () => CartView()),
+    GetPage(name: AppRoutes.dealerInfoView, page: () => DealerInfoView()),
+    GetPage(name: AppRoutes.transportView, page: () => TransportView()),
+    GetPage(name: AppRoutes.reviewView, page: () => ReviewView()),
+    GetPage(name: AppRoutes.orderHistory, page: () => OrderHistory()),
 
     //Dealer
     GetPage(
@@ -155,6 +197,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.filterMarketingLeaflets,
       page: () => const FilterMarketingWidget(typeOfCategories: 'leaflets'),
+    ),
+    GetPage(
+      name: AppRoutes.editProfileDealer,
+      page: () => const EditProfileView(),
     ),
   ];
 }

@@ -1,11 +1,14 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:purosis/feature/admin/marketing/model/posts_model.dart';
 import 'package:purosis/feature/admin/marketing/model/query/add_brochure_query.dart';
 import 'package:purosis/feature/admin/marketing/model/query/add_video_query.dart';
+import 'package:purosis/feature/admin/marketing/model/reels_model.dart';
 import 'package:purosis/feature/admin/marketing/model/video_model.dart';
 import 'package:purosis/utils/api_service.dart';
 import 'package:purosis/utils/app_toast.dart';
+import 'package:purosis/utils/common_api.dart';
 
 import '../../../../consts/app_url.dart';
 import '../../../../utils/commmon_function.dart';
@@ -23,11 +26,15 @@ class AddContentController extends GetxController {
   PlatformFile? selectedFile;
   PlatformFile? selectedMediaFile;
   BrochuresModel? selectedBrochure;
+  ReelsModel? selectedReel;
+  PostsModel? selectedPost;
   VideoModel? selectedVideo;
   GlobalKey<FormState> validationKey = GlobalKey();
   List<PlatformFile> selectedImages = [];
   CategoryItem? selectedCategory;
   CategoryItem? selectedType;
+  String? selectedFileName;
+  String? selectedMediaFileName;
 
   List<String> yearList = List.generate(
     2040 - 2015 + 1,
@@ -62,11 +69,57 @@ class AddContentController extends GetxController {
     update();
   }
 
-  setEditBrochureValue(BrochuresModel value) {
+  setEditBrochureValue(BrochuresModel value) async {
+    selectedBrochure = value;
     titleTEC.text = value.title ?? "";
     selectedMonth = value.month;
     selectedYear = value.year;
+    selectedFileName = value.mediaFile?.split("/").last;
     descriptionTEC.text = value.description ?? "";
+    selectedCategory = (await CommonApi().getDetailApi()).brochureCategory
+        ?.firstWhere((e) => e.key == value.category);
+    update();
+  }
+
+  setEditPostValue(PostsModel value) async {
+    selectedPost = value;
+    titleTEC.text = value.title ?? "";
+    selectedMonth = value.month;
+    selectedYear = value.year;
+    selectedFileName = value.mediaFile?.split("/").last;
+    descriptionTEC.text = value.description ?? "";
+    selectedCategory = (await CommonApi().getDetailApi()).postCategory
+        ?.firstWhere((e) => e.key == value.category);
+    update();
+  }
+
+  setEditReelValue(ReelsModel value) async {
+    selectedReel = value;
+    titleTEC.text = value.title ?? "";
+    selectedMonth = value.month;
+    selectedYear = value.year;
+    selectedMediaFileName = value.mediaFile?.split("/").last;
+    selectedFileName = value.thumbnailImage?.split("/").last;
+    descriptionTEC.text = value.description ?? "";
+    selectedCategory = (await CommonApi().getDetailApi()).reelCategory
+        ?.firstWhere((e) => e.key == value.category);
+    update();
+  }
+
+  setEditVideoValue(VideoModel value) async {
+    selectedVideo = value;
+    titleTEC.text = value.title ?? "";
+    selectedMonth = value.month;
+    selectedYear = value.year;
+    selectedMediaFileName = value.mediaFile?.split("/").last;
+    selectedFileName = value.thumbnailImage?.split("/").last;
+    descriptionTEC.text = value.description ?? "";
+    final data = await CommonApi().getDetailApi();
+    selectedType = data.videoType?.firstWhere((e) => e.key == value.category);
+    selectedCategory = data.videoCategory?.firstWhere(
+      (e) => e.key == value.category,
+    );
+    update();
   }
 
   Future<void> addBrochureApi() async {
@@ -102,7 +155,7 @@ class AddContentController extends GetxController {
         });
   }
 
-  Future<void> updateBrochureApi() async {
+  Future<void> editBrochureApi() async {
     isDataLoading = true;
     update();
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
@@ -140,7 +193,40 @@ class AddContentController extends GetxController {
     isDataLoading = true;
     update();
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
-      id: selectedBrochure?.id,
+      title: titleTEC.text,
+      category: selectedCategory?.key,
+      month: selectedMonth,
+      year: selectedYear,
+      description: descriptionTEC.text,
+      isFeatured: 1,
+      mediaFile: selectedFile,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.addUpdatePostUrl,
+          await addBrochureQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          } else {
+            AppToast.error();
+          }
+          isDataLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isDataLoading = false;
+          update();
+        });
+  }
+
+  Future<void> editPostApi() async {
+    isDataLoading = true;
+    update();
+    AddBrochureQuery addBrochureQuery = AddBrochureQuery(
+      id: selectedPost?.id,
       title: titleTEC.text,
       category: selectedCategory?.key,
       month: selectedMonth,
@@ -174,7 +260,38 @@ class AddContentController extends GetxController {
     isDataLoading = true;
     update();
     AddReelQuery addReelQuery = AddReelQuery(
-      // id: selectedBrochure?.id,
+      title: titleTEC.text,
+      category: selectedCategory?.key,
+      month: selectedMonth,
+      year: selectedYear,
+      description: descriptionTEC.text,
+      isFeatured: 1,
+      mediaFile: selectedMediaFile,
+      thumbnailImage: selectedFile,
+    );
+    await apiService
+        .postFormData(AppUrl.addUpdateReelUrl, await addReelQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          } else {
+            AppToast.error();
+          }
+          isDataLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isDataLoading = false;
+          update();
+        });
+  }
+
+  Future<void> editReelsApi() async {
+    isDataLoading = true;
+    update();
+    AddReelQuery addReelQuery = AddReelQuery(
+      id: selectedReel?.id,
       title: titleTEC.text,
       category: selectedCategory?.key,
       month: selectedMonth,
@@ -238,18 +355,39 @@ class AddContentController extends GetxController {
         });
   }
 
-  Future<DetailModel> getDetailApi() async {
-    DetailModel detailModel = DetailModel();
+  Future<void> editVideoApi() async {
+    isDataLoading = true;
+    update();
+    AddVideoQuery addVideoQuery = AddVideoQuery(
+      videoId: selectedVideo?.id,
+      title: titleTEC.text,
+      category: selectedCategory?.key,
+      type: selectedType?.key,
+      month: selectedMonth,
+      year: selectedYear,
+      description: descriptionTEC.text,
+      isFeatured: 1,
+      mediaFile: selectedMediaFile,
+      thumbnailImage: selectedFile,
+    );
     await apiService
-        .get(AppUrl.getDetailsUrl)
+        .postFormData(
+          AppUrl.addUpdateVideoUrl,
+          await addVideoQuery.toFormData(),
+        )
         .then((response) {
           if (response["success"] == true) {
-            for (final data in response['data']) {
-              detailModel = DetailModel.fromJson(data);
-            }
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          } else {
+            AppToast.error();
           }
+          isDataLoading = false;
+          update();
         })
-        .catchError((value) {});
-    return detailModel;
+        .catchError((value) {
+          isDataLoading = false;
+          update();
+        });
   }
 }

@@ -63,6 +63,47 @@ class _AddProductState extends State<AddProduct> {
                     validator: CommonValidation.dropdownValidation,
                   ),
                   SizedBox(height: 10),
+                  AppText(text: "Specification"),
+                  if (controller.listOfSpecification.isNotEmpty)
+                    SizedBox(height: 10),
+                  Column(
+                    children: controller.listOfSpecification
+                        .map(
+                          (e) => Container(
+                            height: 50,
+                            margin: EdgeInsets.only(top: 5),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                SizedBox(width: 10),
+                                Expanded(child: AppText(text: e)),
+                                IconButton(
+                                  onPressed: () {
+                                    controller.listOfSpecification.remove(e);
+                                    controller.update();
+                                  },
+                                  icon: Icon(Icons.close),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  SizedBox(height: 10),
+                  specificationField(
+                    controller: TextEditingController(),
+                    onPressed: (String value) {
+                      if (value.isNotEmpty) {
+                        controller.listOfSpecification.add(value);
+                        controller.update();
+                      }
+                    },
+                  ),
+                  SizedBox(height: 10),
                   AppTextField(
                     labelText: "Description",
                     controller: controller.descriptionTEC,
@@ -81,16 +122,14 @@ class _AddProductState extends State<AddProduct> {
                           (e) => Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 0,
-                              ),
+                              height: 50,
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Row(
                                 children: [
+                                  SizedBox(width: 10),
                                   AppText(text: e.colorName ?? ""),
                                   Spacer(),
                                   IconButton(
@@ -122,6 +161,7 @@ class _AddProductState extends State<AddProduct> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
+                              backgroundColor: Colors.white,
                               title: const Text("Pick a color"),
                               content: SingleChildScrollView(
                                 child: ColorPicker(
@@ -196,6 +236,11 @@ class _AddProductState extends State<AddProduct> {
                           labelText: "Unit per Box",
                           controller: controller.unitPerBoxTEC,
                           validator: CommonValidation.fieldValidation,
+                          keyboardType: TextInputType.number,
+                          inputFormatter:
+                              CommonValidation.inputValidationOnlyNumber(
+                                maxLength: 4,
+                              ),
                         ),
                       ),
                       SizedBox(width: 3),
@@ -204,6 +249,11 @@ class _AddProductState extends State<AddProduct> {
                           labelText: "Weight per Box (kg)",
                           controller: controller.weightPerBoxTEC,
                           validator: CommonValidation.fieldValidation,
+                          keyboardType: TextInputType.number,
+                          inputFormatter:
+                              CommonValidation.inputValidationOnlyNumber(
+                                maxLength: 6,
+                              ),
                         ),
                       ),
                     ],
@@ -222,6 +272,11 @@ class _AddProductState extends State<AddProduct> {
                           labelText: "Length",
                           controller: controller.lengthTEC,
                           validator: CommonValidation.fieldValidation,
+                          keyboardType: TextInputType.number,
+                          inputFormatter:
+                              CommonValidation.inputValidationOnlyNumber(
+                                maxLength: 4,
+                              ),
                         ),
                       ),
                       SizedBox(width: 3),
@@ -230,6 +285,11 @@ class _AddProductState extends State<AddProduct> {
                           labelText: "Width",
                           controller: controller.widthTEC,
                           validator: CommonValidation.fieldValidation,
+                          keyboardType: TextInputType.number,
+                          inputFormatter:
+                              CommonValidation.inputValidationOnlyNumber(
+                                maxLength: 4,
+                              ),
                         ),
                       ),
                       SizedBox(width: 3),
@@ -238,6 +298,11 @@ class _AddProductState extends State<AddProduct> {
                           labelText: "Height",
                           controller: controller.heightTEC,
                           validator: CommonValidation.fieldValidation,
+                          keyboardType: TextInputType.number,
+                          inputFormatter:
+                              CommonValidation.inputValidationOnlyNumber(
+                                maxLength: 4,
+                              ),
                         ),
                       ),
                     ],
@@ -253,10 +318,18 @@ class _AddProductState extends State<AddProduct> {
                     text: "Add Product",
                     color: Color(0xFF8EBF1F),
                     onPressed: () {
-                      if ((controller.allFieldValidationKey.currentState
-                              ?.validate() ??
-                          false)) {
-                        controller.addProductApi();
+                      if (controller.imageModelList.isEmpty) {
+                        if ((controller.imageValidationKey.currentState
+                                    ?.validate() ??
+                                false) &&
+                            controller.selectedImages.isNotEmpty) {
+                          controller.addImageToList();
+                          if ((controller.allFieldValidationKey.currentState
+                                  ?.validate() ??
+                              false)) {
+                            controller.addProductApi();
+                          }
+                        }
                       }
                     },
                     isLoading: controller.isAddProductLoading,
@@ -268,6 +341,41 @@ class _AddProductState extends State<AddProduct> {
           );
         },
       ),
+    );
+  }
+
+  Widget specificationField({
+    required TextEditingController controller,
+    required Function(String value) onPressed,
+  }) {
+    GlobalKey<FormState> validationKey = GlobalKey();
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 3,
+          child: Form(
+            key: validationKey,
+            child: AppTextField(
+              controller: controller,
+              validator: CommonValidation.fieldValidation,
+            ),
+          ),
+        ),
+        SizedBox(width: 5),
+        Expanded(
+          child: AppButton(
+            text: "Add",
+            color: Color(0xFF8EBF1F),
+            onPressed: () {
+              if (validationKey.currentState?.validate() ?? false) {
+                onPressed(controller.text);
+                controller.clear();
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

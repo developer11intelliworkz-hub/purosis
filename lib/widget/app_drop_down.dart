@@ -34,20 +34,36 @@ class AppDropDown<T> extends StatelessWidget {
       popupProps: PopupProps.menu(
         showSearchBox: showSearchBox,
         fit: FlexFit.loose,
-        searchFieldProps: const TextFieldProps(
+        menuProps: MenuProps(backgroundColor: Colors.white),
+        searchFieldProps: TextFieldProps(
           decoration: InputDecoration(
             hintText: "Search...",
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            floatingLabelStyle: TextStyle(color: Colors.black),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey, width: 1.5),
+            ),
           ),
         ),
       ),
       decoratorProps: DropDownDecoratorProps(
         decoration: InputDecoration(
           labelText: label,
+          floatingLabelStyle: const TextStyle(color: Colors.black),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 8,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: Colors.grey, width: 1.5),
           ),
         ),
       ),

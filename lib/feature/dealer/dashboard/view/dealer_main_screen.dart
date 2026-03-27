@@ -41,6 +41,7 @@ class _DealerMainScreenState extends State<DealerMainScreen> {
           body: controller.screenList[controller.selectedIndex],
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
             selectedIconTheme: IconThemeData(color: Color(0xFF8EBf1F)),
             selectedItemColor: Color(0xFF8EBf1F),
             currentIndex: controller.selectedIndex,
