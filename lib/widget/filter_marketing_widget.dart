@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:purosis/feature/admin/marketing/model/detail_model.dart';
+import 'package:purosis/model/detail_model.dart';
 import 'package:purosis/utils/common_api.dart';
 import 'package:purosis/widget/common_widget.dart';
 

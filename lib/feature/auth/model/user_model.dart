@@ -20,6 +20,7 @@ class UserModel {
   String? updatedAt;
   String? token;
   String? role;
+  String? profilePhoto;
 
   UserModel({
     this.id,
@@ -43,6 +44,7 @@ class UserModel {
     this.updatedAt,
     this.token,
     this.role,
+    this.profilePhoto,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -68,6 +70,7 @@ class UserModel {
       updatedAt: json['updated_at'],
       token: json['token'],
       role: json['role'],
+      profilePhoto: json['profile_photo'],
     );
   }
 
@@ -94,6 +97,7 @@ class UserModel {
       'updated_at': updatedAt,
       'token': token,
       'role': role,
+      'profile_photo': profilePhoto,
     };
   }
 }

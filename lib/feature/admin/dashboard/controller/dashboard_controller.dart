@@ -54,6 +54,7 @@ class DashboardControllerAdmin extends GetxController {
     await apiService
         .get(AppUrl.getOrderHistory)
         .then((response) {
+          orderHistoryModelList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               orderHistoryModelList.add(OrderHistoryModel.fromJson(data));

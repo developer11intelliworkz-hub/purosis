@@ -1,9 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:purosis/feature/dealer/marketing/model/customize_post_model.dart';
 
 import '../../../../consts/app_url.dart';
+import '../../../../consts/storage_keys.dart';
+import '../../../../routes/app_routes.dart';
 import '../../../../utils/api_service.dart';
+import '../../../../utils/storage_service.dart';
+import '../../../auth/model/User_model.dart';
 import '../model/brochures_model.dart';
 import '../model/leaflet_model.dart';
 import '../model/posts_model.dart';
@@ -12,6 +18,7 @@ import '../model/video_model.dart';
 
 class MarketingController extends GetxController {
   ApiService apiService = ApiService();
+  final storage = Get.find<StorageService>();
   bool isBrochuresLoading = false;
   bool isPostsLoading = false;
   bool isReelsLoading = false;
@@ -27,6 +34,33 @@ class MarketingController extends GetxController {
   Map<String, dynamic>? filterVideoSelectedValue = {};
   Map<String, dynamic>? filterLeafletsSelectedValue = {};
   Map<String, dynamic>? filterBrochuresSelectedValue = {};
+  UserModel? userModel;
+  TextEditingController addressTEC = TextEditingController();
+  TextEditingController mailTEC = TextEditingController();
+  TextEditingController callTEC = TextEditingController();
+  TextEditingController whatsAppTEC = TextEditingController();
+  GlobalKey<FormState> validationKey = GlobalKey<FormState>();
+
+  fetchProfileData() {
+    userModel = UserModel.fromJson(storage.read(StorageKeys.userData));
+  }
+
+  submitToPreview(String url) {
+    if (validationKey.currentState?.validate() ?? false) {
+      CustomizePostModel customizePostModel = CustomizePostModel(
+        imageUrl: url,
+        address: addressTEC.text,
+        call: callTEC.text,
+        mail: mailTEC.text,
+        whatsapp: whatsAppTEC.text,
+        logoUrl: userModel?.logo,
+      );
+      Get.toNamed(
+        AppRoutes.customizePostPreview,
+        arguments: customizePostModel,
+      );
+    }
+  }
 
   Future<void> getBrochuresApi({Map<String, dynamic>? queryParameters}) async {
     isBrochuresLoading = true;

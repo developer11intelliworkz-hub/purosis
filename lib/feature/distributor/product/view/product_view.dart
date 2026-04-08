@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/widget/app_image_view.dart';
 
-import '../../../../consts/app_image.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -38,21 +37,26 @@ class _ProductViewState extends State<ProductView> {
                 Row(
                   children: [
                     Expanded(child: AppSearchField()),
-                    IconButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.filter,
-                          arguments: controller.selectedFilter,
-                        )?.then((value) {
-                          if (value != null) {
-                            controller.selectedFilter = value;
-                            controller.getProductApi(
-                              queryParameters: controller.selectedFilter,
-                            );
-                          }
-                        });
-                      },
-                      icon: Icon(Icons.tune),
+                    Badge(
+                      smallSize: 8,
+                      isLabelVisible: controller.selectedFilter.isNotEmpty,
+                      backgroundColor: Colors.red,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filter,
+                            arguments: controller.selectedFilter,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.selectedFilter = value;
+                              controller.getProductApi(
+                                queryParameters: controller.selectedFilter,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
                     ),
                   ],
                 ),
@@ -81,8 +85,8 @@ class _ProductViewState extends State<ProductView> {
                                                 (controller
                                                         .productModelList[index]
                                                         .productColorsImages
-                                                        ?.first
-                                                        .images
+                                                        ?.firstOrNull
+                                                        ?.images
                                                         ?.isNotEmpty ??
                                                     false)
                                                 ? controller
@@ -156,22 +160,22 @@ class _ProductViewState extends State<ProductView> {
                                                   ),
                                                 ),
                                                 SizedBox(width: 10),
-                                                Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          5,
-                                                        ),
-                                                    color: Color(0xFF0067B1),
-                                                  ),
-                                                  child: Image.asset(
-                                                    AppImage.cartIcon,
-                                                    color: Colors.white,
-                                                    scale: 1.5,
-                                                  ),
-                                                ),
+                                                // Container(
+                                                //   height: 40,
+                                                //   width: 40,
+                                                //   decoration: BoxDecoration(
+                                                //     borderRadius:
+                                                //         BorderRadius.circular(
+                                                //           5,
+                                                //         ),
+                                                //     color: Color(0xFF0067B1),
+                                                //   ),
+                                                //   child: Image.asset(
+                                                //     AppImage.cartIcon,
+                                                //     color: Colors.white,
+                                                //     scale: 1.5,
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                           ],

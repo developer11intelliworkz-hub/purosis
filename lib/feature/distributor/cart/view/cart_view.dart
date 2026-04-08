@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/distributor/cart/controller/cart_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_image_view.dart';
 import 'package:purosis/widget/app_text.dart';
 
 import '../../../../widget/common_widget.dart';
@@ -78,131 +79,231 @@ class _CartViewState extends State<CartView> {
                       Expanded(
                         child: ListView.separated(
                           itemBuilder: (context, index) {
+                            final addedProduct = controller
+                                .cartModelList[index]
+                                .product
+                                ?.productColorsImages
+                                ?.firstWhereOrNull(
+                                  (e) =>
+                                      e.colorCode ==
+                                      controller.cartModelList[index].colorCode,
+                                );
                             return Card(
                               color: Colors.white,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(width: 130),
-                                          SizedBox(width: 10),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                AppText(
-                                                  text:
-                                                      "PuroAqua Water Purifiers",
-                                                  fontWeight: FontWeight.w700,
+                              child: SizedBox(
+                                height: 150,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            Center(
+                                              child: SizedBox(
+                                                width: 100,
+                                                height: 100,
+                                                child: AppImageView(
+                                                  imageUrl:
+                                                      addedProduct
+                                                          ?.images
+                                                          ?.firstOrNull ??
+                                                      "",
                                                 ),
-                                                AppText(
-                                                  text: "Color: Matt Black",
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                SizedBox(height: 10),
-                                                Container(
-                                                  height: 50,
-                                                  width: 170,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors.grey,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          8,
-                                                        ),
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      GestureDetector(
-                                                        onTap: () {},
-                                                        child: Container(
-                                                          height: 50,
-                                                          width: 50,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius.only(
-                                                                  topLeft:
-                                                                      Radius.circular(
-                                                                        8,
-                                                                      ),
-                                                                  bottomLeft:
-                                                                      Radius.circular(
-                                                                        8,
-                                                                      ),
-                                                                ),
-                                                            color: Color(
-                                                              0xFFCAE6FB,
-                                                            ),
-                                                          ),
-                                                          child: Icon(
-                                                            Icons.remove,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: AppText(
-                                                          text:
-                                                              (controller
-                                                                          .cartModelList[index]
-                                                                          .qty ??
-                                                                      1)
-                                                                  .toString(),
-                                                          align:
-                                                              TextAlign.center,
-                                                        ),
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {},
-                                                        child: Container(
-                                                          height: 50,
-                                                          width: 50,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius.only(
-                                                                  topRight:
-                                                                      Radius.circular(
-                                                                        8,
-                                                                      ),
-                                                                  bottomRight:
-                                                                      Radius.circular(
-                                                                        8,
-                                                                      ),
-                                                                ),
-                                                            color: Color(
-                                                              0xFFCAE6FB,
-                                                            ),
-                                                          ),
-                                                          child: Icon(
-                                                            Icons.add,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(height: 3),
-                                                AppText(
-                                                  text:
-                                                      "${controller.cartModelList[index].unitsPerBox} units in 1 Box",
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(width: 10),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  AppText(
+                                                    text:
+                                                        controller
+                                                            .cartModelList[index]
+                                                            .product
+                                                            ?.productName ??
+                                                        "",
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                  AppText(
+                                                    text:
+                                                        "Color: ${addedProduct?.colorName ?? ""}",
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                  Container(
+                                                    height: 50,
+                                                    width: 170,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                        color: Colors.grey,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            8,
+                                                          ),
+                                                    ),
+                                                    child: Row(
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap:
+                                                              controller
+                                                                  .isUpdateCartLoading
+                                                              ? null
+                                                              : () {
+                                                                  final data =
+                                                                      cartController
+                                                                          .cartModelList[index];
+                                                                  data.qty =
+                                                                      (data.qty ??
+                                                                          0) -
+                                                                      1;
+                                                                  controller
+                                                                      .updateCartApi(
+                                                                        data,
+                                                                        index,
+                                                                      );
+                                                                },
+                                                          child: Container(
+                                                            height: 50,
+                                                            width: 50,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius.only(
+                                                                    topLeft:
+                                                                        Radius.circular(
+                                                                          8,
+                                                                        ),
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                          8,
+                                                                        ),
+                                                                  ),
+                                                              color: Color(
+                                                                0xFFCAE6FB,
+                                                              ),
+                                                            ),
+                                                            child: Icon(
+                                                              Icons.remove,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child:
+                                                              controller
+                                                                      .isUpdateCartLoading &&
+                                                                  controller
+                                                                          .updateCartIndex ==
+                                                                      index
+                                                              ? Wrap(
+                                                                  alignment:
+                                                                      WrapAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                      width: 20,
+                                                                      child:
+                                                                          CircularProgressIndicator(),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                              : AppText(
+                                                                  text:
+                                                                      (controller.cartModelList[index].qty ??
+                                                                              1)
+                                                                          .toString(),
+                                                                  align: TextAlign
+                                                                      .center,
+                                                                ),
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap:
+                                                              controller
+                                                                  .isUpdateCartLoading
+                                                              ? null
+                                                              : () {
+                                                                  final data =
+                                                                      cartController
+                                                                          .cartModelList[index];
+                                                                  data.qty =
+                                                                      (data.qty ??
+                                                                          0) +
+                                                                      1;
+                                                                  controller.updateCartApi(
+                                                                    cartController
+                                                                        .cartModelList[index],
+                                                                    index,
+                                                                  );
+                                                                },
+                                                          child: Container(
+                                                            height: 50,
+                                                            width: 50,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius.only(
+                                                                    topRight:
+                                                                        Radius.circular(
+                                                                          8,
+                                                                        ),
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                          8,
+                                                                        ),
+                                                                  ),
+                                                              color: Color(
+                                                                0xFFCAE6FB,
+                                                              ),
+                                                            ),
+                                                            child: Icon(
+                                                              Icons.add,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 3),
+                                                  AppText(
+                                                    text:
+                                                        "${controller.cartModelList[index].unitsPerBox} units in 1 Box",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.close),
-                                  ),
-                                ],
+                                    IconButton(
+                                      onPressed: controller.isDeleteCartLoading
+                                          ? null
+                                          : () {
+                                              controller.deleteCartApi(
+                                                controller
+                                                    .cartModelList[index]
+                                                    .id,
+                                                index,
+                                              );
+                                            },
+                                      icon:
+                                          controller.isDeleteCartLoading &&
+                                              controller.deleteCartIndex ==
+                                                  index
+                                          ? SizedBox(
+                                              height: 20,
+                                              width: 20,
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : Icon(Icons.close),
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           },

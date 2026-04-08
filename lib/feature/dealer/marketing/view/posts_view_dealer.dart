@@ -121,35 +121,43 @@ class _PostsViewDealerState extends State<PostsViewDealer> {
                                           Row(
                                             children: [
                                               Expanded(
-                                                child: Container(
-                                                  height: 30,
-                                                  // padding: EdgeInsets.only(right: 25,left: 25),
-                                                  alignment: Alignment.center,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFF0067B1),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          5,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Get.toNamed(
+                                                      AppRoutes.customizePost,
+                                                      arguments: controller
+                                                          .postsModelList[index],
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    height: 30,
+                                                    alignment: Alignment.center,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xFF0067B1),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            5,
+                                                          ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        AppText(
+                                                          text: "Customize",
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.white,
                                                         ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      AppText(
-                                                        text: "Customize",
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.white,
-                                                      ),
-                                                      SizedBox(width: 5),
-                                                      Icon(
-                                                        Icons
-                                                            .arrow_forward_rounded,
-                                                        color: Colors.white,
-                                                        size: 20,
-                                                      ),
-                                                    ],
+                                                        SizedBox(width: 5),
+                                                        Icon(
+                                                          Icons
+                                                              .arrow_forward_rounded,
+                                                          color: Colors.white,
+                                                          size: 20,
+                                                        ),
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),

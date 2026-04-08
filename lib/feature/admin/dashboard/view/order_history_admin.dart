@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/dashboard/controller/order_history_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_button_outline.dart';
+import 'package:purosis/widget/app_drop_down.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
+import '../../../../model/detail_model.dart';
 import '../../../../widget/app_text.dart';
 
 class OrderHistoryAdmin extends StatefulWidget {
@@ -153,71 +157,165 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                       ],
                                     ),
                                     SizedBox(height: 10),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Get.toNamed(
-                                                AppRoutes.orderDetailView,
-                                                arguments: controller
-                                                    .orderHistoryModelFilterList[index]
-                                                    .id,
-                                              );
-                                            },
-                                            child: Container(
+                                    if (controller
+                                            .orderHistoryModelFilterList[index]
+                                            .shippingStatus
+                                            ?.toLowerCase() ==
+                                        "pending")
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: AppButtonOutline(
                                               height: 40,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                border: Border.all(
-                                                  color: Color(0xFF8EBF1F),
-                                                ),
-                                              ),
-                                              child: AppText(
-                                                text: "View Details",
-                                                color: Color(0xFF8EBF1F),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(width: 3),
-                                        Expanded(
-                                          child: Container(
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
+                                              text: "View Details",
                                               color: Color(0xFF8EBF1F),
-                                            ),
-                                            child: AppText(
-                                              text: "Approve",
-                                              color: Colors.white,
+                                              onPressed: () {
+                                                Get.toNamed(
+                                                  AppRoutes.orderDetailView,
+                                                  arguments: controller
+                                                      .orderHistoryModelFilterList[index]
+                                                      .id,
+                                                );
+                                              },
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(width: 3),
-                                        Expanded(
-                                          child: Container(
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                              border: Border.all(
-                                                color: Color(0xFFBF1F1F),
+                                          SizedBox(width: 3),
+                                          Expanded(
+                                            child: AppButton(
+                                              height: 40,
+                                              text: "Approve",
+                                              color: Color(0xFF8EBF1F),
+                                              isLoading:
+                                                  controller
+                                                      .isApproveDeclineLoading &&
+                                                  controller
+                                                          .orderHistoryModelFilterList[index]
+                                                          .id ==
+                                                      controller
+                                                          .selectedApproveDeclineIndex &&
+                                                  controller.selectedType ==
+                                                      "approved",
+                                              onPressed:
+                                                  controller
+                                                      .isApproveDeclineLoading
+                                                  ? null
+                                                  : () {
+                                                      controller
+                                                          .approveDeclineOrderApi(
+                                                            "approved",
+                                                            controller
+                                                                    .orderHistoryModelFilterList[index]
+                                                                    .id ??
+                                                                -1,
+                                                          );
+                                                    },
+                                            ),
+                                          ),
+                                          SizedBox(width: 3),
+                                          Expanded(
+                                            child: AppButtonOutline(
+                                              height: 40,
+                                              text: "Decline",
+                                              color: Color(0xFF8EBF1F),
+                                              isLoading:
+                                                  controller
+                                                      .isApproveDeclineLoading &&
+                                                  controller
+                                                          .orderHistoryModelFilterList[index]
+                                                          .id ==
+                                                      controller
+                                                          .selectedApproveDeclineIndex &&
+                                                  controller.selectedType ==
+                                                      "declined",
+                                              onPressed:
+                                                  controller
+                                                      .isApproveDeclineLoading
+                                                  ? null
+                                                  : () {
+                                                      controller
+                                                          .approveDeclineOrderApi(
+                                                            "declined",
+                                                            controller
+                                                                    .orderHistoryModelFilterList[index]
+                                                                    .id ??
+                                                                -1,
+                                                          );
+                                                    },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    if (controller
+                                            .orderHistoryModelFilterList[index]
+                                            .shippingStatus
+                                            ?.toLowerCase() !=
+                                        "pending")
+                                      SizedBox(
+                                        height: 50,
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              flex: 3,
+                                              child: AppText(
+                                                text: "Shipping Status ",
                                               ),
                                             ),
-                                            child: AppText(
-                                              text: "Decline",
-                                              color: Color(0xFFBF1F1F),
+                                            Expanded(
+                                              flex: 2,
+                                              child:
+                                                  controller
+                                                          .isUpdateShippingStatusLoading &&
+                                                      controller
+                                                              .orderHistoryModelFilterList[index]
+                                                              .id ==
+                                                          controller
+                                                              .changeStatusIndex
+                                                  ? Wrap(
+                                                      alignment:
+                                                          WrapAlignment.center,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 20,
+                                                          width: 20,
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : AppDropDown<CategoryItem>(
+                                                      label: "Status",
+                                                      showSearchBox: false,
+                                                      selectedItem: controller
+                                                          .shippingStatusList
+                                                          .firstWhereOrNull(
+                                                            (e) =>
+                                                                e.key ==
+                                                                controller
+                                                                    .orderHistoryModelFilterList[index]
+                                                                    .shippingStatus,
+                                                          ),
+                                                      items: (p0, p1) =>
+                                                          controller
+                                                              .shippingStatusList,
+                                                      compareFn: (p0, p1) =>
+                                                          p0 == p1,
+                                                      itemAsString: (p0) =>
+                                                          p0.value ?? '',
+                                                      onChanged: (value) {
+                                                        controller
+                                                            .updateShippingStatusApi(
+                                                              value?.key ?? "",
+                                                              controller
+                                                                      .orderHistoryModelFilterList[index]
+                                                                      .id ??
+                                                                  -1,
+                                                            );
+                                                      },
+                                                    ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
                                   ],
                                 ),
                               ),

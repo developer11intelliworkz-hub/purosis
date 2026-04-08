@@ -8,6 +8,8 @@ import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
+import '../../../../widget/app_image_view.dart';
+
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
@@ -46,6 +48,10 @@ class _EditProfileState extends State<EditProfile> {
                           height: 100,
                           child: controller.selectedFile != null
                               ? Image.file(controller.selectedFile!)
+                              : controller.userData?.logo != null
+                              ? AppImageView(
+                                  imageUrl: controller.userData?.logo,
+                                )
                               : Image.asset(
                                   AppImage.imageIcon,
                                   color: Colors.grey,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/profile/controller/profile_controller.dart';
+import 'package:purosis/widget/app_image_view.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
@@ -49,6 +50,10 @@ class _EditProfileViewState extends State<EditProfileView> {
                             height: 100,
                             child: controller.selectedFile != null
                                 ? Image.file(controller.selectedFile!)
+                                : controller.userModel?.logo != null
+                                ? AppImageView(
+                                    imageUrl: controller.userModel?.logo,
+                                  )
                                 : Image.asset(
                                     AppImage.imageIcon,
                                     color: Colors.grey,

@@ -64,7 +64,12 @@ class ProfileController extends GetxController {
         .postFormData(AppUrl.updateProfileUrl, updateProfileQuery.toFormData())
         .then((response) async {
           if (response["success"] == true) {
-            UserModel userModel = UserModel.fromJson(response["data"]);
+            final oldData = storage.read(StorageKeys.userData) ?? {};
+            final Map<String, dynamic> mergedData = {
+              ...oldData,
+              ...response["data"],
+            };
+            final UserModel userModel = UserModel.fromJson(mergedData);
             await storage.write(StorageKeys.userData, userModel.toJson());
             Get.back(result: true);
             AppToast.success(response['message']);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../utils/app_toast.dart';
 import '../../../../utils/common_api.dart';
 import '../../../../utils/common_validation.dart';
 import '../../../../widget/app_button.dart';
@@ -111,12 +110,8 @@ class _EditBrochureState extends State<EditBrochure> {
                     text: "Upload",
                     color: Color(0xFF8EBF1F),
                     onPressed: () {
-                      if (controller.selectedFile == null) {
-                        AppToast.error(message: "Please upload the file");
-                      }
-                      if ((controller.validationKey.currentState?.validate() ??
-                              false) &&
-                          controller.selectedFile != null) {
+                      if (controller.validationKey.currentState?.validate() ??
+                          false) {
                         controller.addBrochureApi();
                       }
                     },

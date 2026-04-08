@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "46399501354",
+    "project_id": "purosis",
+    "storage_bucket": "purosis.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:46399501354:android:dbefd6226c1c03a0283f53",
+        "android_client_info": {
+          "package_name": "com.example.purosis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrHvnhjucG1WC86ElkJ0Ci8QiQWvpXYlI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,7 +25,7 @@ class MarketingController extends GetxController {
     isBrochuresLoading = true;
     update();
     await apiService
-        .get(AppUrl.getBrochureDistributorUrl)
+        .get(AppUrl.getBrochureUserUrl)
         .then((response) {
           if (response["success"] == true) {
             brochuresModelList.clear();
@@ -46,7 +46,7 @@ class MarketingController extends GetxController {
     isPostsLoading = true;
     update();
     await apiService
-        .get(AppUrl.getPostDistributorUrl)
+        .get(AppUrl.getPostUserUrl)
         .then((response) {
           if (response["success"] == true) {
             postsModelList.clear();
@@ -67,7 +67,7 @@ class MarketingController extends GetxController {
     isReelsLoading = true;
     update();
     await apiService
-        .get(AppUrl.getReelDistributorUrl)
+        .get(AppUrl.getReelUserUrl)
         .then((response) {
           if (response["success"] == true) {
             reelsModelList.clear();
@@ -88,7 +88,7 @@ class MarketingController extends GetxController {
     isLeafletLoading = true;
     update();
     await apiService
-        .get(AppUrl.getLeafletDistributorUrl)
+        .get(AppUrl.getLeafletUserUrl)
         .then((response) {
           if (response["success"] == true) {
             leafletModelList.clear();
@@ -109,7 +109,7 @@ class MarketingController extends GetxController {
     isVideoLoading = true;
     update();
     await apiService
-        .get(AppUrl.getVideoUrl)
+        .get(AppUrl.getVideosUserUrl)
         .then((response) {
           if (response["success"] == true) {
             videoModelList.clear();

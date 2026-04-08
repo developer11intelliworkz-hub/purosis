@@ -12,14 +12,27 @@ import 'package:purosis/widget/app_text_field.dart';
 
 import '../../../widget/app_button.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final AuthController authController = AuthController();
+
+  @override
+  void initState() {
+    authController.requestPermission();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GetBuilder(
-        init: AuthController(),
+        init: authController,
         builder: (controller) {
           return SingleChildScrollView(
             child: Column(

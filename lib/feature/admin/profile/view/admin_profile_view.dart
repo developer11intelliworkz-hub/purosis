@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/profile/controller/admin_profile_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
-import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../widget/app_button.dart';
+import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_text.dart';
 
 class AdminProfileView extends StatefulWidget {
@@ -28,7 +28,6 @@ class _AdminProfileViewState extends State<AdminProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Profile"),
       body: GetBuilder<AdminProfileController>(
         init: adminProfileController,
         builder: (controller) {
@@ -49,12 +48,31 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                           shape: BoxShape.circle,
                           color: Color(0xFFDEF1FF),
                         ),
-                        child: AppText(
-                          text: controller.userModel?.name?.trim()[0] ?? "",
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 24,
-                        ),
+                        child: controller.userModel?.profilePhoto != null
+                            ? ClipOval(
+                                child: SizedBox(
+                                  width: 100,
+                                  height: 100,
+                                  child: AppImageView(
+                                    imageUrl:
+                                        controller.userModel?.profilePhoto ??
+                                        "",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : controller.userModel?.companyName != null
+                            ? AppText(
+                                text:
+                                    controller.userModel?.companyName?[0] ?? "",
+                                color: const Color(0xFF0067B1),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 24,
+                              )
+                            : const Icon(
+                                Icons.person,
+                                color: Color(0xFF0067B1),
+                              ),
                       ),
                       SizedBox(width: 20),
                       Column(
@@ -100,7 +118,13 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                       SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppRoutes.adminProfileEdit);
+                          Get.toNamed(AppRoutes.adminProfileEdit)?.then((
+                            value,
+                          ) {
+                            if (value == true) {
+                              controller.fetchProfileData();
+                            }
+                          });
                         },
                         child: AppText(text: "My Profile"),
                       ),
@@ -120,8 +144,30 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                       SizedBox(height: 10),
                       Divider(),
                       SizedBox(height: 10),
-                      AppText(text: "Help & Support"),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.bannerView);
+                        },
+                        child: AppText(text: "Offer Banners"),
+                      ),
                       SizedBox(height: 10),
+                      Divider(),
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.helpSupportView);
+                        },
+                        child: AppText(text: "Help & Support"),
+                      ),
+                      SizedBox(height: 10),
+                      Divider(),
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.supportMessageView);
+                        },
+                        child: AppText(text: "Support Message"),
+                      ),
                     ],
                   ),
                 ),

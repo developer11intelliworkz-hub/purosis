@@ -26,7 +26,7 @@ class _UserDetailViewState extends State<UserDetailView> {
         actions: [
           InkWell(
             onTap: () {
-              Get.toNamed(AppRoutes.activityLocation);
+              Get.toNamed(AppRoutes.activityLocation, arguments: data);
             },
             child: Image.asset(AppImage.mapDistance),
           ),
@@ -104,7 +104,7 @@ class _UserDetailViewState extends State<UserDetailView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(
-                              text: data.name ?? "",
+                              text: data.companyName ?? "",
                               fontWeight: FontWeight.w600,
                               fontSize: 18,
                             ),
@@ -136,9 +136,9 @@ class _UserDetailViewState extends State<UserDetailView> {
                         SizedBox(width: 5),
                         AppText(text: data.phoneNo ?? ""),
                         Spacer(),
-                        Image.asset(AppImage.whatsAppIcon),
+                        Icon(Icons.call_outlined, color: Colors.grey),
                         SizedBox(width: 5),
-                        AppText(text: data.whatsappNo ?? ""),
+                        AppText(text: data.alternateMobileNo ?? ""),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -163,19 +163,23 @@ class _UserDetailViewState extends State<UserDetailView> {
                     SizedBox(height: 5),
                     AppText(text: data.area ?? "", fontWeight: FontWeight.w700),
                     SizedBox(height: 10),
-                    AppText(text: "Billing Address:"),
-                    SizedBox(height: 5),
-                    AppText(
-                      text: data.billingAddress ?? "",
-                      fontWeight: FontWeight.w700,
-                    ),
+                    if (data.billingAddress != null) ...[
+                      AppText(text: "Billing Address:"),
+                      SizedBox(height: 5),
+                      AppText(
+                        text: data.billingAddress ?? "",
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ],
                     SizedBox(height: 10),
-                    AppText(text: "Shipping Address:"),
-                    SizedBox(height: 5),
-                    AppText(
-                      text: data.shippingAddressLine ?? "",
-                      fontWeight: FontWeight.w700,
-                    ),
+                    if (data.shippingAddressLine != null) ...[
+                      AppText(text: "Shipping Address:"),
+                      SizedBox(height: 5),
+                      AppText(
+                        text: data.shippingAddressLine ?? "",
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ],
                     SizedBox(height: 10),
                     Divider(),
                     SizedBox(height: 10),

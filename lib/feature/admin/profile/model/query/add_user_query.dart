@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
 class AddUserQuery {
@@ -12,6 +14,10 @@ class AddUserQuery {
     this.billingAddress,
     this.shippingAddressLine,
     this.shippingAddressPincode,
+    this.companyName,
+    this.alternateMobileNo,
+    this.landlineNo,
+    this.logo,
   });
 
   AddUserQuery.fromJson(dynamic json) {
@@ -25,6 +31,9 @@ class AddUserQuery {
     billingAddress = json['billing_address'];
     shippingAddressLine = json['shipping_address_line'];
     shippingAddressPincode = json['shipping_address_pincode'];
+    companyName = json['company_name'];
+    alternateMobileNo = json['alternate_mobile_no'];
+    landlineNo = json['landline_no'];
   }
 
   String? distributorId;
@@ -37,6 +46,10 @@ class AddUserQuery {
   String? billingAddress;
   String? shippingAddressLine;
   String? shippingAddressPincode;
+  String? companyName;
+  String? alternateMobileNo;
+  String? landlineNo;
+  File? logo;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -50,6 +63,9 @@ class AddUserQuery {
     map['billing_address'] = billingAddress;
     map['shipping_address_line'] = shippingAddressLine;
     map['shipping_address_pincode'] = shippingAddressPincode;
+    map['company_name'] = companyName;
+    map['alternate_mobile_no'] = alternateMobileNo;
+    map['landline_no'] = landlineNo;
     return map;
   }
 
@@ -67,6 +83,14 @@ class AddUserQuery {
         "shipping_address_line": shippingAddressLine,
       if (shippingAddressPincode != null)
         "shipping_address_pincode": shippingAddressPincode,
+      if (companyName != null) "company_name": companyName,
+      if (alternateMobileNo != null) "alternate_mobile_no": alternateMobileNo,
+      if (landlineNo != null) "landline_no": landlineNo,
+      if (logo != null)
+        'logo': MultipartFile.fromBytes(
+          logo!.readAsBytesSync().toList(),
+          filename: logo!.path.split('/').last,
+        ),
     });
   }
 }

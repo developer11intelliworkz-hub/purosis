@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/profile/controller/admin_profile_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_button_outline.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
@@ -33,11 +35,11 @@ class _UserManagementState extends State<UserManagement> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(onChanged: controller.searchUser),
                 Expanded(
                   child: controller.isUserLoading
                       ? CommonWidget.commonLoading()
-                      : controller.addUserModelList.isEmpty
+                      : controller.addUserModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getUserApi(),
@@ -65,7 +67,7 @@ class _UserManagementState extends State<UserManagement> {
                                             child: AppText(
                                               text:
                                                   controller
-                                                      .addUserModelList[index]
+                                                      .addUserModelFilterList[index]
                                                       .name
                                                       ?.trim()[0] ??
                                                   "",
@@ -83,8 +85,8 @@ class _UserManagementState extends State<UserManagement> {
                                                 AppText(
                                                   text:
                                                       controller
-                                                          .addUserModelList[index]
-                                                          .name ??
+                                                          .addUserModelFilterList[index]
+                                                          .companyName ??
                                                       "",
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 16,
@@ -113,7 +115,7 @@ class _UserManagementState extends State<UserManagement> {
                                                     AppText(
                                                       text:
                                                           controller
-                                                              .addUserModelList[index]
+                                                              .addUserModelFilterList[index]
                                                               .phoneNo ??
                                                           "",
                                                     ),
@@ -136,7 +138,7 @@ class _UserManagementState extends State<UserManagement> {
                                             child: AppText(
                                               text: controller.getUserStatus(
                                                 controller
-                                                    .addUserModelList[index]
+                                                    .addUserModelFilterList[index]
                                                     .isActive,
                                               ),
                                               color: Colors.white,
@@ -148,68 +150,67 @@ class _UserManagementState extends State<UserManagement> {
                                       Row(
                                         children: [
                                           Expanded(
-                                            child: InkWell(
-                                              onTap: () {
+                                            child: AppButton(
+                                              height: 40,
+                                              text: "View",
+                                              color: Color(0xFF8EBF1F),
+                                              onPressed: () {
                                                 Get.toNamed(
                                                   AppRoutes.userDetail,
                                                   arguments: controller
-                                                      .addUserModelList[index],
+                                                      .addUserModelFilterList[index],
                                                 );
                                               },
-                                              child: Container(
-                                                height: 40,
-                                                alignment: Alignment.center,
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFF8EBF1F),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4),
-                                                ),
-                                                child: AppText(
-                                                  text: "View",
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
                                             ),
                                           ),
-                                          SizedBox(width: 5),
+                                          SizedBox(width: 3),
                                           Expanded(
-                                            child: Container(
+                                            child: AppButtonOutline(
                                               height: 40,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                border: Border.all(
-                                                  color: Color(0xFF8EBF1F),
-                                                ),
-                                              ),
-                                              child: AppText(
-                                                text: "Edit",
-                                                color: Color(0xFF8EBF1F),
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                              text: "Edit",
+                                              color: Color(0xFF8EBF1F),
+                                              onPressed: () {
+                                                Get.toNamed(
+                                                  AppRoutes.editDistributor,
+                                                  arguments: controller
+                                                      .addUserModelFilterList[index],
+                                                );
+                                              },
                                             ),
                                           ),
-                                          SizedBox(width: 5),
+                                          SizedBox(width: 3),
                                           Expanded(
-                                            child: Container(
+                                            child: AppButtonOutline(
                                               height: 40,
-                                              alignment: Alignment.center,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                border: Border.all(
-                                                  color: Color(0xFF888888),
-                                                ),
+                                              text: controller.getUserStatus(
+                                                controller
+                                                            .addUserModelFilterList[index]
+                                                            .isActive ==
+                                                        1
+                                                    ? 0
+                                                    : 1,
                                               ),
-                                              child: AppText(
-                                                text: "Deactivate",
-                                                color: Color(0xFF888888),
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                              color: Color(0xFF888888),
+                                              isLoading:
+                                                  controller
+                                                      .isUpdateUserStatusLoading &&
+                                                  controller
+                                                          .addUserModelFilterList[index]
+                                                          .id ==
+                                                      controller.selectedUserId,
+                                              onPressed: () {
+                                                controller.updateUserStatusApi(
+                                                  controller
+                                                      .addUserModelFilterList[index]
+                                                      .id,
+                                                  controller
+                                                              .addUserModelFilterList[index]
+                                                              .isActive ==
+                                                          1
+                                                      ? 0
+                                                      : 1,
+                                                );
+                                              },
                                             ),
                                           ),
                                         ],
@@ -219,7 +220,7 @@ class _UserManagementState extends State<UserManagement> {
                                 ),
                               );
                             },
-                            itemCount: controller.addUserModelList.length,
+                            itemCount: controller.addUserModelFilterList.length,
                           ),
                         ),
                 ),

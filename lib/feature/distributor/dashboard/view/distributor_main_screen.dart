@@ -5,13 +5,22 @@ import 'package:purosis/feature/distributor/dashboard/controller/dashboard_contr
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/common_widget.dart';
 
-class DistributorMainScreen extends StatelessWidget {
+class DistributorMainScreen extends StatefulWidget {
   const DistributorMainScreen({super.key});
+
+  @override
+  State<DistributorMainScreen> createState() => _DistributorMainScreenState();
+}
+
+class _DistributorMainScreenState extends State<DistributorMainScreen> {
+  final DashboardController dashboardController = Get.put(
+    DashboardController(),
+  );
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
-      init: DashboardController(),
+      init: dashboardController,
       builder: (controller) {
         return Scaffold(
           appBar: CommonWidget.appAppBar(

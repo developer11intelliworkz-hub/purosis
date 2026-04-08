@@ -4,10 +4,12 @@ import 'package:purosis/feature/admin/dashboard/view/order_detail_view.dart';
 import 'package:purosis/feature/admin/dashboard/view/order_history_admin.dart';
 import 'package:purosis/feature/admin/marketing/view/add_new_brochure.dart';
 import 'package:purosis/feature/admin/marketing/view/edit_brochure.dart';
+import 'package:purosis/feature/admin/marketing/view/edit_leaflet.dart';
 import 'package:purosis/feature/admin/marketing/view/edit_video.dart';
 import 'package:purosis/feature/admin/marketing/view/reels_view.dart';
 import 'package:purosis/feature/admin/marketing/view/social_media_post.dart';
 import 'package:purosis/feature/admin/product/view/product_detail_view.dart';
+import 'package:purosis/feature/admin/profile/view/add_banner_view.dart';
 import 'package:purosis/feature/admin/profile/view/admin_profile_edit.dart';
 import 'package:purosis/feature/admin/profile/view/user_detail_view.dart';
 import 'package:purosis/feature/admin/stock/view/promotional_stock.dart';
@@ -41,11 +43,18 @@ import '../feature/admin/marketing/view/leaflet_view.dart';
 import '../feature/admin/marketing/view/video_view.dart';
 import '../feature/admin/product/view/add_product.dart';
 import '../feature/admin/profile/view/add_user.dart';
+import '../feature/admin/profile/view/banner_view.dart';
+import '../feature/admin/profile/view/edit_banner_view.dart';
+import '../feature/admin/profile/view/edit_user.dart';
+import '../feature/admin/profile/view/help_support_view.dart';
+import '../feature/admin/profile/view/support_message_view.dart';
 import '../feature/admin/profile/view/user_activity_location.dart';
 import '../feature/admin/profile/view/user_management.dart';
 import '../feature/admin/stock/view/stock_inward.dart';
 import '../feature/auth/view/login_screen.dart';
 import '../feature/dealer/dashboard/view/dealer_main_screen.dart';
+import '../feature/dealer/marketing/view/customize_post.dart';
+import '../feature/dealer/marketing/view/customize_post_preview.dart';
 import '../feature/dealer/marketing/view/leafleats_view_dealer.dart';
 import '../feature/dealer/profile/view/dealer_profile_view.dart';
 import '../feature/distributor/cart/view/review_view.dart';
@@ -56,6 +65,7 @@ import '../feature/distributor/marketing/view/leafleats_view_distributor.dart';
 import '../feature/distributor/marketing/view/video_view.dart';
 import '../feature/distributor/profile/view/address_view.dart';
 import '../feature/distributor/profile/view/edit_profile.dart';
+import '../feature/distributor/profile/view/help_support_screen.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -121,6 +131,19 @@ class AppPages {
       name: AppRoutes.orderDetailView,
       page: () => const OrderDetailView(),
     ),
+    GetPage(name: AppRoutes.editLeaflet, page: () => const EditLeaflet()),
+    GetPage(
+      name: AppRoutes.helpSupportView,
+      page: () => const HelpSupportView(),
+    ),
+    GetPage(name: AppRoutes.addBannerView, page: () => const AddBannerView()),
+    GetPage(name: AppRoutes.bannerView, page: () => const BannerView()),
+    GetPage(name: AppRoutes.editBannerView, page: () => const EditBannerView()),
+    GetPage(
+      name: AppRoutes.supportMessageView,
+      page: () => const SupportMessageView(),
+    ),
+    GetPage(name: AppRoutes.editDistributor, page: () => const EditUser()),
 
     //Distributor
     GetPage(
@@ -157,6 +180,7 @@ class AppPages {
     GetPage(name: AppRoutes.transportView, page: () => TransportView()),
     GetPage(name: AppRoutes.reviewView, page: () => ReviewView()),
     GetPage(name: AppRoutes.orderHistory, page: () => OrderHistory()),
+    GetPage(name: AppRoutes.helpSupportScreen, page: () => HelpSupportScreen()),
 
     //Dealer
     GetPage(
@@ -201,6 +225,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.editProfileDealer,
       page: () => const EditProfileView(),
+    ),
+    GetPage(name: AppRoutes.customizePost, page: () => const CustomizePost()),
+    GetPage(
+      name: AppRoutes.customizePostPreview,
+      page: () => const CustomizePostPreview(),
     ),
   ];
 }

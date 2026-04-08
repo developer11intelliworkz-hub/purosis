@@ -9,6 +9,8 @@ class PlaceOrderQuery {
   int? productId;
   int? qty;
   String? colorCode;
+  double? latitude;
+  double? longitude;
 
   PlaceOrderQuery({
     this.billingAddressId,
@@ -19,6 +21,8 @@ class PlaceOrderQuery {
     this.productId,
     this.qty,
     this.colorCode,
+    this.latitude,
+    this.longitude,
   });
 
   factory PlaceOrderQuery.fromJson(Map<String, dynamic> json) {
@@ -33,6 +37,8 @@ class PlaceOrderQuery {
       productId: json['product_id'],
       qty: json['qty'],
       colorCode: json['color_code'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
     );
   }
 
@@ -46,6 +52,8 @@ class PlaceOrderQuery {
       "product_id": productId,
       "qty": qty,
       "color_code": colorCode,
+      "latitude": latitude,
+      "longitude": longitude,
     };
   }
 
@@ -61,11 +69,11 @@ class PlaceOrderQuery {
         map["cart_ids[$i]"] = cartIds![i];
       }
     }
-
     if (productId != null) map["product_id"] = productId;
     if (qty != null) map["qty"] = qty;
     if (colorCode != null) map["color_code"] = colorCode;
-
+    if (latitude != null) map["latitude"] = latitude;
+    if (longitude != null) map["longitude"] = longitude;
     return FormData.fromMap(map);
   }
 }

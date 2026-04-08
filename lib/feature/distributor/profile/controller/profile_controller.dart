@@ -4,6 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/distributor/profile/model/order_history_model.dart';
+import 'package:purosis/feature/distributor/profile/model/query/support_message_query.dart';
 import 'package:purosis/feature/distributor/profile/model/query/update_profile_query.dart';
 import 'package:purosis/utils/api_service.dart';
 
@@ -12,6 +13,7 @@ import '../../../../consts/storage_keys.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../../utils/app_toast.dart';
 import '../../../../utils/storage_service.dart';
+import '../../../admin/profile/model/support_model.dart';
 import '../../../auth/model/user_model.dart';
 
 class ProfileController extends GetxController {
@@ -27,11 +29,18 @@ class ProfileController extends GetxController {
   TextEditingController landlineNumberTEC = TextEditingController();
   TextEditingController emailAddressTEC = TextEditingController();
 
+  TextEditingController subjectTEC = TextEditingController();
+  TextEditingController messageTEC = TextEditingController();
+
   bool isSaveProfileLoading = false;
   bool isOrderHistoryLoading = false;
   bool isLatest = true;
+  bool isSupportLoading = false;
+  bool isSendSupportMessageLoading = false;
 
   OrderHistoryModel? orderHistoryModel;
+  UserModel? userData;
+  SupportModel? supportModel;
 
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -55,6 +64,10 @@ class ProfileController extends GetxController {
     alternateMobileNumberTEC.text = userData.alternateMobileNo ?? "";
     landlineNumberTEC.text = userData.landlineNo ?? "";
     emailAddressTEC.text = userData.email ?? "";
+  }
+
+  setUserProfile() {
+    userData = UserModel.fromJson(storage.read(StorageKeys.userData));
   }
 
   clearData() {
@@ -83,8 +96,12 @@ class ProfileController extends GetxController {
         )
         .then((response) {
           if (response["success"] == true) {
-            UserModel userModel = UserModel.fromJson(response["data"]);
-            clearData();
+            final oldData = storage.read(StorageKeys.userData) ?? {};
+            final Map<String, dynamic> mergedData = {
+              ...oldData,
+              ...response["data"],
+            };
+            final UserModel userModel = UserModel.fromJson(mergedData);
             storage.write(StorageKeys.userData, userModel.toJson());
             Get.back(result: true);
             AppToast.success(response['message']);
@@ -123,5 +140,54 @@ class ProfileController extends GetxController {
     await storage.remove(StorageKeys.userData);
     await storage.clearAuth();
     Get.offAllNamed(AppRoutes.login);
+  }
+
+  Future<void> getSupportDetailApi() async {
+    isSupportLoading = true;
+    // update();
+    await apiService
+        .get(AppUrl.getSupportDetailsUrl)
+        .then((response) {
+          if (response["success"] == true) {
+            supportModel = SupportModel.fromJson(response["data"]);
+            isSupportLoading = false;
+            update();
+          }
+        })
+        .catchError((value) {
+          isSupportLoading = false;
+          update();
+        });
+  }
+
+  Future<void> sendSupportMessageApi() async {
+    isSendSupportMessageLoading = true;
+    update();
+
+    SupportMessageQuery supportMessageQuery = SupportMessageQuery(
+      message: messageTEC.text,
+      subject: subjectTEC.text,
+    );
+
+    await apiService
+        .postFormData(
+          AppUrl.sendSupportMessageUrl,
+          supportMessageQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          } else {
+            AppToast.error();
+          }
+          isSendSupportMessageLoading = false;
+          update();
+        })
+        .catchError((value) {
+          AppToast.error();
+          isSendSupportMessageLoading = false;
+          update();
+        });
   }
 }

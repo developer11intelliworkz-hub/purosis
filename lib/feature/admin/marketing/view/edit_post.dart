@@ -9,7 +9,6 @@ import 'package:purosis/widget/app_image_upload.dart';
 import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
-import '../../../../utils/app_toast.dart';
 import '../../../../utils/common_api.dart';
 
 class EditPost extends StatefulWidget {
@@ -111,12 +110,8 @@ class _EditPostState extends State<EditPost> {
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isDataLoading,
                     onPressed: () {
-                      if (controller.selectedFile == null) {
-                        AppToast.error(message: "Please upload the file");
-                      }
-                      if ((controller.validationKey.currentState?.validate() ??
-                              false) &&
-                          controller.selectedFile != null) {
+                      if (controller.validationKey.currentState?.validate() ??
+                          false) {
                         controller.editPostApi();
                       }
                     },

@@ -308,8 +308,9 @@ class SubCategoryModel {
 
 Future<List<ProductCategories>> productCategoriesApi() async {
   List<ProductCategories> productCategoriesList = [];
+  // AppUrl.productCategoriesUrl (this api is for admin only)
   await ApiService()
-      .get(AppUrl.productCategoriesUrl)
+      .get(AppUrl.getCategoriesUserUrl)
       .then((response) {
         if (response["success"] == true) {
           for (final data in response['data']) {

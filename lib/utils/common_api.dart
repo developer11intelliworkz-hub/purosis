@@ -1,4 +1,4 @@
-import 'package:purosis/feature/admin/marketing/model/detail_model.dart';
+import 'package:purosis/model/detail_model.dart';
 import 'package:purosis/utils/api_service.dart';
 
 import '../consts/app_url.dart';

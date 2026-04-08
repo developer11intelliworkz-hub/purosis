@@ -32,273 +32,297 @@ class _DashboardViewState extends State<DashboardView> {
       builder: (controller) {
         return controller.isDashboardLoading
             ? CommonWidget.commonLoading()
-            : NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
+            : SingleChildScrollView(
+                padding: EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CardWidget(
-                                    icon: AppImage.checkIcon,
-                                    count:
-                                        (controller
-                                                    .dashboardDataModel
-                                                    ?.confirmedOrders ??
-                                                0)
-                                            .toString(),
-                                    bottomText: "Approved Orders",
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: CardWidget(
-                                    icon: AppImage.cartIcon,
-                                    count:
-                                        (controller
-                                                    .dashboardDataModel
-                                                    ?.totalOrders ??
-                                                0)
-                                            .toString(),
-                                    bottomText: "Total Orders",
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CardWidget(
-                                    icon: AppImage.manIcon,
-                                    count:
-                                        (controller
-                                                    .dashboardDataModel
-                                                    ?.totalDealers ??
-                                                0)
-                                            .toString(),
-                                    bottomText: "Dealers",
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: CardWidget(
-                                    icon: AppImage.manIcon,
-                                    count:
-                                        (controller
-                                                    .dashboardDataModel
-                                                    ?.totalDistributors ??
-                                                0)
-                                            .toString(),
-                                    bottomText: "Distributors",
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: CardWidget(
-                                    icon: AppImage.productIcon,
-                                    count:
-                                        (controller
-                                                    .dashboardDataModel
-                                                    ?.totalProducts ??
-                                                0)
-                                            .toString(),
-                                    bottomText: "Products",
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: CardWidget(
-                                    icon: AppImage.imageIcon,
-                                    count:
-                                        (controller
-                                                    .dashboardDataModel
-                                                    ?.marketingAssets ??
-                                                0)
-                                            .toString(),
-                                    bottomText: "Marketing",
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                            _menuCard(
-                              AppImage.cartIcon,
-                              "Manage Orders",
-                              "View & approve orders",
-                            ),
-                            _menuCard(
-                              AppImage.productIcon,
-                              "Products",
-                              "Add & edit products",
-                            ),
-                            _menuCard(
-                              AppImage.imageIcon,
-                              "Marketing",
-                              "Upload Content",
-                            ),
-
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(AppRoutes.promotionalStock);
-                              },
-                              child: _menuCard(
-                                AppImage.giftIcon,
-                                "Promotional",
-                                "Stock Management",
+                            Expanded(
+                              child: CardWidget(
+                                icon: AppImage.checkIcon,
+                                count:
+                                    (controller
+                                                .dashboardDataModel
+                                                ?.confirmedOrders ??
+                                            0)
+                                        .toString(),
+                                bottomText: "Approved Orders",
                               ),
                             ),
-
-                            SizedBox(height: 10),
-                            Row(
-                              children: [
-                                AppText(
-                                  text: "Pending Approval",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                                Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(AppRoutes.orderHistoryAdmin);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      AppText(
-                                        text: "View All",
-                                        color: Color(0xFF8EBF1F),
-                                      ),
-                                      SizedBox(width: 3),
-                                      Icon(
-                                        Icons.arrow_forward_rounded,
-                                        color: Color(0xFF8EBF1F),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: CardWidget(
+                                icon: AppImage.cartIcon,
+                                count:
+                                    (controller
+                                                .dashboardDataModel
+                                                ?.totalOrders ??
+                                            0)
+                                        .toString(),
+                                bottomText: "Total Orders",
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ];
-                },
 
-                body: ListView.builder(
-                  padding: EdgeInsets.all(8),
-                  itemCount: controller.orderHistoryModelList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                AppText(
-                                  text:
-                                      "#${controller.orderHistoryModelList[index].orderNumber}",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                                Spacer(),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 2,
-                                    horizontal: 10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFF2EBD2),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: AppText(
-                                    text:
-                                        controller
-                                            .orderHistoryModelList[index]
-                                            .shippingStatus ??
-                                        "",
-                                  ),
-                                ),
-                              ],
+                            Expanded(
+                              child: CardWidget(
+                                icon: AppImage.manIcon,
+                                count:
+                                    (controller
+                                                .dashboardDataModel
+                                                ?.totalDealers ??
+                                            0)
+                                        .toString(),
+                                bottomText: "Dealers",
+                              ),
                             ),
-
-                            Row(
-                              children: [
-                                Image.asset(AppImage.manIcon),
-                                SizedBox(width: 5),
-                                AppText(
-                                  text: "Distributor : Mumbai Water Solutions",
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Row(
-                              children: [
-                                Image.asset(AppImage.calenderIcon),
-                                SizedBox(width: 5),
-                                AppText(
-                                  text:
-                                      controller
-                                          .orderHistoryModelList[index]
-                                          .orderDate ??
-                                      "",
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 5),
-
-                            Row(
-                              children: [
-                                Image.asset(AppImage.shippingBoxIcon),
-                                SizedBox(width: 5),
-                                AppText(
-                                  text:
-                                      "${controller.orderHistoryModelList[index].orderProductsCount} Products",
-                                ),
-                              ],
-                            ),
-
-                            SizedBox(height: 5),
-
-                            // Row(
-                            //   children: [
-                            //     Image.asset(AppImage.truckIcon),
-                            //     SizedBox(width: 5),
-                            //     AppText(text: "Blue Dart Express"),
-                            //   ],
-                            // ),
-                            SizedBox(height: 5),
-
-                            Row(
-                              children: [
-                                AppText(text: "Total Weight: "),
-                                AppText(
-                                  text:
-                                      "${controller.orderHistoryModelList[index].totalWeight} kg",
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                ),
-                              ],
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: CardWidget(
+                                icon: AppImage.manIcon,
+                                count:
+                                    (controller
+                                                .dashboardDataModel
+                                                ?.totalDistributors ??
+                                            0)
+                                        .toString(),
+                                bottomText: "Distributors",
+                              ),
                             ),
                           ],
                         ),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CardWidget(
+                                icon: AppImage.productIcon,
+                                count:
+                                    (controller
+                                                .dashboardDataModel
+                                                ?.totalProducts ??
+                                            0)
+                                        .toString(),
+                                bottomText: "Products",
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: CardWidget(
+                                icon: AppImage.imageIcon,
+                                count:
+                                    (controller
+                                                .dashboardDataModel
+                                                ?.marketingAssets ??
+                                            0)
+                                        .toString(),
+                                bottomText: "Marketing",
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.orderHistoryAdmin);
+                          },
+                          child: _menuCard(
+                            AppImage.cartIcon,
+                            "Manage Orders",
+                            "View & approve orders",
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller.currentIndex = 1;
+                            controller.update();
+                          },
+                          child: _menuCard(
+                            AppImage.productIcon,
+                            "Products",
+                            "Add & edit products",
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            controller.currentIndex = 2;
+                            controller.update();
+                          },
+                          child: _menuCard(
+                            AppImage.imageIcon,
+                            "Marketing",
+                            "Upload Content",
+                          ),
+                        ),
+
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.promotionalStock);
+                          },
+                          child: _menuCard(
+                            AppImage.giftIcon,
+                            "Promotional",
+                            "Stock Management",
+                          ),
+                        ),
+
+                        SizedBox(height: 10),
+                      ],
+                    ),
+                    if (controller.orderHistoryModelList.isNotEmpty)
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              AppText(
+                                text: "Pending Approval",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
+                              Spacer(),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.orderHistoryAdmin);
+                                },
+                                child: Row(
+                                  children: [
+                                    AppText(
+                                      text: "View All",
+                                      color: Color(0xFF8EBF1F),
+                                    ),
+                                    SizedBox(width: 3),
+                                    Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: Color(0xFF8EBF1F),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            child: controller.orderHistoryModelList.isNotEmpty
+                                ? Card(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    "#${controller.orderHistoryModelList.first.orderNumber}",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                              ),
+                                              Spacer(),
+                                              Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: 2,
+                                                  horizontal: 10,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFFF2EBD2),
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                child: AppText(
+                                                  text:
+                                                      controller
+                                                          .orderHistoryModelList
+                                                          .first
+                                                          .shippingStatus ??
+                                                      "",
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+
+                                          Row(
+                                            children: [
+                                              Image.asset(AppImage.manIcon),
+                                              SizedBox(width: 5),
+                                              AppText(
+                                                text:
+                                                    "Distributor : Mumbai Water Solutions",
+                                              ),
+                                            ],
+                                          ),
+
+                                          SizedBox(height: 5),
+
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                AppImage.calenderIcon,
+                                              ),
+                                              SizedBox(width: 5),
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .orderHistoryModelList
+                                                        .first
+                                                        .orderDate ??
+                                                    "",
+                                              ),
+                                            ],
+                                          ),
+
+                                          SizedBox(height: 5),
+
+                                          Row(
+                                            children: [
+                                              Image.asset(
+                                                AppImage.shippingBoxIcon,
+                                              ),
+                                              SizedBox(width: 5),
+                                              AppText(
+                                                text:
+                                                    "${controller.orderHistoryModelList.first.orderProductsCount} Products",
+                                              ),
+                                            ],
+                                          ),
+
+                                          SizedBox(height: 5),
+
+                                          // Row(
+                                          //   children: [
+                                          //     Image.asset(AppImage.truckIcon),
+                                          //     SizedBox(width: 5),
+                                          //     AppText(text: "Blue Dart Express"),
+                                          //   ],
+                                          // ),
+                                          SizedBox(height: 5),
+
+                                          Row(
+                                            children: [
+                                              AppText(text: "Total Weight: "),
+                                              AppText(
+                                                text:
+                                                    "${controller.orderHistoryModelList.first.totalWeight} kg",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 16,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : null,
+                          ),
+                        ],
                       ),
-                    );
-                  },
+                  ],
                 ),
               );
       },

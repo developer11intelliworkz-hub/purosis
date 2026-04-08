@@ -1,47 +1,111 @@
 class DetailModel {
+  List<CategoryItem>? brochureCategory;
+  List<CategoryItem>? postCategory;
+  List<CategoryItem>? reelCategory;
+  List<CategoryItem>? videoCategory;
+  List<CategoryItem>? videoType;
+  List<CategoryItem>? shippingStatus;
+  List<String>? userTypes;
+
   DetailModel({
     this.brochureCategory,
     this.postCategory,
     this.reelCategory,
     this.videoCategory,
     this.videoType,
+    this.shippingStatus,
     this.userTypes,
   });
 
   DetailModel.fromJson(Map<String, dynamic> json) {
-    brochureCategory = _parseList(json['brochure_category']);
-    postCategory = _parseList(json['post_category']);
-    reelCategory = _parseList(json['reel_category']);
-    videoCategory = _parseList(json['video_category']);
-    videoType = _parseList(json['video_type']);
-    userTypes = json['user_types']?.cast<String>() ?? [];
-  }
+    if (json['brochure_category'] != null) {
+      brochureCategory = [];
+      json['brochure_category'].forEach((v) {
+        brochureCategory!.add(CategoryItem.fromJson(v));
+      });
+    }
 
-  List<CategoryItem>? brochureCategory;
-  List<CategoryItem>? postCategory;
-  List<CategoryItem>? reelCategory;
-  List<CategoryItem>? videoCategory;
-  List<CategoryItem>? videoType;
-  List<String>? userTypes;
+    if (json['post_category'] != null) {
+      postCategory = [];
+      json['post_category'].forEach((v) {
+        postCategory!.add(CategoryItem.fromJson(v));
+      });
+    }
 
-  static List<CategoryItem>? _parseList(dynamic list) {
-    if (list == null) return null;
-    return (list as List).map((e) => CategoryItem.fromJson(e)).toList();
+    if (json['reel_category'] != null) {
+      reelCategory = [];
+      json['reel_category'].forEach((v) {
+        reelCategory!.add(CategoryItem.fromJson(v));
+      });
+    }
+
+    if (json['video_category'] != null) {
+      videoCategory = [];
+      json['video_category'].forEach((v) {
+        videoCategory!.add(CategoryItem.fromJson(v));
+      });
+    }
+
+    if (json['video_type'] != null) {
+      videoType = [];
+      json['video_type'].forEach((v) {
+        videoType!.add(CategoryItem.fromJson(v));
+      });
+    }
+
+    if (json['shipping_status'] != null) {
+      shippingStatus = [];
+      json['shipping_status'].forEach((v) {
+        shippingStatus!.add(CategoryItem.fromJson(v));
+      });
+    }
+
+    if (json['user_types'] != null) {
+      userTypes = List<String>.from(json['user_types']);
+    }
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'brochure_category': brochureCategory?.map((e) => e.toJson()).toList(),
-      'post_category': postCategory?.map((e) => e.toJson()).toList(),
-      'reel_category': reelCategory?.map((e) => e.toJson()).toList(),
-      'video_category': videoCategory?.map((e) => e.toJson()).toList(),
-      'video_type': videoType?.map((e) => e.toJson()).toList(),
-      'user_types': userTypes,
-    };
+    final Map<String, dynamic> data = {};
+
+    if (brochureCategory != null) {
+      data['brochure_category'] = brochureCategory!
+          .map((v) => v.toJson())
+          .toList();
+    }
+
+    if (postCategory != null) {
+      data['post_category'] = postCategory!.map((v) => v.toJson()).toList();
+    }
+
+    if (reelCategory != null) {
+      data['reel_category'] = reelCategory!.map((v) => v.toJson()).toList();
+    }
+
+    if (videoCategory != null) {
+      data['video_category'] = videoCategory!.map((v) => v.toJson()).toList();
+    }
+
+    if (videoType != null) {
+      data['video_type'] = videoType!.map((v) => v.toJson()).toList();
+    }
+
+    if (shippingStatus != null) {
+      data['shipping_status'] = shippingStatus!.map((v) => v.toJson()).toList();
+    }
+
+    if (userTypes != null) {
+      data['user_types'] = userTypes;
+    }
+
+    return data;
   }
 }
 
 class CategoryItem {
+  String? key;
+  String? value;
+
   CategoryItem({this.key, this.value});
 
   CategoryItem.fromJson(Map<String, dynamic> json) {
@@ -49,10 +113,10 @@ class CategoryItem {
     value = json['value'];
   }
 
-  String? key;
-  String? value;
-
   Map<String, dynamic> toJson() {
-    return {'key': key, 'value': value};
+    final Map<String, dynamic> data = {};
+    data['key'] = key;
+    data['value'] = value;
+    return data;
   }
 }

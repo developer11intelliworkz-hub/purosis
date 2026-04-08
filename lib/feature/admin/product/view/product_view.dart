@@ -37,21 +37,26 @@ class _ProductViewState extends State<ProductView> {
                 Row(
                   children: [
                     Expanded(child: AppSearchField()),
-                    IconButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          AppRoutes.filter,
-                          arguments: controller.selectedFilter,
-                        )?.then((value) {
-                          if (value != null) {
-                            controller.selectedFilter = value;
-                            controller.getProductApi(
-                              queryParameters: controller.selectedFilter,
-                            );
-                          }
-                        });
-                      },
-                      icon: Icon(Icons.tune),
+                    Badge(
+                      smallSize: 8,
+                      isLabelVisible: controller.selectedFilter.isNotEmpty,
+                      backgroundColor: Colors.red,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filter,
+                            arguments: controller.selectedFilter,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.selectedFilter = value;
+                              controller.getProductApi(
+                                queryParameters: controller.selectedFilter,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
                     ),
                   ],
                 ),
@@ -62,7 +67,9 @@ class _ProductViewState extends State<ProductView> {
                       : controller.productModelList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () => controller.getProductApi(),
+                          onRefresh: () => controller.getProductApi(
+                            queryParameters: controller.selectedFilter,
+                          ),
                           child: GridView.builder(
                             itemBuilder: (context, index) {
                               return InkWell(
@@ -90,8 +97,8 @@ class _ProductViewState extends State<ProductView> {
                                                 (controller
                                                         .productModelList[index]
                                                         .productColorsImages
-                                                        ?.first
-                                                        .images
+                                                        ?.firstOrNull
+                                                        ?.images
                                                         ?.isNotEmpty ??
                                                     false)
                                                 ? controller

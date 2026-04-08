@@ -5,6 +5,7 @@ import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/distributor/product/controller/product_controller.dart';
 import 'package:purosis/utils/commmon_function.dart';
 import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_button_outline.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -16,11 +17,16 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  final ProductController productController = Get.find();
+  late ProductController productController;
   final String productId = Get.arguments;
 
   @override
   void initState() {
+    if (Get.isRegistered<ProductController>()) {
+      productController = Get.find();
+    } else {
+      productController = ProductController();
+    }
     productController.getProductDetailApi(productId);
     super.initState();
   }
@@ -311,35 +317,35 @@ class _ProductDetailState extends State<ProductDetail> {
                       child: Row(
                         children: [
                           Spacer(),
-                          Container(
-                            height: 40,
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color(0xFF8EBF1F)),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: AppText(
+                          // GestureDetector(
+                          //   onTap: (){
+                          //     controller.addToCartApi();
+                          //   },
+                          //   child: Container(
+                          //     height: 40,
+                          //     alignment: Alignment.center,
+                          //     padding: EdgeInsets.only(left: 10, right: 10),
+                          //     decoration: BoxDecoration(
+                          //       border: Border.all(color: Color(0xFF8EBF1F)),
+                          //       borderRadius: BorderRadius.circular(8),
+                          //     ),
+                          //     child: AppText(
+                          //       text: "Buy Now",
+                          //       color: Color(0xFF8EBF1F),
+                          //     ),
+                          //   ),
+                          // ),
+                          Expanded(
+                            child: AppButtonOutline(
                               text: "Buy Now",
                               color: Color(0xFF8EBF1F),
+                              isLoading: controller.isBuyNowLoading,
+                              onPressed: () {
+                                controller.buyNowApi();
+                              },
                             ),
                           ),
                           SizedBox(width: 20),
-                          // Container(
-                          //   height: 40,
-                          //   padding: EdgeInsets.only(left: 20, right: 20),
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(8),
-                          //     color: Color(0xFF8EBF1F),
-                          //   ),
-                          //   child: Row(
-                          //     children: [
-                          //       Image.asset(AppImage.cart2Icon, color: Colors.white),
-                          //       SizedBox(width: 10),
-                          //       AppText(text: "Add to Cart", color: Colors.white),
-                          //     ],
-                          //   ),
-                          // ),
                           Expanded(
                             child: AppButton(
                               text: "Add to cart",

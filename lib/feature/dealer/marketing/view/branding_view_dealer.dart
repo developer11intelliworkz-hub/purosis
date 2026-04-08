@@ -6,6 +6,7 @@ import 'package:purosis/routes/app_routes.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
+import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
 
@@ -171,7 +172,16 @@ class _BrandingViewDealerState extends State<BrandingViewDealer> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Expanded(child: SizedBox()),
+                                  Expanded(
+                                    child: AppImageView(
+                                      width: double.maxFinite,
+                                      imageUrl: controller
+                                          .leafletModelList[index]
+                                          .mediaFile
+                                          ?.first,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(

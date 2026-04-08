@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:purosis/feature/distributor/product/model/product_detail_model.dart';
 import 'package:purosis/feature/distributor/product/model/query/add_to_cart_query.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/utils/api_service.dart';
 import 'package:purosis/utils/app_toast.dart';
 
@@ -19,6 +20,7 @@ class ProductController extends GetxController {
   bool isAddToCartLoading = false;
   int selectedProductIndex = 0;
   int productQuantity = 1;
+  bool isBuyNowLoading = false;
 
   increaseQuantity() {
     if (productQuantity < 100) {
@@ -84,6 +86,31 @@ class ProductController extends GetxController {
         });
   }
 
+  Future<void> buyNowApi() async {
+    isBuyNowLoading = true;
+    update();
+    AddToCartQuery addToCartQuery = AddToCartQuery(
+      colorCode: productDetailModel
+          ?.productColorsImages?[selectedProductIndex]
+          .colorCode,
+      productId: productDetailModel?.id,
+      qty: productQuantity,
+    );
+    await apiService
+        .postFormData(AppUrl.addToCartUrl, addToCartQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            isBuyNowLoading = false;
+            Get.toNamed(AppRoutes.cartView);
+            update();
+          }
+        })
+        .catchError((value) {
+          isBuyNowLoading = false;
+          update();
+        });
+  }
+
   Future<void> addToCartApi() async {
     isAddToCartLoading = true;
     update();
@@ -99,6 +126,7 @@ class ProductController extends GetxController {
         .then((response) {
           if (response["success"] == true) {
             isAddToCartLoading = false;
+
             Get.back();
             AppToast.success(response["message"]);
           }

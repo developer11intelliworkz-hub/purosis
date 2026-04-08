@@ -60,7 +60,7 @@ class _AddProductState extends State<AddProduct> {
                     onChanged: (value) {
                       controller.selectedSubCategoryModel = value;
                     },
-                    validator: CommonValidation.dropdownValidation,
+                    // validator: CommonValidation.dropdownValidation,
                   ),
                   SizedBox(height: 10),
                   AppText(text: "Specification"),

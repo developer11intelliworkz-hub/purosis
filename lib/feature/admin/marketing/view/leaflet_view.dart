@@ -49,48 +49,57 @@ class _LeafletViewState extends State<LeafletView> {
                                 ),
                             itemCount: controller.leafletModelList.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: AppImageView(
-                                          width: double.maxFinite,
-                                          imageUrl: controller
-                                              .leafletModelList[index]
-                                              .mediaFile
-                                              ?.first,
-                                          fit: BoxFit.fill,
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                    AppRoutes.editLeaflet,
+                                    arguments:
+                                        controller.leafletModelList[index],
+                                  );
+                                },
+                                child: Card(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: AppImageView(
+                                            width: double.maxFinite,
+                                            imageUrl: controller
+                                                .leafletModelList[index]
+                                                .mediaFile
+                                                ?.first,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text:
-                                                  controller
-                                                      .leafletModelList[index]
-                                                      .title ??
-                                                  "",
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            AppText(
-                                              text:
-                                                  "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .leafletModelList[index]
+                                                        .title ??
+                                                    "",
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                              AppText(
+                                                text:
+                                                    "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

@@ -348,7 +348,16 @@ class _MarketingContentState extends State<MarketingContent> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Expanded(child: SizedBox()),
+                                    Expanded(
+                                      child: AppImageView(
+                                        imageUrl:
+                                            controller
+                                                .leafletModelList[index]
+                                                .mediaFile
+                                                ?.first ??
+                                            "",
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Column(

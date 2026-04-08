@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -100,17 +99,6 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
             ),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF0067B1),
-        onPressed: () {
-          Get.toNamed(AppRoutes.addVideo)?.then((value) {
-            if (value == true) {
-              marketingController.getVideoApi();
-            }
-          });
-        },
-        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

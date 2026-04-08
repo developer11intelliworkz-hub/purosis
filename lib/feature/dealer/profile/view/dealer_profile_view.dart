@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/profile/controller/profile_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_image_view.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -41,18 +42,29 @@ class _DealerProfileViewState extends State<DealerProfileView> {
                       width: 60,
                       height: 60,
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
-                      child: controller.userModel?.name != null
+                      child: controller.userModel?.logo != null
+                          ? ClipOval(
+                              child: SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: AppImageView(
+                                  imageUrl: controller.userModel?.logo ?? "",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          : controller.userModel?.name != null
                           ? AppText(
                               text: controller.userModel?.name?[0] ?? "",
-                              color: Color(0xFF0067B1),
+                              color: const Color(0xFF0067B1),
                               fontWeight: FontWeight.w600,
                               fontSize: 24,
                             )
-                          : Icon(Icons.person, color: Color(0xFF0067B1)),
+                          : const Icon(Icons.person, color: Color(0xFF0067B1)),
                     ),
                     SizedBox(width: 20),
                     Expanded(
@@ -79,7 +91,11 @@ class _DealerProfileViewState extends State<DealerProfileView> {
                     ),
                     IconButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.editProfileDealer);
+                        Get.toNamed(AppRoutes.editProfileDealer)?.then((value) {
+                          if (value == true) {
+                            controller.fetchProfileData();
+                          }
+                        });
                       },
                       icon: Icon(Icons.edit, color: Colors.white),
                     ),

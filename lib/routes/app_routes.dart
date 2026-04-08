@@ -27,9 +27,16 @@ abstract class AppRoutes {
   static const editPost = '/edit_post';
   static const editReel = '/edit_reel';
   static const editVideo = '/edit_video';
+  static const editLeaflet = '/edit_leaflet';
   static const productDetailView = '/product_detail_view';
   static const orderHistoryAdmin = '/order_history_admin';
   static const orderDetailView = '/order_detail_view';
+  static const helpSupportView = '/help_support_view';
+  static const bannerView = '/banner_view';
+  static const addBannerView = '/add_banner_view';
+  static const editBannerView = '/edit_banner_view';
+  static const supportMessageView = '/support_message_view';
+  static const editDistributor = '/edit_distributor';
 
   //distributor
   static const distributorDashboard = '/distributor_dashboard';
@@ -48,6 +55,7 @@ abstract class AppRoutes {
   static const transportView = '/transport_view';
   static const reviewView = '/review_view';
   static const orderHistory = '/order_history';
+  static const helpSupportScreen = '/help_support_screen';
 
   //dealer
   static const dealerDashboard = '/dealer_dashboard';
@@ -63,4 +71,6 @@ abstract class AppRoutes {
   static const filterMarketingBrochures = '/filter_marketing_brochures';
   static const filterMarketingLeaflets = '/filter_marketing_leaflets';
   static const editProfileDealer = '/edit_profile_dealer';
+  static const customizePost = '/customize_post';
+  static const customizePostPreview = '/customize_post_preview';
 }

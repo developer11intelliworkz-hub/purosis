@@ -5,13 +5,28 @@ import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text.dart';
 
-class ProfileView extends StatelessWidget {
+import '../../../../widget/app_image_view.dart';
+
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  final ProfileController profileController = ProfileController();
+
+  @override
+  void initState() {
+    profileController.setUserProfile();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<ProfileController>(
-      init: ProfileController(),
+      init: profileController,
       builder: (controller) {
         return Column(
           children: [
@@ -30,19 +45,32 @@ class ProfileView extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: Color(0xFFDEF1FF),
                       ),
-                      child: AppText(
-                        text: "RP",
-                        color: Colors.blue,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
-                      ),
+                      child: controller.userData?.logo != null
+                          ? ClipOval(
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: AppImageView(
+                                  imageUrl: controller.userData?.logo ?? "",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          : controller.userData?.companyName != null
+                          ? AppText(
+                              text: controller.userData?.companyName?[0] ?? "",
+                              color: const Color(0xFF0067B1),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
+                            )
+                          : const Icon(Icons.person, color: Color(0xFF0067B1)),
                     ),
                     SizedBox(width: 20),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppText(
-                          text: "Company Name",
+                          text: controller.userData?.companyName ?? "",
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                         ),
@@ -62,7 +90,7 @@ class ProfileView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 3),
-                        AppText(text: "+91 1234567890"),
+                        AppText(text: controller.userData?.phoneNo ?? ""),
                       ],
                     ),
                   ],
@@ -81,7 +109,11 @@ class ProfileView extends StatelessWidget {
                     SizedBox(height: 10),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed(AppRoutes.editProfileView);
+                        Get.toNamed(AppRoutes.editProfileView)?.then((value) {
+                          if (value == true) {
+                            controller.setUserProfile();
+                          }
+                        });
                       },
                       child: AppText(text: "My Profile"),
                     ),
@@ -97,7 +129,7 @@ class ProfileView extends StatelessWidget {
                     SizedBox(height: 10),
                     Divider(),
                     SizedBox(height: 10),
-                    InkWell(
+                    GestureDetector(
                       onTap: () {
                         Get.toNamed(AppRoutes.addressView);
                       },
@@ -114,7 +146,12 @@ class ProfileView extends StatelessWidget {
                     SizedBox(height: 10),
                     Divider(),
                     SizedBox(height: 10),
-                    AppText(text: "Help & Support"),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.helpSupportScreen);
+                      },
+                      child: AppText(text: "Help & Support"),
+                    ),
                     SizedBox(height: 10),
                   ],
                 ),

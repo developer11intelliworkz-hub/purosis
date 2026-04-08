@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/model/posts_model.dart';
 import 'package:purosis/feature/admin/marketing/model/query/add_brochure_query.dart';
+import 'package:purosis/feature/admin/marketing/model/query/add_post_query.dart';
 import 'package:purosis/feature/admin/marketing/model/query/add_video_query.dart';
 import 'package:purosis/feature/admin/marketing/model/reels_model.dart';
 import 'package:purosis/feature/admin/marketing/model/video_model.dart';
@@ -13,7 +14,8 @@ import 'package:purosis/utils/common_api.dart';
 import '../../../../consts/app_url.dart';
 import '../../../../utils/commmon_function.dart';
 import '../model/brochures_model.dart';
-import '../model/detail_model.dart';
+import '../../../../model/detail_model.dart';
+import '../model/leaflet_model.dart';
 import '../model/query/add_reel_query.dart';
 
 class AddContentController extends GetxController {
@@ -28,6 +30,7 @@ class AddContentController extends GetxController {
   BrochuresModel? selectedBrochure;
   ReelsModel? selectedReel;
   PostsModel? selectedPost;
+  LeafletModel? selectedLeaflet;
   VideoModel? selectedVideo;
   GlobalKey<FormState> validationKey = GlobalKey();
   List<PlatformFile> selectedImages = [];
@@ -106,6 +109,20 @@ class AddContentController extends GetxController {
     update();
   }
 
+  setEditLeafletValue(LeafletModel value) async {
+    selectedLeaflet = value;
+    titleTEC.text = value.title ?? "";
+    selectedMonth = value.month;
+    selectedYear = value.year;
+    for (final data in value.mediaFile ?? []) {
+      selectedImages.add((await CommonFunction.urlToPlatformFile(data ?? "")));
+    }
+    descriptionTEC.text = value.description ?? "";
+    selectedCategory = (await CommonApi().getDetailApi()).brochureCategory
+        ?.firstWhere((e) => e.key == value.category);
+    update();
+  }
+
   setEditVideoValue(VideoModel value) async {
     selectedVideo = value;
     titleTEC.text = value.title ?? "";
@@ -115,7 +132,7 @@ class AddContentController extends GetxController {
     selectedFileName = value.thumbnailImage?.split("/").last;
     descriptionTEC.text = value.description ?? "";
     final data = await CommonApi().getDetailApi();
-    selectedType = data.videoType?.firstWhere((e) => e.key == value.category);
+    selectedType = data.videoType?.firstWhere((e) => e.key == value.type);
     selectedCategory = data.videoCategory?.firstWhere(
       (e) => e.key == value.category,
     );
@@ -126,6 +143,7 @@ class AddContentController extends GetxController {
     isDataLoading = true;
     update();
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
+      id: selectedBrochure?.id,
       title: titleTEC.text,
       category: selectedCategory?.key,
       month: selectedMonth,
@@ -192,7 +210,7 @@ class AddContentController extends GetxController {
   Future<void> addPostApi() async {
     isDataLoading = true;
     update();
-    AddBrochureQuery addBrochureQuery = AddBrochureQuery(
+    AddPostQuery addPostQuery = AddPostQuery(
       title: titleTEC.text,
       category: selectedCategory?.key,
       month: selectedMonth,
@@ -202,10 +220,7 @@ class AddContentController extends GetxController {
       mediaFile: selectedFile,
     );
     await apiService
-        .postFormData(
-          AppUrl.addUpdatePostUrl,
-          await addBrochureQuery.toFormData(),
-        )
+        .postFormData(AppUrl.addUpdatePostUrl, await addPostQuery.toFormData())
         .then((response) {
           if (response["success"] == true) {
             Get.back(result: true);
@@ -225,7 +240,7 @@ class AddContentController extends GetxController {
   Future<void> editPostApi() async {
     isDataLoading = true;
     update();
-    AddBrochureQuery addBrochureQuery = AddBrochureQuery(
+    AddPostQuery addPostQuery = AddPostQuery(
       id: selectedPost?.id,
       title: titleTEC.text,
       category: selectedCategory?.key,
@@ -236,10 +251,7 @@ class AddContentController extends GetxController {
       mediaFile: selectedFile,
     );
     await apiService
-        .postFormData(
-          AppUrl.addUpdatePostUrl,
-          await addBrochureQuery.toFormData(),
-        )
+        .postFormData(AppUrl.addUpdatePostUrl, await addPostQuery.toFormData())
         .then((response) {
           if (response["success"] == true) {
             Get.back(result: true);

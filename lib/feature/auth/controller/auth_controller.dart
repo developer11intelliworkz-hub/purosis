@@ -8,6 +8,9 @@ import 'package:purosis/feature/auth/model/query/verify_otp_query.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/utils/api_service.dart';
 import 'package:purosis/utils/app_toast.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:purosis/utils/common_permission.dart';
 
 import '../../../utils/storage_service.dart';
 
@@ -19,37 +22,48 @@ class AuthController extends GetxController {
   bool verifyOTPLoading = false;
   int posterCurrentIndex = 0;
   String? selectYourCategory;
+  Position? position;
 
   sendOTPApi() async {
     sendOTPLoading = true;
     update();
-    await apiService
-        .postFormData(
-          selectYourCategory == "admin"
-              ? AppUrl.sendOTPUrl
-              : AppUrl.sendUserOTPUrl,
-          OtpQuery(
-            phoneNo: mobileNumberTEC.text,
-            userType: selectYourCategory,
-          ).toFormData(),
-        )
-        .then((response) {
-          if (response["success"] == true) {
-            AppToast.success(response["message"]);
-            Get.offAllNamed(
-              AppRoutes.otpScreen,
-              arguments: mobileNumberTEC.text,
-            );
-          } else {
-            AppToast.success(response["message"]);
-          }
-          sendOTPLoading = false;
-          update();
-        })
-        .catchError((value) {
-          sendOTPLoading = false;
-          update();
-        });
+    final permissionCheck = await CommonPermission.checkLocationPermission();
+    if (permissionCheck == true) {
+      position = await CommonPermission.getCurrentLocation();
+    }
+    if (position != null) {
+      await apiService
+          .postFormData(
+            selectYourCategory == "admin"
+                ? AppUrl.sendOTPUrl
+                : AppUrl.sendUserOTPUrl,
+            OtpQuery(
+              phoneNo: mobileNumberTEC.text,
+              userType: selectYourCategory,
+            ).toFormData(),
+          )
+          .then((response) {
+            if (response["success"] == true) {
+              AppToast.success(response["message"]);
+              Get.offAllNamed(
+                AppRoutes.otpScreen,
+                arguments: mobileNumberTEC.text,
+              );
+            } else {
+              AppToast.success(response["message"]);
+            }
+            sendOTPLoading = false;
+            update();
+          })
+          .catchError((value) {
+            sendOTPLoading = false;
+            update();
+          });
+    } else {
+      sendOTPLoading = true;
+      update();
+      AppToast.error(message: "Location is need for login");
+    }
   }
 
   verifyOTPApi(String mobileNumber, String otp) async {
@@ -64,6 +78,8 @@ class AuthController extends GetxController {
             phoneNo: mobileNumber,
             otp: otp,
             userType: selectYourCategory,
+            latitude: position?.latitude,
+            longitude: position?.longitude,
           ).toFormData(),
         )
         .then((response) {
@@ -90,5 +106,16 @@ class AuthController extends GetxController {
           verifyOTPLoading = false;
           update();
         });
+  }
+
+  Future<void> requestPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    CommonPermission.checkLocationPermission();
   }
 }

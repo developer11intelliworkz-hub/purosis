@@ -2,6 +2,7 @@ class AddedUserModel {
   AddedUserModel({
     this.id,
     this.name,
+    this.companyName,
     this.email,
     this.phoneNo,
     this.whatsappNo,
@@ -14,11 +15,15 @@ class AddedUserModel {
     this.totalOrders,
     this.assetsDownloaded,
     this.lastActive,
+    this.alternateMobileNo,
+    this.landlineNo,
+    this.logo,
   });
 
   AddedUserModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
+    companyName = json['company_name'];
     email = json['email'];
     phoneNo = json['phone_no'];
     whatsappNo = json['whatsapp_no'];
@@ -31,10 +36,14 @@ class AddedUserModel {
     totalOrders = json['total_orders'];
     assetsDownloaded = json['assets_downloaded'];
     lastActive = json['last_active'];
+    alternateMobileNo = json['alternate_mobile_no'];
+    landlineNo = json['landline_no'];
+    logo = json['logo'];
   }
 
-  num? id;
+  int? id;
   String? name;
+  String? companyName;
   String? email;
   String? phoneNo;
   String? whatsappNo;
@@ -43,15 +52,19 @@ class AddedUserModel {
   String? billingAddress;
   String? shippingAddressLine;
   String? shippingAddressPincode;
-  num? isActive;
+  int? isActive;
   num? totalOrders;
   num? assetsDownloaded;
   num? lastActive;
+  String? alternateMobileNo;
+  String? landlineNo;
+  String? logo;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
+    map['company_name'] = companyName;
     map['email'] = email;
     map['phone_no'] = phoneNo;
     map['whatsapp_no'] = whatsappNo;
@@ -64,6 +77,9 @@ class AddedUserModel {
     map['total_orders'] = totalOrders;
     map['assets_downloaded'] = assetsDownloaded;
     map['last_active'] = lastActive;
+    map['alternate_mobile_no'] = alternateMobileNo;
+    map['landline_no'] = landlineNo;
+    map['logo'] = logo;
     return map;
   }
 }
