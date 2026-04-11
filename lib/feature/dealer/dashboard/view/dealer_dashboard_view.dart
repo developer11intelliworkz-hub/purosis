@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/dashboard/controller/dashboard_controller.dart';
@@ -36,57 +35,57 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  SizedBox(
-                    width: double.maxFinite,
-                    height: 250,
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        height: double.maxFinite,
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        autoPlayAnimationDuration: const Duration(
-                          milliseconds: 800,
-                        ),
-                        viewportFraction: 1,
-                      ),
-                      items: [
-                        Container(color: Colors.red),
-                        Container(color: Colors.green),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        2,
-                        (index) => Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          width: //_currentIndex == index
-                          true
-                              ? 10
-                              : 8,
-                          height: // _currentIndex == index
-                          true
-                              ? 10
-                              : 8,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:
-                                true //_currentIndex == index
-                                ? Colors.grey
-                                : Colors.grey,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Stack(
+              //   alignment: Alignment.bottomCenter,
+              //   children: [
+              //     SizedBox(
+              //       width: double.maxFinite,
+              //       height: 250,
+              //       child: CarouselSlider(
+              //         options: CarouselOptions(
+              //           height: double.maxFinite,
+              //           autoPlay: true,
+              //           autoPlayInterval: const Duration(seconds: 3),
+              //           autoPlayAnimationDuration: const Duration(
+              //             milliseconds: 800,
+              //           ),
+              //           viewportFraction: 1,
+              //         ),
+              //         items: [
+              //           Container(color: Colors.red),
+              //           Container(color: Colors.green),
+              //         ],
+              //       ),
+              //     ),
+              //     Positioned(
+              //       bottom: 5,
+              //       child: Row(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: List.generate(
+              //           2,
+              //           (index) => Container(
+              //             margin: const EdgeInsets.symmetric(horizontal: 4),
+              //             width: //_currentIndex == index
+              //             true
+              //                 ? 10
+              //                 : 8,
+              //             height: // _currentIndex == index
+              //             true
+              //                 ? 10
+              //                 : 8,
+              //             decoration: BoxDecoration(
+              //               shape: BoxShape.circle,
+              //               color:
+              //                   true //_currentIndex == index
+              //                   ? Colors.grey
+              //                   : Colors.grey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

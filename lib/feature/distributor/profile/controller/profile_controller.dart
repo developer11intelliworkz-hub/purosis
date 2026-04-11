@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:purosis/feature/distributor/profile/model/order_history_model.dart';
 import 'package:purosis/feature/distributor/profile/model/query/support_message_query.dart';
 import 'package:purosis/feature/distributor/profile/model/query/update_profile_query.dart';
+import 'package:purosis/model/detail_model.dart';
 import 'package:purosis/utils/api_service.dart';
 
 import '../../../../consts/app_url.dart';
@@ -15,6 +17,7 @@ import '../../../../utils/app_toast.dart';
 import '../../../../utils/storage_service.dart';
 import '../../../admin/profile/model/support_model.dart';
 import '../../../auth/model/user_model.dart';
+import '../model/order_detail_model.dart';
 
 class ProfileController extends GetxController {
   final storage = Get.find<StorageService>();
@@ -34,13 +37,18 @@ class ProfileController extends GetxController {
 
   bool isSaveProfileLoading = false;
   bool isOrderHistoryLoading = false;
+  bool isOrderHistoryDetailLoading = false;
   bool isLatest = true;
   bool isSupportLoading = false;
   bool isSendSupportMessageLoading = false;
+  GlobalKey<FormState> supportValidationKey = GlobalKey();
 
   OrderHistoryModel? orderHistoryModel;
+  OrderHistoryModel? orderHistoryModelFilter;
+  OrderDetailModel? orderDetailModel;
   UserModel? userData;
   SupportModel? supportModel;
+  ProductsModel? selectedCategory;
 
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -50,6 +58,36 @@ class ProfileController extends GetxController {
     );
     if (result != null) {
       selectedFile = File(result.files.first.path ?? "");
+      update();
+    }
+  }
+
+  sortOrder() {
+    isLatest = !isLatest;
+    orderHistoryModelFilter?.orders =
+        orderHistoryModelFilter?.orders?.reversed.toList() ?? [];
+    update();
+  }
+
+  void search(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = orderHistoryModel?.orders
+          ?.where(
+            (item) =>
+                item.orderNumber?.toLowerCase().contains(query.toLowerCase()) ??
+                false,
+          )
+          .toList();
+      if (isLatest) {
+        orderHistoryModelFilter?.orders = item;
+      } else {
+        orderHistoryModelFilter?.orders = item?.reversed.toList();
+      }
+      update();
+    }
+    if (query.isEmpty) {
+      orderHistoryModelFilter?.orders?.clear();
+      orderHistoryModelFilter?.orders?.addAll(orderHistoryModel?.orders ?? []);
       update();
     }
   }
@@ -125,6 +163,9 @@ class ProfileController extends GetxController {
         .then((response) {
           if (response["success"] == true) {
             orderHistoryModel = OrderHistoryModel.fromJson(response['data']);
+            orderHistoryModelFilter = OrderHistoryModel.fromJson(
+              response['data'],
+            );
           }
           isOrderHistoryLoading = false;
           update();
@@ -134,6 +175,32 @@ class ProfileController extends GetxController {
           isOrderHistoryLoading = false;
           update();
         });
+  }
+
+  Future<void> getOrderHistoryDetailApi(int? orderId) async {
+    isOrderHistoryDetailLoading = true;
+    await apiService
+        .get(
+          AppUrl.getOrderHistoryDetailUrl,
+          queryParameters: {"order_id": orderId},
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            orderDetailModel = OrderDetailModel.fromJson(response['data']);
+          }
+          isOrderHistoryDetailLoading = false;
+          update();
+        })
+        .catchError((value) {
+          AppToast.error();
+          isOrderHistoryDetailLoading = false;
+          update();
+        });
+  }
+
+  String formatDateTime(String utcDate) {
+    DateTime parsedDate = DateTime.parse(utcDate);
+    return DateFormat('MMM dd, yyyy - hh:mm a').format(parsedDate);
   }
 
   logout() async {
@@ -160,12 +227,19 @@ class ProfileController extends GetxController {
         });
   }
 
+  resetData() {
+    subjectTEC.clear();
+    messageTEC.clear();
+    selectedCategory = null;
+  }
+
   Future<void> sendSupportMessageApi() async {
     isSendSupportMessageLoading = true;
     update();
 
     SupportMessageQuery supportMessageQuery = SupportMessageQuery(
       message: messageTEC.text,
+      productId: selectedCategory?.id,
       subject: subjectTEC.text,
     );
 

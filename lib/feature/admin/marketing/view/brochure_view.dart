@@ -30,106 +30,121 @@ class _BrochureViewState extends State<BrochureView> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  onChanged: controller.filterBrochure,
+                  controller: controller.brochureSearchTEC,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () async => await controller.getBrochuresApi(),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.6,
-                        crossAxisSpacing: 5,
-                        mainAxisSpacing: 5,
-                      ),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.toNamed(
-                              AppRoutes.editBrochures,
-                              arguments: controller.brochuresModelList[index],
-                            );
-                          },
-                          child: Card(
-                            color: Colors.white,
-                            child: SizedBox(
-                              width: 200,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Image.asset(
-                                      width: double.maxFinite,
-                                      AppImage.pdfThumbImage,
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                    child: controller.isBrochuresLoading
+                        ? CommonWidget.commonLoading()
+                        : controller.brochuresModelFilterList.isEmpty
+                        ? CommonWidget.commonEmpty()
+                        : GridView.builder(
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.6,
+                                  crossAxisSpacing: 5,
+                                  mainAxisSpacing: 5,
+                                ),
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.toNamed(
+                                    AppRoutes.editBrochures,
+                                    arguments: controller
+                                        .brochuresModelFilterList[index],
+                                  );
+                                },
+                                child: Card(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: 200,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        AppText(
-                                          text:
-                                              controller
-                                                  .brochuresModelList[index]
-                                                  .title ??
-                                              "",
-                                          fontWeight: FontWeight.w700,
+                                        Expanded(
+                                          child: Image.asset(
+                                            width: double.maxFinite,
+                                            AppImage.pdfThumbImage,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                        AppText(
-                                          text:
-                                              "${controller.brochuresModelList[index].month} ${controller.brochuresModelList[index].year}",
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(height: 5),
-                                        InkWell(
-                                          onTap: () async {
-                                            await launchUrlString(
-                                              controller
-                                                      .brochuresModelList[index]
-                                                      .mediaFile ??
-                                                  "",
-                                            );
-                                          },
-                                          child: Container(
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF8EBF1F),
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                AppText(
-                                                  text: "Download",
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white,
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .brochuresModelFilterList[index]
+                                                        .title ??
+                                                    "",
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                              AppText(
+                                                text:
+                                                    "${controller.brochuresModelFilterList[index].month} ${controller.brochuresModelFilterList[index].year}",
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey,
+                                              ),
+                                              SizedBox(height: 5),
+                                              InkWell(
+                                                onTap: () async {
+                                                  await launchUrlString(
+                                                    controller
+                                                            .brochuresModelFilterList[index]
+                                                            .mediaFile ??
+                                                        "",
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFF8EBF1F),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          5,
+                                                        ),
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      AppText(
+                                                        text: "Download",
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.white,
+                                                      ),
+                                                      SizedBox(width: 5),
+                                                      Icon(
+                                                        Icons.arrow_downward,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                SizedBox(width: 5),
-                                                Icon(
-                                                  Icons.arrow_downward,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
+                            itemCount:
+                                controller.brochuresModelFilterList.length,
                           ),
-                        );
-                      },
-                      itemCount: controller.brochuresModelList.length,
-                    ),
                   ),
                 ),
               ],

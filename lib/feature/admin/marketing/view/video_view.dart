@@ -16,7 +16,7 @@ class VideoView extends StatefulWidget {
 }
 
 class _VideoViewState extends State<VideoView> {
-  MarketingController marketingController = Get.find();
+  final MarketingController marketingController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,15 @@ class _VideoViewState extends State<VideoView> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.videoSearchTEC,
+                  onChanged: controller.filterVideo,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isVideoLoading
                       ? CommonWidget.commonLoading()
-                      : controller.videoModelList.isEmpty
+                      : controller.videoModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getVideoApi(),
@@ -46,13 +49,14 @@ class _VideoViewState extends State<VideoView> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.videoModelList.length,
+                            itemCount: controller.videoModelFilterList.length,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
                                   Get.toNamed(
                                     AppRoutes.editVideo,
-                                    arguments: controller.videoModelList[index],
+                                    arguments:
+                                        controller.videoModelFilterList[index],
                                   );
                                 },
                                 child: Card(
@@ -67,7 +71,7 @@ class _VideoViewState extends State<VideoView> {
                                           child: AppImageView(
                                             width: double.maxFinite,
                                             imageUrl: controller
-                                                .videoModelList[index]
+                                                .videoModelFilterList[index]
                                                 .mediaFile,
                                             fit: BoxFit.fill,
                                           ),
@@ -81,14 +85,14 @@ class _VideoViewState extends State<VideoView> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .videoModelList[index]
+                                                        .videoModelFilterList[index]
                                                         .title ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
                                               ),
                                               AppText(
                                                 text:
-                                                    "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
+                                                    "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey,
                                               ),

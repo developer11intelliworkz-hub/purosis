@@ -26,7 +26,7 @@ class AddPostQuery {
 
   num? id;
   String? title;
-  String? category;
+  int? category;
   String? month;
   String? year;
   String? description;

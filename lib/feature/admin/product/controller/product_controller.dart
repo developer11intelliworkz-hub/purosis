@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
 import 'package:purosis/feature/admin/product/model/product_model.dart';
@@ -17,10 +18,33 @@ class ProductController extends GetxController {
   SubCategoryModel? selectedSubCategoryModel;
   Map<String, dynamic> selectedFilter = {};
   List<ProductModel> productModelList = [];
+  List<ProductModel> productModelFilterList = [];
   bool isProductLoading = false;
   bool isProductDetailLoading = false;
   ProductDetailModel? productDetailModel;
   int selectedProductIndex = 0;
+
+  TextEditingController productSearchTEC = TextEditingController();
+
+  filterProduct(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = productModelList
+          .where(
+            (item) =>
+                (item.productName?.toLowerCase().contains(
+                  query.toLowerCase(),
+                ) ??
+                false),
+          )
+          .toList();
+      productModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      productModelFilterList.addAll(productModelList);
+      update();
+    }
+  }
 
   Future<List<ProductModel>> getProductApi({
     Map<String, dynamic>? queryParameters,
@@ -34,9 +58,11 @@ class ProductController extends GetxController {
         )
         .then((response) {
           productModelList.clear();
+          productModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               productModelList.add(ProductModel.fromJson(data));
+              productModelFilterList.add(ProductModel.fromJson(data));
             }
             isProductLoading = false;
             update();
@@ -46,7 +72,7 @@ class ProductController extends GetxController {
           isProductLoading = false;
           update();
         });
-    return productModelList;
+    return productModelFilterList;
   }
 
   Future<void> getProductDetailApi(String productId) async {

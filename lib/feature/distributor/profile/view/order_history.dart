@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/distributor/profile/controller/profile_controller.dart';
+import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
@@ -34,7 +35,7 @@ class _OrderHistoryState extends State<OrderHistory> {
         builder: (controller) {
           return controller.isOrderHistoryLoading
               ? CommonWidget.commonLoading()
-              : controller.orderHistoryModel == null
+              : controller.orderHistoryModelFilter == null
               ? CommonWidget.commonEmpty()
               : NestedScrollView(
                   headerSliverBuilder: (context, innerBoxIsScrolled) {
@@ -51,7 +52,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                       icon: AppImage.cartIcon,
                                       count:
                                           (controller
-                                                      .orderHistoryModel
+                                                      .orderHistoryModelFilter
                                                       ?.summary
                                                       ?.totalOrders ??
                                                   0)
@@ -65,7 +66,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                       icon: AppImage.cartIcon,
                                       count:
                                           (controller
-                                                      .orderHistoryModel
+                                                      .orderHistoryModelFilter
                                                       ?.summary
                                                       ?.pending ??
                                                   0)
@@ -82,7 +83,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                       icon: AppImage.cartIcon,
                                       count:
                                           (controller
-                                                      .orderHistoryModel
+                                                      .orderHistoryModelFilter
                                                       ?.summary
                                                       ?.confirm ??
                                                   0)
@@ -96,7 +97,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                       icon: AppImage.cartIcon,
                                       count:
                                           (controller
-                                                      .orderHistoryModel
+                                                      .orderHistoryModelFilter
                                                       ?.summary
                                                       ?.failed ??
                                                   0)
@@ -114,19 +115,24 @@ class _OrderHistoryState extends State<OrderHistory> {
                         pinned: true,
                         delegate: _SearchBarDelegate(
                           isAscending: controller.isLatest,
-                          onSortTap: () {
-                            controller.isLatest = !controller.isLatest;
-                          },
+                          onSortTap: controller.sortOrder,
+                          onChanged: controller.search,
                         ),
                       ),
                     ];
                   },
-                  body: (controller.orderHistoryModel?.orders?.isEmpty ?? true)
+                  body:
+                      (controller.orderHistoryModelFilter?.orders?.isEmpty ??
+                          true)
                       ? CommonWidget.commonEmpty()
                       : ListView.builder(
                           padding: EdgeInsets.all(8),
                           itemCount:
-                              controller.orderHistoryModel?.orders?.length ?? 0,
+                              controller
+                                  .orderHistoryModelFilter
+                                  ?.orders
+                                  ?.length ??
+                              0,
                           itemBuilder: (context, index) {
                             return Card(
                               child: Padding(
@@ -139,7 +145,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                         Expanded(
                                           child: AppText(
                                             text:
-                                                "#${controller.orderHistoryModel?.orders?[index].orderNumber ?? ""}",
+                                                "#${controller.orderHistoryModelFilter?.orders?[index].orderNumber ?? ""}",
                                             fontWeight: FontWeight.w700,
                                             fontSize: 16,
                                           ),
@@ -158,7 +164,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           child: AppText(
                                             text:
                                                 controller
-                                                    .orderHistoryModel
+                                                    .orderHistoryModelFilter
                                                     ?.orders?[index]
                                                     .shippingStatus ??
                                                 "",
@@ -175,7 +181,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                         AppText(
                                           text:
                                               controller
-                                                  .orderHistoryModel
+                                                  .orderHistoryModelFilter
                                                   ?.orders?[index]
                                                   .orderDate ??
                                               "",
@@ -191,21 +197,20 @@ class _OrderHistoryState extends State<OrderHistory> {
                                         SizedBox(width: 5),
                                         AppText(
                                           text:
-                                              "${controller.orderHistoryModel?.orders?[index].orderProductsCount ?? ""} Products",
+                                              "${controller.orderHistoryModelFilter?.orders?[index].orderProductsCount ?? ""} Products",
                                         ),
                                       ],
                                     ),
 
-                                    SizedBox(height: 5),
+                                    // SizedBox(height: 5),
 
-                                    Row(
-                                      children: [
-                                        Image.asset(AppImage.truckIcon),
-                                        SizedBox(width: 5),
-                                        AppText(text: "Blue Dart Express"),
-                                      ],
-                                    ),
-
+                                    // Row(
+                                    //   children: [
+                                    //     Image.asset(AppImage.truckIcon),
+                                    //     SizedBox(width: 5),
+                                    //     AppText(text: "Blue Dart Express"),
+                                    //   ],
+                                    // ),
                                     SizedBox(height: 10),
 
                                     Row(
@@ -213,7 +218,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                         AppText(text: "Total Weight: "),
                                         AppText(
                                           text:
-                                              "${controller.orderHistoryModel?.orders?[index].totalWeight ?? ""} Kg ",
+                                              "${controller.orderHistoryModelFilter?.orders?[index].totalWeight ?? ""} Kg ",
                                           fontWeight: FontWeight.w700,
                                         ),
                                         // AppText(text: "0.800 m", fontWeight: FontWeight.w400),
@@ -225,6 +230,15 @@ class _OrderHistoryState extends State<OrderHistory> {
                                     AppButton(
                                       text: "View Details",
                                       color: Color(0xFF8EBF1F),
+                                      onPressed: () {
+                                        Get.toNamed(
+                                          AppRoutes.orderDetail,
+                                          arguments: controller
+                                              .orderHistoryModelFilter
+                                              ?.orders?[index]
+                                              .id,
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -242,8 +256,13 @@ class _OrderHistoryState extends State<OrderHistory> {
 class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
   final bool isAscending;
   final VoidCallback onSortTap;
+  final ValueChanged<String>? onChanged;
 
-  _SearchBarDelegate({required this.isAscending, required this.onSortTap});
+  _SearchBarDelegate({
+    required this.isAscending,
+    required this.onSortTap,
+    this.onChanged,
+  });
 
   @override
   double get minExtent => 70;
@@ -258,13 +277,13 @@ class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Expanded(child: AppSearchField()),
+          Expanded(child: AppSearchField(onChanged: onChanged)),
           const SizedBox(width: 5),
 
           GestureDetector(
             onTap: onSortTap,
             child: Image.asset(
-              isAscending ? AppImage.shortArrowIcon : AppImage.imageIcon,
+              isAscending ? AppImage.shortArrowIcon : AppImage.shortArrow2Icon,
             ),
           ),
 

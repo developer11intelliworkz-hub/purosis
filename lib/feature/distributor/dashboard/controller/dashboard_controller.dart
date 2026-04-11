@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:purosis/feature/distributor/dashboard/view/dashboard_view.dart';
 import 'package:purosis/utils/api_service.dart';
 
 import '../../../../consts/app_url.dart';
+import '../../../../utils/app_toast.dart';
 import '../../marketing/model/posts_model.dart';
 import '../../marketing/model/reels_model.dart';
 import '../../marketing/view/marketing_assets_view.dart';
@@ -13,6 +15,7 @@ import '../../product/model/product_model.dart';
 import '../../product/view/product_view.dart';
 import '../../profile/view/profile_view.dart';
 import '../model/dashboard_data_model.dart';
+import '../model/notification_model.dart';
 
 class DashboardController extends GetxController {
   final ApiService apiService = ApiService();
@@ -32,6 +35,8 @@ class DashboardController extends GetxController {
   List<ReelsModel> reelsModelList = [];
   List<ProductModel> productModelList = [];
   DashboardDataModel? dashboardDataModel;
+  bool isNotificationLoading = false;
+  List<NotificationModel> notificationModelList = [];
 
   int selectedIndex = 0;
   bool isPostsLoading = false;
@@ -126,5 +131,48 @@ class DashboardController extends GetxController {
           update();
         });
     return productModelList;
+  }
+
+  Future<void> getNotificationApi() async {
+    isNotificationLoading = true;
+    await apiService
+        .get(AppUrl.getNotificationUrl)
+        .then((response) {
+          notificationModelList.clear();
+          if (response["success"] == true) {
+            for (final data in response['data']) {
+              notificationModelList.add(NotificationModel.fromJson(data));
+            }
+          }
+          isNotificationLoading = false;
+          update();
+        })
+        .catchError((value) {
+          AppToast.error();
+          isNotificationLoading = false;
+          update();
+        });
+  }
+
+  String formatSmartDate(String utcDate) {
+    DateTime localDate = DateTime.parse(utcDate);
+    DateTime now = DateTime.now();
+
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime yesterday = today.subtract(const Duration(days: 1));
+
+    DateTime inputDate = DateTime(
+      localDate.year,
+      localDate.month,
+      localDate.day,
+    );
+
+    if (inputDate == today) {
+      return "Today, ${DateFormat('hh:mm a').format(localDate)}";
+    } else if (inputDate == yesterday) {
+      return "Yesterday, ${DateFormat('hh:mm a').format(localDate)}";
+    } else {
+      return DateFormat('MMM dd, hh:mm a').format(localDate);
+    }
   }
 }

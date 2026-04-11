@@ -16,6 +16,7 @@ import '../../../../utils/commmon_function.dart';
 import '../model/brochures_model.dart';
 import '../../../../model/detail_model.dart';
 import '../model/leaflet_model.dart';
+import '../model/query/add_leaflet_query.dart';
 import '../model/query/add_reel_query.dart';
 
 class AddContentController extends GetxController {
@@ -34,10 +35,11 @@ class AddContentController extends GetxController {
   VideoModel? selectedVideo;
   GlobalKey<FormState> validationKey = GlobalKey();
   List<PlatformFile> selectedImages = [];
-  CategoryItem? selectedCategory;
+  ProductsModel? selectedCategory;
   CategoryItem? selectedType;
   String? selectedFileName;
   String? selectedMediaFileName;
+  bool isEditLeafletLoading = false;
 
   List<String> yearList = List.generate(
     2040 - 2015 + 1,
@@ -79,8 +81,7 @@ class AddContentController extends GetxController {
     selectedYear = value.year;
     selectedFileName = value.mediaFile?.split("/").last;
     descriptionTEC.text = value.description ?? "";
-    selectedCategory = (await CommonApi().getDetailApi()).brochureCategory
-        ?.firstWhere((e) => e.key == value.category);
+    selectedCategory = value.category;
     update();
   }
 
@@ -91,8 +92,7 @@ class AddContentController extends GetxController {
     selectedYear = value.year;
     selectedFileName = value.mediaFile?.split("/").last;
     descriptionTEC.text = value.description ?? "";
-    selectedCategory = (await CommonApi().getDetailApi()).postCategory
-        ?.firstWhere((e) => e.key == value.category);
+    selectedCategory = value.category;
     update();
   }
 
@@ -104,12 +104,12 @@ class AddContentController extends GetxController {
     selectedMediaFileName = value.mediaFile?.split("/").last;
     selectedFileName = value.thumbnailImage?.split("/").last;
     descriptionTEC.text = value.description ?? "";
-    selectedCategory = (await CommonApi().getDetailApi()).reelCategory
-        ?.firstWhere((e) => e.key == value.category);
+    selectedCategory = value.category;
     update();
   }
 
   setEditLeafletValue(LeafletModel value) async {
+    isEditLeafletLoading = true;
     selectedLeaflet = value;
     titleTEC.text = value.title ?? "";
     selectedMonth = value.month;
@@ -118,8 +118,8 @@ class AddContentController extends GetxController {
       selectedImages.add((await CommonFunction.urlToPlatformFile(data ?? "")));
     }
     descriptionTEC.text = value.description ?? "";
-    selectedCategory = (await CommonApi().getDetailApi()).brochureCategory
-        ?.firstWhere((e) => e.key == value.category);
+    selectedCategory = value.category;
+    isEditLeafletLoading = false;
     update();
   }
 
@@ -133,9 +133,7 @@ class AddContentController extends GetxController {
     descriptionTEC.text = value.description ?? "";
     final data = await CommonApi().getDetailApi();
     selectedType = data.videoType?.firstWhere((e) => e.key == value.type);
-    selectedCategory = data.videoCategory?.firstWhere(
-      (e) => e.key == value.category,
-    );
+    selectedCategory = value.category;
     update();
   }
 
@@ -145,7 +143,7 @@ class AddContentController extends GetxController {
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
       id: selectedBrochure?.id,
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -179,7 +177,7 @@ class AddContentController extends GetxController {
     AddBrochureQuery addBrochureQuery = AddBrochureQuery(
       id: selectedBrochure?.id,
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -212,7 +210,7 @@ class AddContentController extends GetxController {
     update();
     AddPostQuery addPostQuery = AddPostQuery(
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -237,13 +235,47 @@ class AddContentController extends GetxController {
         });
   }
 
+  Future<void> addLeafletApi() async {
+    isDataLoading = true;
+    update();
+    AddLeafletQuery addLeafletQuery = AddLeafletQuery(
+      leafletId: selectedLeaflet?.id,
+      title: titleTEC.text,
+      category: selectedCategory?.id,
+      month: selectedMonth,
+      year: selectedYear,
+      description: descriptionTEC.text,
+      isFeatured: 1,
+      mediaFiles: selectedImages,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.addUpdateLeafletUrl,
+          await addLeafletQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          } else {
+            AppToast.error();
+          }
+          isDataLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isDataLoading = false;
+          update();
+        });
+  }
+
   Future<void> editPostApi() async {
     isDataLoading = true;
     update();
     AddPostQuery addPostQuery = AddPostQuery(
       id: selectedPost?.id,
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -273,7 +305,7 @@ class AddContentController extends GetxController {
     update();
     AddReelQuery addReelQuery = AddReelQuery(
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -305,7 +337,7 @@ class AddContentController extends GetxController {
     AddReelQuery addReelQuery = AddReelQuery(
       id: selectedReel?.id,
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       month: selectedMonth,
       year: selectedYear,
       description: descriptionTEC.text,
@@ -337,7 +369,7 @@ class AddContentController extends GetxController {
     AddVideoQuery addVideoQuery = AddVideoQuery(
       videoId: selectedVideo?.id,
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       type: selectedType?.key,
       month: selectedMonth,
       year: selectedYear,
@@ -373,7 +405,7 @@ class AddContentController extends GetxController {
     AddVideoQuery addVideoQuery = AddVideoQuery(
       videoId: selectedVideo?.id,
       title: titleTEC.text,
-      category: selectedCategory?.key,
+      category: selectedCategory?.id,
       type: selectedType?.key,
       month: selectedMonth,
       year: selectedYear,

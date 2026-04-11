@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/widget/app_text.dart';
+import 'package:purosis/widget/common_widget.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
@@ -8,11 +9,12 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CommonWidget.appAppBar(title: "Notification"),
       body: true
           ? ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
+                  color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                       vertical: 20,

@@ -31,7 +31,7 @@ class _FilterMarketingWidgetState extends State<FilterMarketingWidget> {
     "December",
   ];
 
-  List<String> selectedCategories = [];
+  List<int> selectedCategories = [];
   List<String> selectedType = [];
   List<int> selectedYear = [];
   List<String> selectedMonth = [];
@@ -48,7 +48,7 @@ class _FilterMarketingWidgetState extends State<FilterMarketingWidget> {
     //because we need to modify the map
     //-----------------------------
     selectedValue = {
-      "categories": List<String>.from(passArguments?["categories"] ?? []),
+      "categories": List<int>.from(passArguments?["categories"] ?? []),
       "years": List<int>.from(passArguments?["years"] ?? []),
       "months": List<String>.from(passArguments?["months"] ?? []),
       "type": List<String>.from(passArguments?["type"] ?? []),
@@ -202,21 +202,22 @@ class _FilterMarketingWidgetState extends State<FilterMarketingWidget> {
           if (asyncSnapshot.data == null) {
             return Center(child: CommonWidget.commonLoading());
           }
-          List<CategoryItem> categoriesData = [];
-          if (widget.typeOfCategories == "post") {
-            categoriesData = asyncSnapshot.data?.postCategory ?? [];
-          } else if (widget.typeOfCategories == "reel") {
-            categoriesData = asyncSnapshot.data?.reelCategory ?? [];
-          } else if (widget.typeOfCategories == "video") {
-            categoriesData = asyncSnapshot.data?.videoCategory ?? [];
-          } else if (widget.typeOfCategories == "brochures") {
-            categoriesData = asyncSnapshot.data?.brochureCategory ?? [];
-          }
+          List<ProductsModel> categoriesData =
+              asyncSnapshot.data?.products ?? [];
+          // if (widget.typeOfCategories == "post") {
+          //   categoriesData = asyncSnapshot.data?.postCategory ?? [];
+          // } else if (widget.typeOfCategories == "reel") {
+          //   categoriesData = asyncSnapshot.data?.reelCategory ?? [];
+          // } else if (widget.typeOfCategories == "video") {
+          //   categoriesData = asyncSnapshot.data?.videoCategory ?? [];
+          // } else if (widget.typeOfCategories == "brochures") {
+          //   categoriesData = asyncSnapshot.data?.brochureCategory ?? [];
+          // }
           return ListView.builder(
             padding: const EdgeInsets.all(12),
             itemCount: asyncSnapshot.data?.postCategory?.length ?? 0,
             itemBuilder: (context, index) {
-              String? item = categoriesData[index].key;
+              int? item = categoriesData[index].id;
               bool isSelected = selectedCategories.contains(item);
 
               return CheckboxListTile(
@@ -225,13 +226,13 @@ class _FilterMarketingWidgetState extends State<FilterMarketingWidget> {
                 onChanged: (value) {
                   setState(() {
                     if (value == true) {
-                      selectedCategories.add(item ?? "");
+                      selectedCategories.add(item ?? -1);
                     } else {
                       selectedCategories.remove(item);
                     }
                   });
                 },
-                title: Text(categoriesData[index].value ?? ""),
+                title: Text(categoriesData[index].productName ?? ""),
                 controlAffinity: ListTileControlAffinity.leading,
                 contentPadding: EdgeInsets.zero,
               );

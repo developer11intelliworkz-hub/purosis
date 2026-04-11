@@ -25,10 +25,15 @@ class MarketingController extends GetxController {
   bool isVideoLoading = false;
   bool isLeafletLoading = false;
   List<BrochuresModel> brochuresModelList = [];
+  List<BrochuresModel> brochuresModelFilterList = [];
   List<PostsModel> postsModelList = [];
+  List<PostsModel> postsModelFilterList = [];
   List<ReelsModel> reelsModelList = [];
+  List<ReelsModel> reelsModelFilterList = [];
   List<LeafletModel> leafletModelList = [];
+  List<LeafletModel> leafletModelFilterList = [];
   List<VideoModel> videoModelList = [];
+  List<VideoModel> videoModelFilterList = [];
   Map<String, dynamic>? filterPostSelectedValue = {};
   Map<String, dynamic>? filterReelSelectedValue = {};
   Map<String, dynamic>? filterVideoSelectedValue = {};
@@ -40,6 +45,12 @@ class MarketingController extends GetxController {
   TextEditingController callTEC = TextEditingController();
   TextEditingController whatsAppTEC = TextEditingController();
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
+
+  TextEditingController brochureSearchTEC = TextEditingController();
+  TextEditingController postSearchTEC = TextEditingController();
+  TextEditingController reelSearchTEC = TextEditingController();
+  TextEditingController leafletSearchTEC = TextEditingController();
+  TextEditingController videoSearchTEC = TextEditingController();
 
   fetchProfileData() {
     userModel = UserModel.fromJson(storage.read(StorageKeys.userData));
@@ -62,6 +73,101 @@ class MarketingController extends GetxController {
     }
   }
 
+  filterBrochure(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = brochuresModelList
+          .where(
+            (item) =>
+                (item.title?.toLowerCase().contains(query.toLowerCase()) ??
+                false),
+          )
+          .toList();
+      brochuresModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      brochuresModelFilterList.clear();
+      brochuresModelFilterList.addAll(brochuresModelList);
+      update();
+    }
+  }
+
+  filterPosts(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = postsModelList
+          .where(
+            (item) =>
+                (item.title?.toLowerCase().contains(query.toLowerCase()) ??
+                false),
+          )
+          .toList();
+      postsModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      postsModelFilterList.clear();
+      postsModelFilterList.addAll(postsModelList);
+      update();
+    }
+  }
+
+  filterReel(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = reelsModelList
+          .where(
+            (item) =>
+                (item.title?.toLowerCase().contains(query.toLowerCase()) ??
+                false),
+          )
+          .toList();
+      reelsModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      reelsModelFilterList.clear();
+      reelsModelFilterList.addAll(reelsModelList);
+      update();
+    }
+  }
+
+  filterLeaflet(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = leafletModelList
+          .where(
+            (item) =>
+                (item.title?.toLowerCase().contains(query.toLowerCase()) ??
+                false),
+          )
+          .toList();
+      leafletModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      leafletModelFilterList.clear();
+      leafletModelFilterList.addAll(leafletModelList);
+      update();
+    }
+  }
+
+  filterVideo(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = videoModelList
+          .where(
+            (item) =>
+                (item.title?.toLowerCase().contains(query.toLowerCase()) ??
+                false),
+          )
+          .toList();
+      videoModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      videoModelFilterList.clear();
+      videoModelFilterList.addAll(videoModelList);
+      update();
+    }
+  }
+
   Future<void> getBrochuresApi({Map<String, dynamic>? queryParameters}) async {
     isBrochuresLoading = true;
     update();
@@ -72,9 +178,11 @@ class MarketingController extends GetxController {
         )
         .then((response) {
           brochuresModelList.clear();
+          brochuresModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               brochuresModelList.add(BrochuresModel.fromJson(data));
+              brochuresModelFilterList.add(BrochuresModel.fromJson(data));
             }
           }
           isBrochuresLoading = false;
@@ -96,9 +204,11 @@ class MarketingController extends GetxController {
         )
         .then((response) {
           postsModelList.clear();
+          postsModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               postsModelList.add(PostsModel.fromJson(data));
+              postsModelFilterList.add(PostsModel.fromJson(data));
             }
           }
           isPostsLoading = false;
@@ -120,9 +230,11 @@ class MarketingController extends GetxController {
         )
         .then((response) {
           reelsModelList.clear();
+          reelsModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               reelsModelList.add(ReelsModel.fromJson(data));
+              reelsModelFilterList.add(ReelsModel.fromJson(data));
             }
           }
           isReelsLoading = false;
@@ -144,9 +256,11 @@ class MarketingController extends GetxController {
         )
         .then((response) {
           leafletModelList.clear();
+          leafletModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               leafletModelList.add(LeafletModel.fromJson(data));
+              leafletModelFilterList.add(LeafletModel.fromJson(data));
             }
           }
           isLeafletLoading = false;
@@ -163,14 +277,16 @@ class MarketingController extends GetxController {
     update();
     await apiService
         .get(
-          AppUrl.getVideoUrl,
+          AppUrl.getVideosUserUrl,
           queryParameters: {"filter": jsonEncode(queryParameters)},
         )
         .then((response) {
           videoModelList.clear();
+          videoModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               videoModelList.add(VideoModel.fromJson(data));
+              videoModelFilterList.add(VideoModel.fromJson(data));
             }
           }
           isVideoLoading = false;

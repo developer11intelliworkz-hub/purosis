@@ -109,50 +109,60 @@ class _DealerProfileViewState extends State<DealerProfileView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AppText(
-                        text: "Dashboard",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: AppText(
+                          text: "Dashboard",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
                       ),
                       SizedBox(height: 15),
                       Divider(),
+                      // SizedBox(height: 15),
+                      // AppText(
+                      //   text: "Brochure",
+                      //   fontWeight: FontWeight.w400,
+                      //   fontSize: 14,
+                      // ),
+                      // SizedBox(height: 15),
+                      // Divider(),
+                      // SizedBox(height: 15),
+                      // AppText(
+                      //   text: "Video",
+                      //   fontWeight: FontWeight.w400,
+                      //   fontSize: 14,
+                      // ),
+                      // SizedBox(height: 15),
+                      // Divider(),
+                      // SizedBox(height: 15),
+                      // AppText(
+                      //   text: "Reel",
+                      //   fontWeight: FontWeight.w400,
+                      //   fontSize: 14,
+                      // ),
+                      // SizedBox(height: 15),
+                      // Divider(),
+                      // SizedBox(height: 15),
+                      // AppText(
+                      //   text: "Leaflet",
+                      //   fontWeight: FontWeight.w400,
+                      //   fontSize: 14,
+                      // ),
+                      // SizedBox(height: 15),
+                      // Divider(),
                       SizedBox(height: 15),
-                      AppText(
-                        text: "Brochure",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                      ),
-                      SizedBox(height: 15),
-                      Divider(),
-                      SizedBox(height: 15),
-                      AppText(
-                        text: "Video",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                      ),
-                      SizedBox(height: 15),
-                      Divider(),
-                      SizedBox(height: 15),
-                      AppText(
-                        text: "Reel",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                      ),
-                      SizedBox(height: 15),
-                      Divider(),
-                      SizedBox(height: 15),
-                      AppText(
-                        text: "Leaflet",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                      ),
-                      SizedBox(height: 15),
-                      Divider(),
-                      SizedBox(height: 15),
-                      AppText(
-                        text: "Profile",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.editProfileDealer);
+                        },
+                        child: AppText(
+                          text: "Profile",
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
                       ),
                       SizedBox(height: 15),
                       Divider(),

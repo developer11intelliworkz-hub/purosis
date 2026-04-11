@@ -11,10 +11,24 @@ class ReelsModel {
     this.isFeatured,
   });
 
+  num? id;
+  String? title;
+  CategoryModel? category;
+  String? mediaFile;
+  String? thumbnailImage;
+  String? month;
+  String? year;
+  String? description;
+  num? isFeatured;
+
   ReelsModel.fromJson(dynamic json) {
     id = json['id'];
     title = json['title'];
-    category = json['category'];
+
+    category = json['category'] != null
+        ? CategoryModel.fromJson(json['category'])
+        : null;
+
     mediaFile = json['media_file'];
     thumbnailImage = json['thumbnail_image'];
     month = json['month'];
@@ -23,27 +37,41 @@ class ReelsModel {
     isFeatured = json['is_featured'];
   }
 
-  num? id;
-  String? title;
-  String? category;
-  String? mediaFile;
-  String? thumbnailImage;
-  String? month;
-  String? year;
-  String? description;
-  num? isFeatured;
-
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['title'] = title;
-    map['category'] = category;
+
+    if (category != null) {
+      map['category'] = category!.toJson();
+    }
+
     map['media_file'] = mediaFile;
     map['thumbnail_image'] = thumbnailImage;
     map['month'] = month;
     map['year'] = year;
     map['description'] = description;
     map['is_featured'] = isFeatured;
+
+    return map;
+  }
+}
+
+class CategoryModel {
+  num? id;
+  String? productName;
+
+  CategoryModel({this.id, this.productName});
+
+  CategoryModel.fromJson(dynamic json) {
+    id = json['id'];
+    productName = json['product_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['product_name'] = productName;
     return map;
   }
 }

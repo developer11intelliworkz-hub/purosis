@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_image_view.dart';
-import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -40,7 +39,6 @@ class _MarketingContentState extends State<MarketingContent> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
                 SizedBox(height: 5),
                 Row(
                   children: [

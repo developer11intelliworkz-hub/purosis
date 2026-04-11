@@ -27,12 +27,15 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.reelSearchTEC,
+                  onChanged: controller.filterReel,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isReelsLoading
                       ? CommonWidget.commonLoading()
-                      : controller.reelsModelList.isEmpty
+                      : controller.reelsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getReelApi(),
@@ -44,7 +47,7 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.reelsModelList.length,
+                            itemCount: controller.reelsModelFilterList.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
@@ -58,7 +61,7 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
                                         child: AppImageView(
                                           width: double.maxFinite,
                                           imageUrl: controller
-                                              .reelsModelList[index]
+                                              .reelsModelFilterList[index]
                                               .thumbnailImage,
                                           fit: BoxFit.fill,
                                         ),
@@ -72,14 +75,14 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .reelsModelList[index]
+                                                      .reelsModelFilterList[index]
                                                       .title ??
                                                   "",
                                               fontWeight: FontWeight.w700,
                                             ),
                                             AppText(
                                               text:
-                                                  "${controller.reelsModelList[index].month ?? ""} ${controller.reelsModelList[index].year ?? ""}",
+                                                  "${controller.reelsModelFilterList[index].month ?? ""} ${controller.reelsModelFilterList[index].year ?? ""}",
                                               fontWeight: FontWeight.w700,
                                               color: Colors.grey,
                                             ),

@@ -48,6 +48,11 @@ class NotificationHandler {
     }
   }
 
+  static Future<String?> getFCMToken() async {
+    String? token = await _messaging.getToken();
+    return token;
+  }
+
   /// 🔔 Local Notification (Foreground UI)
   static Future<void> _initLocalNotifications() async {
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');

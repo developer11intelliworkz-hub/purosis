@@ -16,7 +16,7 @@ class ReelsView extends StatefulWidget {
 }
 
 class _ReelsViewState extends State<ReelsView> {
-  MarketingController marketingController = Get.find();
+  final MarketingController marketingController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,15 @@ class _ReelsViewState extends State<ReelsView> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.reelSearchTEC,
+                  onChanged: controller.filterReel,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isReelsLoading
                       ? CommonWidget.commonLoading()
-                      : controller.reelsModelList.isEmpty
+                      : controller.reelsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getReelApi(),
@@ -46,13 +49,14 @@ class _ReelsViewState extends State<ReelsView> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.reelsModelList.length,
+                            itemCount: controller.reelsModelFilterList.length,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
                                   Get.toNamed(
                                     AppRoutes.editReel,
-                                    arguments: controller.reelsModelList[index],
+                                    arguments:
+                                        controller.reelsModelFilterList[index],
                                   );
                                 },
                                 child: Card(
@@ -67,7 +71,7 @@ class _ReelsViewState extends State<ReelsView> {
                                           child: AppImageView(
                                             width: double.maxFinite,
                                             imageUrl: controller
-                                                .reelsModelList[index]
+                                                .reelsModelFilterList[index]
                                                 .thumbnailImage,
                                             fit: BoxFit.fill,
                                           ),
@@ -81,14 +85,14 @@ class _ReelsViewState extends State<ReelsView> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .reelsModelList[index]
+                                                        .reelsModelFilterList[index]
                                                         .title ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
                                               ),
                                               AppText(
                                                 text:
-                                                    "${controller.reelsModelList[index].month ?? ""} ${controller.reelsModelList[index].year ?? ""}",
+                                                    "${controller.reelsModelFilterList[index].month ?? ""} ${controller.reelsModelFilterList[index].year ?? ""}",
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey,
                                               ),

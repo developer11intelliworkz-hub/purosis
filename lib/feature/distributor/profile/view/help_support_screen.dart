@@ -9,6 +9,7 @@ import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../utils/common_api.dart';
 import '../controller/profile_controller.dart';
 
 class HelpSupportScreen extends StatefulWidget {
@@ -25,6 +26,12 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
   void initState() {
     profileController.getSupportDetailApi();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    profileController.resetData();
+    super.dispose();
   }
 
   @override
@@ -153,38 +160,57 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             vertical: 20,
                             horizontal: 10,
                           ),
-                          child: Column(
-                            children: [
-                              AppTextField(
-                                labelText: "Subject",
-                                controller: controller.subjectTEC,
-                                validator: CommonValidation.fieldValidation,
-                              ),
-                              SizedBox(height: 10),
-                              AppDropDown(
-                                label: "Category",
-                                items: (p0, p1) => [],
-                                compareFn: (p0, p1) => p0 == p1,
-                              ),
-                              SizedBox(height: 10),
-                              AppTextField(
-                                labelText: "Message",
-                                hintText:
-                                    "Please describe your question or issue",
-                                controller: controller.messageTEC,
-                                validator: CommonValidation.dropdownValidation,
-                              ),
-                              SizedBox(height: 10),
-                              AppButton(
-                                text: "Send",
-                                isLoading:
-                                    controller.isSendSupportMessageLoading,
-                                color: Color(0xFF8eBF1F),
-                                onPressed: () {
-                                  controller.sendSupportMessageApi();
-                                },
-                              ),
-                            ],
+                          child: Form(
+                            key: controller.supportValidationKey,
+                            child: Column(
+                              children: [
+                                AppTextField(
+                                  labelText: "Subject",
+                                  controller: controller.subjectTEC,
+                                  validator: CommonValidation.fieldValidation,
+                                ),
+                                SizedBox(height: 10),
+                                AppDropDown(
+                                  label: "Category",
+                                  items: (p0, p1) async =>
+                                      (await CommonApi().getDetailApi())
+                                          .products ??
+                                      [],
+                                  compareFn: (p0, p1) =>
+                                      p0.productName == p1.productName,
+                                  itemAsString: (p0) => p0.productName,
+                                  onChanged: (value) {
+                                    controller.selectedCategory = value;
+                                  },
+                                ),
+                                SizedBox(height: 10),
+                                AppTextField(
+                                  labelText: "Message",
+                                  hintText:
+                                      "Please describe your question or issue",
+                                  controller: controller.messageTEC,
+                                  maxLines: 3,
+                                  validator:
+                                      CommonValidation.dropdownValidation,
+                                ),
+                                SizedBox(height: 10),
+                                AppButton(
+                                  text: "Send",
+                                  isLoading:
+                                      controller.isSendSupportMessageLoading,
+                                  color: Color(0xFF8eBF1F),
+                                  onPressed: () {
+                                    if (controller
+                                            .supportValidationKey
+                                            .currentState
+                                            ?.validate() ??
+                                        false) {
+                                      controller.sendSupportMessageApi();
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

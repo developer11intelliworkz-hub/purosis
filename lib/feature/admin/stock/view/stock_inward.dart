@@ -47,6 +47,7 @@ class StockInward extends StatelessWidget {
                   AppButton(
                     text: "Submit",
                     color: Color(0xFF8EBF1F),
+                    isLoading: controller.isDataLoading,
                     onPressed: () {
                       if (controller.validationKey.currentState?.validate() ??
                           false) {

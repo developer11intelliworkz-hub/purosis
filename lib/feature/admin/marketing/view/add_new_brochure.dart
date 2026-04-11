@@ -36,10 +36,9 @@ class AddNewBrochure extends StatelessWidget {
                   AppDropDown(
                     label: "Category",
                     items: (p0, p1) async =>
-                        (await CommonApi().getDetailApi()).brochureCategory ??
-                        [],
-                    compareFn: (p0, p1) => p0.value == p1.value,
-                    itemAsString: (p0) => p0.value,
+                        (await CommonApi().getDetailApi()).products ?? [],
+                    compareFn: (p0, p1) => p0.productName == p1.productName,
+                    itemAsString: (p0) => p0.productName,
                     onChanged: (value) {
                       controller.selectedCategory = value;
                     },

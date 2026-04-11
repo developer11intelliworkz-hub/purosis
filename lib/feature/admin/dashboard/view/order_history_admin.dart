@@ -50,7 +50,7 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                       child: Image.asset(
                         controller.isLatest
                             ? AppImage.shortArrowIcon
-                            : AppImage.imageIcon,
+                            : AppImage.shortArrow2Icon,
                       ),
                     ),
                     SizedBox(width: 5),

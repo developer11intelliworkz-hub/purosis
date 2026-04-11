@@ -16,7 +16,7 @@ class SocialMediaPost extends StatefulWidget {
 }
 
 class _SocialMediaPostState extends State<SocialMediaPost> {
-  MarketingController marketingController = Get.find();
+  final MarketingController marketingController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,15 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.postSearchTEC,
+                  onChanged: controller.filterPosts,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isPostsLoading
                       ? CommonWidget.commonLoading()
-                      : controller.postsModelList.isEmpty
+                      : controller.postsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getPostsApi(),
@@ -46,13 +49,14 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.postsModelList.length,
+                            itemCount: controller.postsModelFilterList.length,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
                                   Get.toNamed(
                                     AppRoutes.editPost,
-                                    arguments: controller.postsModelList[index],
+                                    arguments:
+                                        controller.postsModelFilterList[index],
                                   );
                                 },
                                 child: Card(
@@ -67,7 +71,7 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                           child: AppImageView(
                                             width: double.maxFinite,
                                             imageUrl: controller
-                                                .postsModelList[index]
+                                                .postsModelFilterList[index]
                                                 .mediaFile,
                                             fit: BoxFit.fill,
                                           ),
@@ -81,14 +85,14 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .postsModelList[index]
+                                                        .postsModelFilterList[index]
                                                         .title ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
                                               ),
                                               AppText(
                                                 text:
-                                                    "${controller.postsModelList[index].month ?? ""} ${controller.postsModelList[index].year ?? ""}",
+                                                    "${controller.postsModelFilterList[index].month ?? ""} ${controller.postsModelFilterList[index].year ?? ""}",
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey,
                                               ),

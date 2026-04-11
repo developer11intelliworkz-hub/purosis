@@ -140,7 +140,12 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                       SizedBox(height: 10),
                       Divider(),
                       SizedBox(height: 10),
-                      AppText(text: "Notifications"),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.notificationScreen);
+                        },
+                        child: AppText(text: "Notifications"),
+                      ),
                       SizedBox(height: 10),
                       Divider(),
                       SizedBox(height: 10),

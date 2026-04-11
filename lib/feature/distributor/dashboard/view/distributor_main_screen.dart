@@ -33,7 +33,9 @@ class _DistributorMainScreenState extends State<DistributorMainScreen> {
                 icon: Image.asset(AppImage.cart3Icon, color: Colors.grey),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(AppRoutes.notificationScreenDistributor);
+                },
                 icon: Image.asset(
                   AppImage.notificationIcon,
                   color: Colors.grey,

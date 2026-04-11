@@ -28,7 +28,7 @@ class AddReelQuery {
 
   num? id;
   String? title;
-  String? category;
+  int? category;
   String? month;
   String? year;
   PlatformFile? mediaFile;

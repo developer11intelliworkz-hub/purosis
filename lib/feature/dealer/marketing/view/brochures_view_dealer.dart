@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
-import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -33,36 +31,41 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: AppSearchField()),
-                    AppBadgeWidget(
-                      showBadge:
-                          controller.filterBrochuresSelectedValue?.isNotEmpty ??
-                          false,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            AppRoutes.filterMarketingBrochures,
-                            arguments: controller.filterBrochuresSelectedValue,
-                          )?.then((value) {
-                            if (value != null) {
-                              controller.filterBrochuresSelectedValue = value;
-                              controller.getBrochuresApi(
-                                queryParameters:
-                                    controller.filterBrochuresSelectedValue,
-                              );
-                            }
-                          });
-                        },
-                        icon: Icon(Icons.tune),
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.brochureSearchTEC,
+                        onChanged: controller.filterBrochure,
                       ),
                     ),
+                    // AppBadgeWidget(
+                    //   showBadge:
+                    //       controller.filterBrochuresSelectedValue?.isNotEmpty ??
+                    //       false,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       Get.toNamed(
+                    //         AppRoutes.filterMarketingBrochures,
+                    //         arguments: controller.filterBrochuresSelectedValue,
+                    //       )?.then((value) {
+                    //         if (value != null) {
+                    //           controller.filterBrochuresSelectedValue = value;
+                    //           controller.getBrochuresApi(
+                    //             queryParameters:
+                    //                 controller.filterBrochuresSelectedValue,
+                    //           );
+                    //         }
+                    //       });
+                    //     },
+                    //     icon: Icon(Icons.tune),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isBrochuresLoading
                       ? CommonWidget.commonLoading()
-                      : controller.brochuresModelList.isEmpty
+                      : controller.brochuresModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async =>
@@ -102,14 +105,14 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .brochuresModelList[index]
+                                                        .brochuresModelFilterList[index]
                                                         .title ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
                                               ),
                                               AppText(
                                                 text:
-                                                    "${controller.brochuresModelList[index].month} ${controller.brochuresModelList[index].year}",
+                                                    "${controller.brochuresModelFilterList[index].month} ${controller.brochuresModelFilterList[index].year}",
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey,
                                               ),
@@ -118,7 +121,7 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
                                                 onTap: () async {
                                                   await launchUrlString(
                                                     controller
-                                                            .brochuresModelList[index]
+                                                            .brochuresModelFilterList[index]
                                                             .mediaFile ??
                                                         "",
                                                   );
@@ -161,7 +164,8 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
                                 ),
                               );
                             },
-                            itemCount: controller.brochuresModelList.length,
+                            itemCount:
+                                controller.brochuresModelFilterList.length,
                           ),
                         ),
                 ),

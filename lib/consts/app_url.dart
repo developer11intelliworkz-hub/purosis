@@ -1,6 +1,6 @@
 class AppUrl {
-  static const String _baseUrl = "http://192.168.0.57";
-  static const String baseUrlApi = "$_baseUrl/purosis_laravel_app/public/api/";
+  static const String _baseUrl = "http://intelliworkz.co";
+  static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
 
   static const String sendOTPUrl = "/admin/send-otp";
   static const String verifyOTPUrl = "/admin/verify-otp";
@@ -14,6 +14,7 @@ class AppUrl {
   static const String getBrochuresUrl = "/admin/get-brochures";
   static const String addUpdateBrochureUrl = "/admin/add-update-brochure";
   static const String addUpdatePostUrl = "/admin/add-update-post";
+  static const String addUpdateLeafletUrl = "/admin/add-update-leaflet";
   static const String getPostUrl = "/admin/get-posts";
   static const String addUpdateReelUrl = "/admin/add-update-reel";
   static const String getReelsUrl = "/admin/get-reels";
@@ -21,6 +22,8 @@ class AppUrl {
   static const String getVideoUrl = "/admin/get-videos";
   static const String getLeafletsUrl = "/admin/get-leaflets";
   static const String inwardStockUrl = "/admin/stock-inward";
+  static const String updateStockUrl = "admin/update-stock";
+  static const String deleteStockUrl = "admin/delete-stock";
   static const String outwardStockUrl = "/admin/stock-outward";
   static const String addUpdateUserUrl = "/admin/add-update-distributor";
   static const String getUserUrl = "/admin/get-distributor";
@@ -39,6 +42,7 @@ class AppUrl {
   static const String getBannerUrl = "/admin/get-banners";
   static const String deleteBannerUrl = "/admin/delete-banner";
   static const String activityLogsUrl = "/admin/user-activity-logs";
+  static const String getStockDetailUrl = "/admin/get-stock-details";
 
   // static const String getPostDistributorUrl = "/distributor/get-posts";
   // static const String getBrochureDistributorUrl = "/distributor/get-brochures";
@@ -53,7 +57,9 @@ class AppUrl {
   static const String getCartUrl = "/distributor/view-cart";
   static const String placeOrderUrl = "/distributor/place-order";
   static const String getOrderHistoryUrl = "/distributor/order-history";
+  static const String getOrderHistoryDetailUrl = "/distributor/order-details";
   static const String deleteCartUrl = "/distributor/delete-cart";
+  static const String getNotificationUrl = "/distributor/get-notifications";
   static const String sendSupportMessageUrl =
       "/distributor/support-message-inquiry";
 

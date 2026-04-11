@@ -5,6 +5,7 @@ class DetailModel {
   List<CategoryItem>? videoCategory;
   List<CategoryItem>? videoType;
   List<CategoryItem>? shippingStatus;
+  List<ProductsModel>? products;
   List<String>? userTypes;
 
   DetailModel({
@@ -14,37 +15,38 @@ class DetailModel {
     this.videoCategory,
     this.videoType,
     this.shippingStatus,
+    this.products,
     this.userTypes,
   });
 
   DetailModel.fromJson(Map<String, dynamic> json) {
-    if (json['brochure_category'] != null) {
-      brochureCategory = [];
-      json['brochure_category'].forEach((v) {
-        brochureCategory!.add(CategoryItem.fromJson(v));
-      });
-    }
+    // if (json['brochure_category'] != null) {
+    //   brochureCategory = [];
+    //   json['brochure_category'].forEach((v) {
+    //     brochureCategory!.add(CategoryItem.fromJson(v));
+    //   });
+    // }
 
-    if (json['post_category'] != null) {
-      postCategory = [];
-      json['post_category'].forEach((v) {
-        postCategory!.add(CategoryItem.fromJson(v));
-      });
-    }
+    // if (json['post_category'] != null) {
+    //   postCategory = [];
+    //   json['post_category'].forEach((v) {
+    //     postCategory!.add(CategoryItem.fromJson(v));
+    //   });
+    // }
 
-    if (json['reel_category'] != null) {
-      reelCategory = [];
-      json['reel_category'].forEach((v) {
-        reelCategory!.add(CategoryItem.fromJson(v));
-      });
-    }
+    // if (json['reel_category'] != null) {
+    //   reelCategory = [];
+    //   json['reel_category'].forEach((v) {
+    //     reelCategory!.add(CategoryItem.fromJson(v));
+    //   });
+    // }
 
-    if (json['video_category'] != null) {
-      videoCategory = [];
-      json['video_category'].forEach((v) {
-        videoCategory!.add(CategoryItem.fromJson(v));
-      });
-    }
+    // if (json['video_category'] != null) {
+    //   videoCategory = [];
+    //   json['video_category'].forEach((v) {
+    //     videoCategory!.add(CategoryItem.fromJson(v));
+    //   });
+    // }
 
     if (json['video_type'] != null) {
       videoType = [];
@@ -57,6 +59,13 @@ class DetailModel {
       shippingStatus = [];
       json['shipping_status'].forEach((v) {
         shippingStatus!.add(CategoryItem.fromJson(v));
+      });
+    }
+
+    if (json['products'] != null) {
+      products = [];
+      json['products'].forEach((v) {
+        products!.add(ProductsModel.fromJson(v));
       });
     }
 
@@ -94,6 +103,10 @@ class DetailModel {
       data['shipping_status'] = shippingStatus!.map((v) => v.toJson()).toList();
     }
 
+    if (shippingStatus != null) {
+      data['products'] = products!.map((v) => v.toJson()).toList();
+    }
+
     if (userTypes != null) {
       data['user_types'] = userTypes;
     }
@@ -118,5 +131,21 @@ class CategoryItem {
     data['key'] = key;
     data['value'] = value;
     return data;
+  }
+}
+
+class ProductsModel {
+  int? id;
+  String? productName;
+
+  ProductsModel({this.id, this.productName});
+
+  ProductsModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productName = json['product_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'product_name': productName};
   }
 }

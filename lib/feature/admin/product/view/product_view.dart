@@ -16,7 +16,7 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  ProductController productController = ProductController();
+  final ProductController productController = ProductController();
 
   @override
   void initState() {
@@ -36,7 +36,12 @@ class _ProductViewState extends State<ProductView> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: AppSearchField()),
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.productSearchTEC,
+                        onChanged: controller.filterProduct,
+                      ),
+                    ),
                     Badge(
                       smallSize: 8,
                       isLabelVisible: controller.selectedFilter.isNotEmpty,
@@ -64,7 +69,7 @@ class _ProductViewState extends State<ProductView> {
                 Expanded(
                   child: controller.isProductLoading
                       ? CommonWidget.commonLoading()
-                      : controller.productModelList.isEmpty
+                      : controller.productModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () => controller.getProductApi(
@@ -77,7 +82,7 @@ class _ProductViewState extends State<ProductView> {
                                   Get.toNamed(
                                     AppRoutes.productDetailView,
                                     arguments: controller
-                                        .productModelList[index]
+                                        .productModelFilterList[index]
                                         .id
                                         .toString(),
                                   );
@@ -95,14 +100,14 @@ class _ProductViewState extends State<ProductView> {
                                           child: AppImageView(
                                             imageUrl:
                                                 (controller
-                                                        .productModelList[index]
+                                                        .productModelFilterList[index]
                                                         .productColorsImages
                                                         ?.firstOrNull
                                                         ?.images
                                                         ?.isNotEmpty ??
                                                     false)
                                                 ? controller
-                                                      .productModelList[index]
+                                                      .productModelFilterList[index]
                                                       .productColorsImages
                                                       ?.first
                                                       .images
@@ -121,7 +126,7 @@ class _ProductViewState extends State<ProductView> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .productModelList[index]
+                                                        .productModelFilterList[index]
                                                         .productName ??
                                                     "",
                                                 maxLines: 1,
@@ -130,7 +135,7 @@ class _ProductViewState extends State<ProductView> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .productModelList[index]
+                                                        .productModelFilterList[index]
                                                         .productDescription ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
@@ -161,7 +166,7 @@ class _ProductViewState extends State<ProductView> {
                                 ),
                               );
                             },
-                            itemCount: controller.productModelList.length,
+                            itemCount: controller.productModelFilterList.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,

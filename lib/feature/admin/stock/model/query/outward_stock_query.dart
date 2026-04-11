@@ -10,9 +10,9 @@ class OutwardStockQuery {
     notes = json['notes'];
   }
 
-  String? itemId;
+  int? itemId;
   String? qty;
-  String? distributorId;
+  int? distributorId;
   String? notes;
 
   Map<String, dynamic> toJson() {

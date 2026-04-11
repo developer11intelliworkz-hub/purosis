@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -40,36 +38,41 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: AppSearchField()),
-                    AppBadgeWidget(
-                      showBadge:
-                          controller.filterVideoSelectedValue?.isNotEmpty ??
-                          false,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            AppRoutes.filterMarketingVideo,
-                            arguments: controller.filterVideoSelectedValue,
-                          )?.then((value) {
-                            if (value != null) {
-                              controller.filterVideoSelectedValue = value;
-                              controller.getVideoApi(
-                                queryParameters:
-                                    controller.filterVideoSelectedValue,
-                              );
-                            }
-                          });
-                        },
-                        icon: Icon(Icons.tune),
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.videoSearchTEC,
+                        onChanged: controller.filterVideo,
                       ),
                     ),
+                    // AppBadgeWidget(
+                    //   showBadge:
+                    //       controller.filterVideoSelectedValue?.isNotEmpty ??
+                    //       false,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       Get.toNamed(
+                    //         AppRoutes.filterMarketingVideo,
+                    //         arguments: controller.filterVideoSelectedValue,
+                    //       )?.then((value) {
+                    //         if (value != null) {
+                    //           controller.filterVideoSelectedValue = value;
+                    //           controller.getVideoApi(
+                    //             queryParameters:
+                    //                 controller.filterVideoSelectedValue,
+                    //           );
+                    //         }
+                    //       });
+                    //     },
+                    //     icon: Icon(Icons.tune),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isVideoLoading
                       ? CommonWidget.commonLoading()
-                      : controller.videoModelList.isEmpty
+                      : controller.videoModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getVideoApi(),
@@ -81,7 +84,7 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.videoModelList.length,
+                            itemCount: controller.videoModelFilterList.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
@@ -95,7 +98,7 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
                                         child: AppImageView(
                                           width: double.maxFinite,
                                           imageUrl: controller
-                                              .videoModelList[index]
+                                              .videoModelFilterList[index]
                                               .mediaFile,
                                           fit: BoxFit.fill,
                                         ),
@@ -109,14 +112,14 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .videoModelList[index]
+                                                      .videoModelFilterList[index]
                                                       .title ??
                                                   "",
                                               fontWeight: FontWeight.w700,
                                             ),
                                             AppText(
                                               text:
-                                                  "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
+                                                  "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
                                               fontWeight: FontWeight.w700,
                                               color: Colors.grey,
                                             ),

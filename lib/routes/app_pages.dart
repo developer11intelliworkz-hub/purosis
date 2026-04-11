@@ -12,6 +12,7 @@ import 'package:purosis/feature/admin/product/view/product_detail_view.dart';
 import 'package:purosis/feature/admin/profile/view/add_banner_view.dart';
 import 'package:purosis/feature/admin/profile/view/admin_profile_edit.dart';
 import 'package:purosis/feature/admin/profile/view/user_detail_view.dart';
+import 'package:purosis/feature/admin/stock/view/edit_stock.dart';
 import 'package:purosis/feature/admin/stock/view/promotional_stock.dart';
 import 'package:purosis/feature/admin/stock/view/stock_outward.dart';
 import 'package:purosis/feature/auth/view/otp_screen.dart';
@@ -23,6 +24,8 @@ import 'package:purosis/feature/dealer/marketing/view/video_view_dealer.dart';
 import 'package:purosis/feature/dealer/profile/view/edit_profile_view.dart';
 import 'package:purosis/feature/distributor/cart/view/cart_view.dart';
 import 'package:purosis/feature/distributor/cart/view/dealer_info_view.dart';
+import 'package:purosis/feature/distributor/marketing/view/customize_post_distributor.dart';
+import 'package:purosis/feature/distributor/marketing/view/customize_post_preview_distributor.dart';
 import 'package:purosis/feature/distributor/marketing/view/posts_view_distributor.dart';
 import 'package:purosis/feature/distributor/marketing/view/reels_view_distributor.dart';
 import 'package:purosis/feature/distributor/product/view/product_detail.dart';
@@ -47,6 +50,7 @@ import '../feature/admin/profile/view/banner_view.dart';
 import '../feature/admin/profile/view/edit_banner_view.dart';
 import '../feature/admin/profile/view/edit_user.dart';
 import '../feature/admin/profile/view/help_support_view.dart';
+import '../feature/admin/profile/view/notification_screen.dart';
 import '../feature/admin/profile/view/support_message_view.dart';
 import '../feature/admin/profile/view/user_activity_location.dart';
 import '../feature/admin/profile/view/user_management.dart';
@@ -66,6 +70,8 @@ import '../feature/distributor/marketing/view/video_view.dart';
 import '../feature/distributor/profile/view/address_view.dart';
 import '../feature/distributor/profile/view/edit_profile.dart';
 import '../feature/distributor/profile/view/help_support_screen.dart';
+import '../feature/distributor/dashboard/view/notification_screen_distributor.dart';
+import '../feature/distributor/profile/view/order_detail.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -144,6 +150,11 @@ class AppPages {
       page: () => const SupportMessageView(),
     ),
     GetPage(name: AppRoutes.editDistributor, page: () => const EditUser()),
+    GetPage(
+      name: AppRoutes.notificationScreen,
+      page: () => const NotificationScreen(),
+    ),
+    GetPage(name: AppRoutes.editStock, page: () => const EditStock()),
 
     //Distributor
     GetPage(
@@ -181,6 +192,19 @@ class AppPages {
     GetPage(name: AppRoutes.reviewView, page: () => ReviewView()),
     GetPage(name: AppRoutes.orderHistory, page: () => OrderHistory()),
     GetPage(name: AppRoutes.helpSupportScreen, page: () => HelpSupportScreen()),
+    GetPage(
+      name: AppRoutes.customizePostDistributor,
+      page: () => CustomizePostDistributor(),
+    ),
+    GetPage(
+      name: AppRoutes.customizePostPreviewDistributor,
+      page: () => CustomizePostPreviewDistributor(),
+    ),
+    GetPage(name: AppRoutes.orderDetail, page: () => OrderDetail()),
+    GetPage(
+      name: AppRoutes.notificationScreenDistributor,
+      page: () => NotificationScreenDistributor(),
+    ),
 
     //Dealer
     GetPage(

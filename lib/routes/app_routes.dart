@@ -37,6 +37,8 @@ abstract class AppRoutes {
   static const editBannerView = '/edit_banner_view';
   static const supportMessageView = '/support_message_view';
   static const editDistributor = '/edit_distributor';
+  static const notificationScreen = '/notification_screen';
+  static const editStock = '/edit_stock';
 
   //distributor
   static const distributorDashboard = '/distributor_dashboard';
@@ -56,6 +58,12 @@ abstract class AppRoutes {
   static const reviewView = '/review_view';
   static const orderHistory = '/order_history';
   static const helpSupportScreen = '/help_support_screen';
+  static const customizePostDistributor = '/customize_post_distributor';
+  static const customizePostPreviewDistributor =
+      '/customize_post_preview_distributor';
+  static const orderDetail = '/order_detail';
+  static const notificationScreenDistributor =
+      '/notification_screen_distributor';
 
   //dealer
   static const dealerDashboard = '/dealer_dashboard';

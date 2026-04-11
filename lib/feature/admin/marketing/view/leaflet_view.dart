@@ -16,7 +16,7 @@ class LeafletView extends StatefulWidget {
 }
 
 class _LeafletViewState extends State<LeafletView> {
-  MarketingController marketingController = Get.find();
+  final MarketingController marketingController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +29,15 @@ class _LeafletViewState extends State<LeafletView> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.leafletSearchTEC,
+                  onChanged: controller.filterLeaflet,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isLeafletLoading
                       ? CommonWidget.commonLoading()
-                      : controller.leafletModelList.isEmpty
+                      : controller.leafletModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async =>
@@ -47,15 +50,19 @@ class _LeafletViewState extends State<LeafletView> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.leafletModelList.length,
+                            itemCount: controller.leafletModelFilterList.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
                                   Get.toNamed(
                                     AppRoutes.editLeaflet,
-                                    arguments:
-                                        controller.leafletModelList[index],
-                                  );
+                                    arguments: controller
+                                        .leafletModelFilterList[index],
+                                  )?.then((value) {
+                                    if (value == true) {
+                                      marketingController.getLeafletApi();
+                                    }
+                                  });
                                 },
                                 child: Card(
                                   color: Colors.white,
@@ -69,7 +76,7 @@ class _LeafletViewState extends State<LeafletView> {
                                           child: AppImageView(
                                             width: double.maxFinite,
                                             imageUrl: controller
-                                                .leafletModelList[index]
+                                                .leafletModelFilterList[index]
                                                 .mediaFile
                                                 ?.first,
                                             fit: BoxFit.fill,
@@ -84,14 +91,14 @@ class _LeafletViewState extends State<LeafletView> {
                                               AppText(
                                                 text:
                                                     controller
-                                                        .leafletModelList[index]
+                                                        .leafletModelFilterList[index]
                                                         .title ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
                                               ),
                                               AppText(
                                                 text:
-                                                    "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
+                                                    "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey,
                                               ),

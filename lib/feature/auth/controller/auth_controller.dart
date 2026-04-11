@@ -11,6 +11,7 @@ import 'package:purosis/utils/app_toast.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:purosis/utils/common_permission.dart';
+import 'package:purosis/utils/notification_handler.dart';
 
 import '../../../utils/storage_service.dart';
 
@@ -69,6 +70,7 @@ class AuthController extends GetxController {
   verifyOTPApi(String mobileNumber, String otp) async {
     verifyOTPLoading = true;
     update();
+    String? token = await NotificationHandler.getFCMToken();
     await apiService
         .postFormData(
           selectYourCategory == "admin"
@@ -80,6 +82,7 @@ class AuthController extends GetxController {
             userType: selectYourCategory,
             latitude: position?.latitude,
             longitude: position?.longitude,
+            deviceToken: token,
           ).toFormData(),
         )
         .then((response) {
@@ -111,11 +114,7 @@ class AuthController extends GetxController {
   Future<void> requestPermission() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    await messaging.requestPermission(alert: true, badge: true, sound: true);
     CommonPermission.checkLocationPermission();
   }
 }

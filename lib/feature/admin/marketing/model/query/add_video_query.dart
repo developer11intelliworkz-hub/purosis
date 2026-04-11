@@ -30,7 +30,7 @@ class AddVideoQuery {
 
   num? videoId;
   String? title;
-  String? category;
+  int? category;
   String? type;
   String? month;
   String? year;

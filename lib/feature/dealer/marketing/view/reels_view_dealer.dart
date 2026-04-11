@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -41,36 +39,41 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: AppSearchField()),
-                    AppBadgeWidget(
-                      showBadge:
-                          controller.filterReelSelectedValue?.isNotEmpty ??
-                          false,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            AppRoutes.filterMarketingReel,
-                            arguments: controller.filterReelSelectedValue,
-                          )?.then((value) {
-                            if (value != null) {
-                              controller.filterReelSelectedValue = value;
-                              controller.getReelApi(
-                                queryParameters:
-                                    controller.filterReelSelectedValue,
-                              );
-                            }
-                          });
-                        },
-                        icon: Icon(Icons.tune),
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.reelSearchTEC,
+                        onChanged: controller.filterReel,
                       ),
                     ),
+                    // AppBadgeWidget(
+                    //   showBadge:
+                    //       controller.filterReelSelectedValue?.isNotEmpty ??
+                    //       false,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       Get.toNamed(
+                    //         AppRoutes.filterMarketingReel,
+                    //         arguments: controller.filterReelSelectedValue,
+                    //       )?.then((value) {
+                    //         if (value != null) {
+                    //           controller.filterReelSelectedValue = value;
+                    //           controller.getReelApi(
+                    //             queryParameters:
+                    //                 controller.filterReelSelectedValue,
+                    //           );
+                    //         }
+                    //       });
+                    //     },
+                    //     icon: Icon(Icons.tune),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isReelsLoading
                       ? CommonWidget.commonLoading()
-                      : controller.reelsModelList.isEmpty
+                      : controller.reelsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getReelApi(),
@@ -82,7 +85,7 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.reelsModelList.length,
+                            itemCount: controller.reelsModelFilterList.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
@@ -96,7 +99,7 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
                                         child: AppImageView(
                                           width: double.maxFinite,
                                           imageUrl: controller
-                                              .reelsModelList[index]
+                                              .reelsModelFilterList[index]
                                               .thumbnailImage,
                                           fit: BoxFit.fill,
                                         ),
@@ -110,14 +113,14 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .reelsModelList[index]
+                                                      .reelsModelFilterList[index]
                                                       .title ??
                                                   "",
                                               fontWeight: FontWeight.w700,
                                             ),
                                             AppText(
                                               text:
-                                                  "${controller.reelsModelList[index].month ?? ""} ${controller.reelsModelList[index].year ?? ""}",
+                                                  "${controller.reelsModelFilterList[index].month ?? ""} ${controller.reelsModelFilterList[index].year ?? ""}",
                                               fontWeight: FontWeight.w700,
                                               color: Colors.grey,
                                             ),

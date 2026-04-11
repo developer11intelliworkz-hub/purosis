@@ -29,12 +29,15 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.leafletSearchTEC,
+                  onChanged: controller.filterLeaflet,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isLeafletLoading
                       ? CommonWidget.commonLoading()
-                      : controller.leafletModelList.isEmpty
+                      : controller.leafletModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async =>
@@ -47,7 +50,7 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.leafletModelList.length,
+                            itemCount: controller.leafletModelFilterList.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
@@ -61,7 +64,7 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
                                         child: AppImageView(
                                           width: double.maxFinite,
                                           imageUrl: controller
-                                              .leafletModelList[index]
+                                              .leafletModelFilterList[index]
                                               .mediaFile
                                               ?.first,
                                           fit: BoxFit.fill,
@@ -76,14 +79,14 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .leafletModelList[index]
+                                                      .leafletModelFilterList[index]
                                                       .title ??
                                                   "",
                                               fontWeight: FontWeight.w700,
                                             ),
                                             AppText(
                                               text:
-                                                  "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
+                                                  "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
                                               fontWeight: FontWeight.w700,
                                               color: Colors.grey,
                                             ),

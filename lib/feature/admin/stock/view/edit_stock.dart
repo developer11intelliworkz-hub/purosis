@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:purosis/feature/admin/stock/controller/add_stock_controller.dart';
-import 'package:purosis/widget/app_drop_down.dart';
+import 'package:purosis/feature/admin/stock/model/item_model.dart';
+import 'package:purosis/utils/common_validation.dart';
+import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
-import '../../../../utils/common_validation.dart';
-import '../../../../widget/app_button.dart';
+import '../controller/add_stock_controller.dart';
 
-class StockOutward extends StatelessWidget {
-  const StockOutward({super.key});
+class EditStock extends StatefulWidget {
+  const EditStock({super.key});
+
+  @override
+  State<EditStock> createState() => _EditStockState();
+}
+
+class _EditStockState extends State<EditStock> {
+  final AddStockController addStockController = AddStockController();
+  final ItemModel itemModel = Get.arguments;
+
+  @override
+  void initState() {
+    addStockController.setEditStock(itemModel);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Stock Outward"),
+      appBar: CommonWidget.appAppBar(title: "Stock Inward"),
       body: GetBuilder<AddStockController>(
-        init: AddStockController(),
+        init: addStockController,
         builder: (controller) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -24,15 +38,10 @@ class StockOutward extends StatelessWidget {
               key: controller.validationKey,
               child: Column(
                 children: [
-                  AppDropDown(
-                    label: "Item",
-                    items: (p0, p1) => controller.getItemApi(),
-                    compareFn: (p0, p1) => p0 == p1,
-                    validator: CommonValidation.dropdownValidation,
-                    itemAsString: (p0) => p0.itemName ?? "",
-                    onChanged: (value) {
-                      controller.selectedItem = value;
-                    },
+                  AppTextField(
+                    labelText: "Item",
+                    controller: controller.itemTEC,
+                    validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
@@ -41,17 +50,6 @@ class StockOutward extends StatelessWidget {
                     validator: CommonValidation.fieldValidation,
                     inputFormatter:
                         CommonValidation.inputValidationOnlyNumber(),
-                  ),
-                  SizedBox(height: 10),
-                  AppDropDown(
-                    label: "Recipient Type",
-                    items: (p0, p1) => controller.getUserApi(),
-                    compareFn: (p0, p1) => p0 == p1,
-                    itemAsString: (p0) => p0.companyName ?? "",
-                    onChanged: (value) {
-                      controller.selectedRecipient = value;
-                    },
-                    validator: CommonValidation.dropdownValidation,
                   ),
                   SizedBox(height: 10),
                   AppTextField(
@@ -68,7 +66,7 @@ class StockOutward extends StatelessWidget {
                     onPressed: () {
                       if (controller.validationKey.currentState?.validate() ??
                           false) {
-                        controller.outwardStockApi();
+                        controller.updateStockApi();
                       }
                     },
                   ),

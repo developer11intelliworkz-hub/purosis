@@ -28,12 +28,15 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(),
+                AppSearchField(
+                  controller: controller.videoSearchTEC,
+                  onChanged: controller.filterVideo,
+                ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isVideoLoading
                       ? CommonWidget.commonLoading()
-                      : controller.videoModelList.isEmpty
+                      : controller.videoModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getVideoApi(),
@@ -45,7 +48,7 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.videoModelList.length,
+                            itemCount: controller.videoModelFilterList.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
@@ -59,7 +62,7 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                                         child: AppImageView(
                                           width: double.maxFinite,
                                           imageUrl: controller
-                                              .videoModelList[index]
+                                              .videoModelFilterList[index]
                                               .mediaFile,
                                           fit: BoxFit.fill,
                                         ),
@@ -73,14 +76,14 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .videoModelList[index]
+                                                      .videoModelFilterList[index]
                                                       .title ??
                                                   "",
                                               fontWeight: FontWeight.w700,
                                             ),
                                             AppText(
                                               text:
-                                                  "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
+                                                  "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
                                               fontWeight: FontWeight.w700,
                                               color: Colors.grey,
                                             ),

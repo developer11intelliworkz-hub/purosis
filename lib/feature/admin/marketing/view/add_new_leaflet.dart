@@ -4,6 +4,7 @@ import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../utils/app_toast.dart';
+import '../../../../utils/common_api.dart';
 import '../../../../utils/common_validation.dart';
 import '../../../../widget/app_button.dart';
 import '../../../../widget/app_drop_down.dart';
@@ -32,7 +33,16 @@ class AddNewLeaflet extends StatelessWidget {
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 10),
-                  AppTextField(labelText: "Category"),
+                  AppDropDown(
+                    label: "Category",
+                    items: (p0, p1) async =>
+                        (await CommonApi().getDetailApi()).products ?? [],
+                    compareFn: (p0, p1) => p0.productName == p1.productName,
+                    itemAsString: (p0) => p0.productName,
+                    onChanged: (value) {
+                      controller.selectedCategory = value;
+                    },
+                  ),
                   SizedBox(height: 10),
 
                   // AppImageUpload(
@@ -89,13 +99,13 @@ class AddNewLeaflet extends StatelessWidget {
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isDataLoading,
                     onPressed: () {
-                      if (controller.selectedFile == null) {
+                      if (controller.selectedImages.isEmpty) {
                         AppToast.error(message: "Please upload the file");
                       }
                       if ((controller.validationKey.currentState?.validate() ??
                               false) &&
-                          controller.selectedFile != null) {
-                        controller.addPostApi();
+                          controller.selectedImages.isNotEmpty) {
+                        controller.addLeafletApi();
                       }
                     },
                   ),

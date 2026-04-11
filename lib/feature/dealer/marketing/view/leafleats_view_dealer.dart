@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -32,36 +30,41 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: AppSearchField()),
-                    AppBadgeWidget(
-                      showBadge:
-                          controller.filterLeafletsSelectedValue?.isNotEmpty ??
-                          false,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            AppRoutes.filterMarketingLeaflets,
-                            arguments: controller.filterLeafletsSelectedValue,
-                          )?.then((value) {
-                            if (value != null) {
-                              controller.filterLeafletsSelectedValue = value;
-                              controller.getLeafletApi(
-                                queryParameters:
-                                    controller.filterLeafletsSelectedValue,
-                              );
-                            }
-                          });
-                        },
-                        icon: Icon(Icons.tune),
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.leafletSearchTEC,
+                        onChanged: controller.filterLeaflet,
                       ),
                     ),
+                    // AppBadgeWidget(
+                    //   showBadge:
+                    //       controller.filterLeafletsSelectedValue?.isNotEmpty ??
+                    //       false,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       Get.toNamed(
+                    //         AppRoutes.filterMarketingLeaflets,
+                    //         arguments: controller.filterLeafletsSelectedValue,
+                    //       )?.then((value) {
+                    //         if (value != null) {
+                    //           controller.filterLeafletsSelectedValue = value;
+                    //           controller.getLeafletApi(
+                    //             queryParameters:
+                    //                 controller.filterLeafletsSelectedValue,
+                    //           );
+                    //         }
+                    //       });
+                    //     },
+                    //     icon: Icon(Icons.tune),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
                   child: controller.isLeafletLoading
                       ? CommonWidget.commonLoading()
-                      : controller.leafletModelList.isEmpty
+                      : controller.leafletModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async =>
@@ -74,7 +77,7 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
                                   crossAxisSpacing: 5,
                                   mainAxisSpacing: 5,
                                 ),
-                            itemCount: controller.leafletModelList.length,
+                            itemCount: controller.leafletModelFilterList.length,
                             itemBuilder: (context, index) {
                               return Card(
                                 color: Colors.white,
@@ -88,7 +91,7 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
                                         child: AppImageView(
                                           width: double.maxFinite,
                                           imageUrl: controller
-                                              .leafletModelList[index]
+                                              .leafletModelFilterList[index]
                                               .mediaFile
                                               ?.first,
                                           fit: BoxFit.fill,
@@ -103,14 +106,14 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .leafletModelList[index]
+                                                      .leafletModelFilterList[index]
                                                       .title ??
                                                   "",
                                               fontWeight: FontWeight.w700,
                                             ),
                                             AppText(
                                               text:
-                                                  "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
+                                                  "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
                                               fontWeight: FontWeight.w700,
                                               color: Colors.grey,
                                             ),

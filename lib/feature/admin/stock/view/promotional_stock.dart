@@ -8,15 +8,22 @@ import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 
-class PromotionalStock extends StatelessWidget {
+class PromotionalStock extends StatefulWidget {
   const PromotionalStock({super.key});
+
+  @override
+  State<PromotionalStock> createState() => _PromotionalStockState();
+}
+
+class _PromotionalStockState extends State<PromotionalStock> {
+  final StockController stockController = StockController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidget.appAppBar(title: "Promotional Stock"),
       body: GetBuilder<StockController>(
-        init: StockController(),
+        init: stockController,
         builder: (controller) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -28,7 +35,13 @@ class PromotionalStock extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.inwardPromotionalStock);
+                          Get.toNamed(AppRoutes.inwardPromotionalStock)?.then((
+                            value,
+                          ) {
+                            if (value == true) {
+                              controller.getItemApi();
+                            }
+                          });
                         },
                         child: AppButton(
                           text: "Inward",
@@ -40,7 +53,13 @@ class PromotionalStock extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          Get.toNamed(AppRoutes.outwardPromotionalStock);
+                          Get.toNamed(AppRoutes.outwardPromotionalStock)?.then((
+                            value,
+                          ) {
+                            if (value == true) {
+                              controller.getHistoryApi();
+                            }
+                          });
                         },
                         child: AppButton(
                           text: "Outward",
