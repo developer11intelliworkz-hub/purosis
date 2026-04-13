@@ -86,7 +86,12 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                             horizontal: 10,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: Color(0xFFF2EBD2),
+                                            color: controller.getStatusColor(
+                                              controller
+                                                      .orderHistoryModelFilterList[index]
+                                                      .shippingStatus ??
+                                                  "",
+                                            ),
                                             borderRadius: BorderRadius.circular(
                                               15,
                                             ),

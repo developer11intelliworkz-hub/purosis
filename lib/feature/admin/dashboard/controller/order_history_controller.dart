@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:get/get.dart' hide FormData;
 import 'package:purosis/feature/admin/dashboard/model/order_detail_model.dart';
 import 'package:purosis/feature/admin/dashboard/model/query/approve_decline_query.dart';
@@ -175,5 +177,23 @@ class OrderHistoryController extends GetxController {
           isOrderDetailLoading = false;
           update();
         });
+  }
+
+  Color getStatusColor(String status) {
+    if (status.toLowerCase() == "pending") {
+      return Color(0xFFF2EBD2);
+    } else if (status.toLowerCase() == "approved") {
+      return Color(0xFFF2EBD2);
+    } else if (status.toLowerCase() == "confirmed") {
+      return Color(0xFFF2EBD2);
+    } else if (status.toLowerCase() == "in-process") {
+      return Color(0xFFD2E8F2);
+    } else if (status.toLowerCase() == "delivered") {
+      return Color(0xFFE5D0EF);
+    } else if (status.toLowerCase() == "declined") {
+      return Color(0xFFF2D2D2);
+    } else {
+      return Color(0xFFF2EBD2);
+    }
   }
 }

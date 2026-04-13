@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/routes/app_routes.dart';
 
 import '../../../../utils/commmon_function.dart';
 import '../../../../widget/app_text.dart';
@@ -30,7 +31,24 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       init: productController,
       builder: (controller) {
         return Scaffold(
-          appBar: CommonWidget.appAppBar(title: "Product Detail"),
+          appBar: CommonWidget.appAppBar(
+            title: "Product Detail",
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Get.toNamed(
+                    AppRoutes.editProduct,
+                    arguments: controller.productDetailModel,
+                  );
+                },
+                icon: Icon(Icons.edit, color: Colors.grey),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.delete, color: Colors.grey),
+              ),
+            ],
+          ),
           body: controller.isProductDetailLoading
               ? CommonWidget.commonLoading()
               : controller.productDetailModel == null

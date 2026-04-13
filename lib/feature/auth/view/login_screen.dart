@@ -24,7 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    authController.requestPermission();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      authController.requestPermission();
+    });
     super.initState();
   }
 
@@ -89,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         SizedBox(height: 10),
-                        AppText(text: "Welcome to purosia portal"),
+                        AppText(text: "Welcome to purosis portal"),
                         SizedBox(height: 15),
                         AppText(text: "Your Complete", fontSize: 20),
                         AppText(
@@ -112,9 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               AppDropDown(
                                 label: "Select your Category",
                                 items: (p0, p1) async =>
-                                    (await CommonApi().getDetailApi())
-                                        .userTypes ??
-                                    [],
+                                    ((await CommonApi().getDetailApi())
+                                                .userTypes ??
+                                            [])
+                                        .map((e) => e.capitalizeFirst)
+                                        .toList(),
                                 validator: CommonValidation.dropdownValidation,
                                 selectedItem: controller.selectYourCategory,
                                 onChanged: (value) {
@@ -139,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 10),
                         AppText(
                           text:
-                              "A 6-digit OTP will be sent to your registered mobile number for verification",
+                              "A 4-digit OTP will be sent to your registered mobile number for verification",
                         ),
                         SizedBox(height: 10),
                         AppButton(

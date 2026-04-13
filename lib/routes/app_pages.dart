@@ -45,6 +45,8 @@ import '../feature/admin/marketing/view/edit_reel.dart';
 import '../feature/admin/marketing/view/leaflet_view.dart';
 import '../feature/admin/marketing/view/video_view.dart';
 import '../feature/admin/product/view/add_product.dart';
+import '../feature/admin/product/view/edit_product.dart';
+import '../feature/admin/product/view/image_edit_view.dart';
 import '../feature/admin/profile/view/add_user.dart';
 import '../feature/admin/profile/view/banner_view.dart';
 import '../feature/admin/profile/view/edit_banner_view.dart';
@@ -155,6 +157,8 @@ class AppPages {
       page: () => const NotificationScreen(),
     ),
     GetPage(name: AppRoutes.editStock, page: () => const EditStock()),
+    GetPage(name: AppRoutes.editProduct, page: () => const EditProduct()),
+    GetPage(name: AppRoutes.imageEditView, page: () => const ImageEditView()),
 
     //Distributor
     GetPage(

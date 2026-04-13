@@ -30,9 +30,9 @@ class CardWidget extends StatelessWidget {
               ),
               child: Image.asset(icon),
             ),
-            SizedBox(height: 15),
-            AppText(text: count, fontSize: 25, fontWeight: FontWeight.w700),
             SizedBox(height: 8),
+            AppText(text: count, fontSize: 25, fontWeight: FontWeight.w700),
+            // SizedBox(height: 5),
             AppText(
               text: bottomText,
               fontWeight: FontWeight.w400,

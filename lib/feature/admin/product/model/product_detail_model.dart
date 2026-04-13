@@ -1,3 +1,6 @@
+import 'package:purosis/feature/admin/product/model/product_categories.dart';
+import 'package:purosis/feature/admin/product/model/sub_category_model.dart';
+
 class ProductDetailModel {
   int? id;
   int? categoryId;
@@ -12,8 +15,8 @@ class ProductDetailModel {
   String? height;
   String? technicalVideoUrl;
   List<String>? specifications;
-  Category? category;
-  SubCategory? subCategory;
+  ProductCategories? category;
+  SubCategoryModel? subCategory;
 
   ProductDetailModel({
     this.id,
@@ -59,11 +62,11 @@ class ProductDetailModel {
     }
 
     category = json['category'] != null
-        ? Category.fromJson(json['category'])
+        ? ProductCategories.fromJson(json['category'])
         : null;
 
     subCategory = json['sub_category'] != null
-        ? SubCategory.fromJson(json['sub_category'])
+        ? SubCategoryModel.fromJson(json['sub_category'])
         : null;
   }
 

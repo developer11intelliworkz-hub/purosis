@@ -3,6 +3,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/auth/controller/auth_controller.dart';
 import 'package:purosis/widget/app_text.dart';
+import 'package:purosis/widget/common_widget.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -17,7 +18,7 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CommonWidget.appAppBar(),
       body: GetBuilder(
         init: AuthController(),
         builder: (controller) {
@@ -32,7 +33,10 @@ class _OtpScreenState extends State<OtpScreen> {
                   fontWeight: FontWeight.w600,
                 ),
                 SizedBox(height: 20),
-                AppText(text: "OTP sent to your mobile number"),
+                AppText(
+                  text: "OTP sent to your mobile number",
+                  color: Color(0xFF888888),
+                ),
                 AppText(text: numberData, fontWeight: FontWeight.w600),
                 SizedBox(height: 20),
                 OtpTextField(

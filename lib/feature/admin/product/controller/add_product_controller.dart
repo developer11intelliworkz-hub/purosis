@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:purosis/feature/admin/product/model/image_item.dart';
 import 'package:purosis/feature/admin/product/model/image_model.dart';
-import 'package:purosis/feature/admin/product/model/product_model.dart';
+import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
+import 'package:purosis/feature/admin/product/model/product_model.dart'
+    hide ProductColorImage;
 import 'package:purosis/utils/api_service.dart';
 import 'package:purosis/utils/app_toast.dart';
 
@@ -31,6 +34,10 @@ class AddProductController extends GetxController {
   GlobalKey<FormState> allFieldValidationKey = GlobalKey();
   List<String> listOfSpecification = [];
 
+  List<ProductColorImage> imageEditList = [];
+  List<ImageItem> imageItemList = [];
+  ProductDetailModel? selectedProductDetailModel;
+
   TextEditingController colorNameTEC = TextEditingController();
   TextEditingController productNameTEC = TextEditingController();
   TextEditingController descriptionTEC = TextEditingController();
@@ -40,6 +47,33 @@ class AddProductController extends GetxController {
   TextEditingController widthTEC = TextEditingController();
   TextEditingController heightTEC = TextEditingController();
   TextEditingController technicalVideoUrlTEC = TextEditingController();
+
+  setEditValue(ProductDetailModel? productDetail) {
+    selectedProductDetailModel = productDetail;
+    productNameTEC.text = productDetail?.productName ?? "";
+    selectedProductCategories = productDetail?.category;
+    selectedSubCategoryModel = productDetail?.subCategory;
+    descriptionTEC.text = productDetail?.productDescription ?? "";
+    unitPerBoxTEC.text = (productDetail?.unitsPerBox ?? "").toString();
+    weightPerBoxTEC.text = productDetail?.weightPerBox ?? "";
+    lengthTEC.text = productDetail?.length ?? "";
+    widthTEC.text = productDetail?.width ?? "";
+    heightTEC.text = productDetail?.height ?? "";
+    technicalVideoUrlTEC.text = productDetail?.technicalVideoUrl ?? "";
+    listOfSpecification = productDetail?.specifications ?? [];
+    imageEditList = productDetail?.productColorsImages ?? [];
+    update();
+  }
+
+  setImageEdit(ProductColorImage? productColorImage) {
+    imageItemList =
+        productColorImage?.images?.map((e) => ImageItem(url: e)).toList() ?? [];
+    selectedColor = CommonFunction.hexToColor(
+      productColorImage?.colorCode ?? '',
+    );
+    colorNameTEC.text = productColorImage?.colorName ?? "";
+    // update();
+  }
 
   addImageToList() {
     imageModelList.add(
@@ -68,8 +102,23 @@ class AddProductController extends GetxController {
     update();
   }
 
+  void addImagesEdit() async {
+    final images = await CommonFunction.pickMultipleImages(
+      alreadySelected: selectedImages.length,
+      maxLimit: 6,
+    );
+    final imageList = images.map((e) => ImageItem(file: e));
+    imageItemList.addAll(imageList);
+    update();
+  }
+
   void removeImage(int index) {
     selectedImages.removeAt(index);
+    update();
+  }
+
+  void removeImageEdit(int index) {
+    imageItemList.removeAt(index);
     update();
   }
 

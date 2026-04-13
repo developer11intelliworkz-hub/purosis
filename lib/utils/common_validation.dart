@@ -24,6 +24,15 @@ class CommonValidation {
     ];
   }
 
+  static List<TextInputFormatter> inputValidationOnlyDecimalNumber({
+    int maxLength = 6,
+  }) {
+    return [
+      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+      LengthLimitingTextInputFormatter(maxLength),
+    ];
+  }
+
   static String? isValidEmail(String? value) {
     if (value == null || value.isEmpty) {
       return "Please enter value";

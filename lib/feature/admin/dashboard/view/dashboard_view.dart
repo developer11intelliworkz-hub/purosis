@@ -67,7 +67,7 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
-
+                        SizedBox(height: 10),
                         Row(
                           children: [
                             Expanded(
@@ -97,7 +97,7 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
-
+                        SizedBox(height: 10),
                         Row(
                           children: [
                             Expanded(
@@ -127,7 +127,7 @@ class _DashboardViewState extends State<DashboardView> {
                             ),
                           ],
                         ),
-
+                        SizedBox(height: 10),
                         InkWell(
                           onTap: () {
                             Get.toNamed(AppRoutes.orderHistoryAdmin);
@@ -138,6 +138,7 @@ class _DashboardViewState extends State<DashboardView> {
                             "View & approve orders",
                           ),
                         ),
+                        SizedBox(height: 10),
                         InkWell(
                           onTap: () {
                             controller.currentIndex = 1;
@@ -149,6 +150,7 @@ class _DashboardViewState extends State<DashboardView> {
                             "Add & edit products",
                           ),
                         ),
+                        SizedBox(height: 10),
                         InkWell(
                           onTap: () {
                             controller.currentIndex = 2;
@@ -160,7 +162,7 @@ class _DashboardViewState extends State<DashboardView> {
                             "Upload Content",
                           ),
                         ),
-
+                        SizedBox(height: 10),
                         InkWell(
                           onTap: () {
                             Get.toNamed(AppRoutes.promotionalStock);
@@ -171,7 +173,6 @@ class _DashboardViewState extends State<DashboardView> {
                             "Stock Management",
                           ),
                         ),
-
                         SizedBox(height: 10),
                       ],
                     ),

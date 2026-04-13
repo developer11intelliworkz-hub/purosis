@@ -31,27 +31,26 @@ class AuthController extends GetxController {
     final permissionCheck = await CommonPermission.checkLocationPermission();
     if (permissionCheck == true) {
       position = await CommonPermission.getCurrentLocation();
+    } else {
+      await CommonPermission.openAppSetting();
     }
     if (position != null) {
       await apiService
           .postFormData(
-            selectYourCategory == "admin"
+            selectYourCategory?.toLowerCase() == "admin"
                 ? AppUrl.sendOTPUrl
                 : AppUrl.sendUserOTPUrl,
             OtpQuery(
               phoneNo: mobileNumberTEC.text,
-              userType: selectYourCategory,
+              userType: selectYourCategory?.toLowerCase(),
             ).toFormData(),
           )
           .then((response) {
             if (response["success"] == true) {
               AppToast.success(response["message"]);
-              Get.offAllNamed(
-                AppRoutes.otpScreen,
-                arguments: mobileNumberTEC.text,
-              );
+              Get.toNamed(AppRoutes.otpScreen, arguments: mobileNumberTEC.text);
             } else {
-              AppToast.success(response["message"]);
+              AppToast.error(message: response["message"]);
             }
             sendOTPLoading = false;
             update();
@@ -61,7 +60,7 @@ class AuthController extends GetxController {
             update();
           });
     } else {
-      sendOTPLoading = true;
+      sendOTPLoading = false;
       update();
       AppToast.error(message: "Location is need for login");
     }
@@ -73,13 +72,13 @@ class AuthController extends GetxController {
     String? token = await NotificationHandler.getFCMToken();
     await apiService
         .postFormData(
-          selectYourCategory == "admin"
+          selectYourCategory?.toLowerCase() == "admin"
               ? AppUrl.verifyOTPUrl
               : AppUrl.verifyUserOTPUrl,
           VerifyOtpQuery(
             phoneNo: mobileNumber,
             otp: otp,
-            userType: selectYourCategory,
+            userType: selectYourCategory?.toLowerCase(),
             latitude: position?.latitude,
             longitude: position?.longitude,
             deviceToken: token,
@@ -92,12 +91,14 @@ class AuthController extends GetxController {
             final storage = Get.find<StorageService>();
             storage.saveToken(userModel.token ?? "");
             storage.write(StorageKeys.userData, userModel.toJson());
-            if (selectYourCategory == "admin") {
+            if (selectYourCategory?.toLowerCase() == "admin") {
               Get.offAllNamed(AppRoutes.adminDashboard);
-            } else if (selectYourCategory == "distributor") {
+            } else if (selectYourCategory?.toLowerCase() == "distributor") {
               Get.offAllNamed(AppRoutes.distributorDashboard);
-            } else {
+            } else if (selectYourCategory?.toLowerCase() == "dealer") {
               Get.offAllNamed(AppRoutes.dealerDashboard);
+            } else {
+              AppToast.error();
             }
           } else {
             AppToast.error(message: response["message"]);
@@ -113,8 +114,7 @@ class AuthController extends GetxController {
 
   Future<void> requestPermission() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
-
+    await CommonPermission.checkLocationPermission();
     await messaging.requestPermission(alert: true, badge: true, sound: true);
-    CommonPermission.checkLocationPermission();
   }
 }
