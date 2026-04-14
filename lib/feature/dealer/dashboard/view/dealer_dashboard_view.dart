@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/dashboard/controller/dashboard_controller.dart';
@@ -21,6 +22,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
 
   @override
   void initState() {
+    dashboardController.getDashboardDataApi();
     marketingController.getPostsApi();
     marketingController.getReelApi();
     marketingController.getVideoApi();
@@ -86,6 +88,75 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
               //     ),
               //   ],
               // ),
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  SizedBox(
+                    width: double.maxFinite,
+                    height: 250,
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: double.maxFinite,
+                        autoPlay:
+                            (dashboardController
+                                    .dashboardDataModel
+                                    ?.banners
+                                    ?.length ??
+                                0) >
+                            1,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration: const Duration(
+                          milliseconds: 800,
+                        ),
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {},
+                      ),
+                      items:
+                          dashboardController.dashboardDataModel?.banners
+                              ?.map(
+                                (e) => AppImageView(
+                                  imageUrl: e.image,
+                                  fit: BoxFit.fill,
+                                  width: double.maxFinite,
+                                ),
+                              )
+                              .toList() ??
+                          [],
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        dashboardController
+                                .dashboardDataModel
+                                ?.banners
+                                ?.length ??
+                            0,
+                        (index) => Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: dashboardController.bannerCurrentIndex == index
+                              ? 10
+                              : 8,
+                          height:
+                              dashboardController.bannerCurrentIndex == index
+                              ? 10
+                              : 8,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                dashboardController.bannerCurrentIndex == index
+                                ? Color(0xFF8EBF1F)
+                                : Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(

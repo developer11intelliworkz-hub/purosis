@@ -7,7 +7,7 @@ import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
-import '../../marketing/controller/marketing_controller.dart';
+import '../controller/marketing_controller.dart';
 
 class BrochuresViewDistributorDashboard extends StatefulWidget {
   const BrochuresViewDistributorDashboard({super.key});

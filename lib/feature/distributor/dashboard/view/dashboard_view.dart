@@ -8,6 +8,7 @@ import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/card_widget.dart';
 import '../../../../widget/common_widget.dart';
+import '../../marketing/view/widget/view_all_widget.dart';
 import '../controller/dashboard_controller.dart';
 
 class DashboardView extends StatefulWidget {
@@ -153,7 +154,11 @@ class _DashboardViewState extends State<DashboardView> {
                             fontWeight: FontWeight.w600,
                           ),
                           Spacer(),
-                          AppText(text: "View All"),
+                          ViewAllWidget(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.postViewDistributor);
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -224,7 +229,12 @@ class _DashboardViewState extends State<DashboardView> {
                             fontWeight: FontWeight.w600,
                           ),
                           Spacer(),
-                          AppText(text: "View All"),
+                          ViewAllWidget(
+                            onTap: () {
+                              controller.selectedIndex = 1;
+                              controller.update();
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -364,7 +374,11 @@ class _DashboardViewState extends State<DashboardView> {
                         children: [
                           AppText(text: "Reels", fontWeight: FontWeight.w600),
                           Spacer(),
-                          AppText(text: "View All"),
+                          ViewAllWidget(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.reelViewDistributor);
+                            },
+                          ),
                         ],
                       ),
                     ),

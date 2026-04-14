@@ -16,13 +16,25 @@ class PostsViewDistributor extends StatefulWidget {
 }
 
 class _PostsViewDistributorState extends State<PostsViewDistributor> {
-  final MarketingController marketingController = Get.find();
+  late MarketingController marketingController;
+
+  @override
+  void initState() {
+    if (Get.isRegistered<MarketingController>()) {
+      marketingController = Get.find();
+    } else {
+      marketingController = MarketingController();
+      marketingController.getPostsApi();
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidget.appAppBar(title: "Social Media Post"),
       body: GetBuilder<MarketingController>(
+        init: marketingController,
         builder: (controller) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
