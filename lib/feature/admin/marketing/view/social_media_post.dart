@@ -42,6 +42,8 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getPostsApi(),
                           child: GridView.builder(
+                            padding: EdgeInsets.only(bottom: 200, top: 20),
+
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,

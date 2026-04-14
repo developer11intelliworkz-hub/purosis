@@ -43,6 +43,8 @@ class _LeafletViewState extends State<LeafletView> {
                           onRefresh: () async =>
                               await controller.getLeafletApi(),
                           child: GridView.builder(
+                            padding: EdgeInsets.only(bottom: 200, top: 20),
+
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,

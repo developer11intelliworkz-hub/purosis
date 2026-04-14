@@ -42,6 +42,8 @@ class _ReelsViewState extends State<ReelsView> {
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getReelApi(),
                           child: GridView.builder(
+                            padding: EdgeInsets.only(bottom: 200, top: 20),
+
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -57,7 +59,11 @@ class _ReelsViewState extends State<ReelsView> {
                                     AppRoutes.editReel,
                                     arguments:
                                         controller.reelsModelFilterList[index],
-                                  );
+                                  )?.then((value) {
+                                    if (value == true) {
+                                      marketingController.getReelApi();
+                                    }
+                                  });
                                 },
                                 child: Card(
                                   color: Colors.white,

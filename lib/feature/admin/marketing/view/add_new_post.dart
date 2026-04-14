@@ -21,89 +21,92 @@ class AddNewPost extends StatelessWidget {
       body: GetBuilder<AddContentController>(
         init: AddContentController(),
         builder: (controller) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Form(
-              key: controller.validationKey,
-              child: Column(
-                children: [
-                  AppTextField(
-                    labelText: "Title",
-                    controller: controller.titleTEC,
-                    validator: CommonValidation.fieldValidation,
-                  ),
-                  SizedBox(height: 10),
-                  AppDropDown(
-                    label: "Category",
-                    items: (p0, p1) async =>
-                        (await CommonApi().getDetailApi()).products ?? [],
-                    compareFn: (p0, p1) => p0.productName == p1.productName,
-                    itemAsString: (p0) => p0.productName,
-                    onChanged: (value) {
-                      controller.selectedCategory = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  AppImageUpload(
-                    allowedExtensions: ["jpg", "jpeg", "png"],
-                    onFileSelected: (value) {
-                      controller.selectedFile = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppDropDown(
-                          label: "Month",
-                          showSearchBox: false,
-                          items: (p0, p1) => controller.monthList,
-                          compareFn: (p0, p1) => p0 == p1,
-                          onChanged: (value) {
-                            controller.selectedMonth = value;
-                          },
-                          validator: CommonValidation.dropdownValidation,
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: controller.validationKey,
+                child: Column(
+                  children: [
+                    AppTextField(
+                      labelText: "Title",
+                      controller: controller.titleTEC,
+                      validator: CommonValidation.fieldValidation,
+                    ),
+                    SizedBox(height: 10),
+                    AppDropDown(
+                      label: "Category",
+                      items: (p0, p1) async =>
+                          (await CommonApi().getDetailApi()).products ?? [],
+                      compareFn: (p0, p1) => p0.productName == p1.productName,
+                      itemAsString: (p0) => p0.productName,
+                      onChanged: (value) {
+                        controller.selectedCategory = value;
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    AppImageUpload(
+                      allowedExtensions: ["jpg", "jpeg", "png"],
+                      onFileSelected: (value) {
+                        controller.selectedFile = value;
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppDropDown(
+                            label: "Month",
+                            showSearchBox: false,
+                            items: (p0, p1) => controller.monthList,
+                            compareFn: (p0, p1) => p0 == p1,
+                            onChanged: (value) {
+                              controller.selectedMonth = value;
+                            },
+                            validator: CommonValidation.dropdownValidation,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: AppDropDown(
-                          label: "Year",
-                          showSearchBox: false,
-                          items: (p0, p1) => controller.yearList,
-                          compareFn: (p0, p1) => p0 == p1,
-                          onChanged: (value) {
-                            controller.selectedYear = value;
-                          },
-                          validator: CommonValidation.dropdownValidation,
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: AppDropDown(
+                            label: "Year",
+                            showSearchBox: false,
+                            items: (p0, p1) => controller.yearList,
+                            compareFn: (p0, p1) => p0 == p1,
+                            onChanged: (value) {
+                              controller.selectedYear = value;
+                            },
+                            validator: CommonValidation.dropdownValidation,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  AppTextField(
-                    labelText: "Description",
-                    maxLines: 3,
-                    controller: controller.descriptionTEC,
-                    validator: CommonValidation.fieldValidation,
-                  ),
-                  SizedBox(height: 10),
-                  AppButton(
-                    text: "Upload",
-                    color: Color(0xFF8EBF1F),
-                    isLoading: controller.isDataLoading,
-                    onPressed: () {
-                      if (controller.selectedFile == null) {
-                        AppToast.error(message: "Please upload the file");
-                      }
-                      if ((controller.validationKey.currentState?.validate() ??
-                              false) &&
-                          controller.selectedFile != null) {
-                        controller.addPostApi();
-                      }
-                    },
-                  ),
-                ],
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    AppTextField(
+                      labelText: "Description",
+                      maxLines: 3,
+                      controller: controller.descriptionTEC,
+                      validator: CommonValidation.fieldValidation,
+                    ),
+                    SizedBox(height: 10),
+                    AppButton(
+                      text: "Upload",
+                      color: Color(0xFF8EBF1F),
+                      isLoading: controller.isDataLoading,
+                      onPressed: () {
+                        if (controller.selectedFile == null) {
+                          AppToast.error(message: "Please upload the file");
+                        }
+                        if ((controller.validationKey.currentState
+                                    ?.validate() ??
+                                false) &&
+                            controller.selectedFile != null) {
+                          controller.addPostApi();
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           );

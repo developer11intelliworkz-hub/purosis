@@ -42,6 +42,8 @@ class _VideoViewState extends State<VideoView> {
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getVideoApi(),
                           child: GridView.builder(
+                            padding: EdgeInsets.only(bottom: 200, top: 20),
+
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,

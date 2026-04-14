@@ -18,7 +18,7 @@ class AddNewReels extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Reels"),
+      appBar: CommonWidget.appAppBar(title: "Add New Reel"),
       body: GetBuilder<AddContentController>(
         init: AddContentController(),
         builder: (controller) {

@@ -43,6 +43,7 @@ class _BrochureViewState extends State<BrochureView> {
                         : controller.brochuresModelFilterList.isEmpty
                         ? CommonWidget.commonEmpty()
                         : GridView.builder(
+                            padding: EdgeInsets.only(bottom: 200, top: 20),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
