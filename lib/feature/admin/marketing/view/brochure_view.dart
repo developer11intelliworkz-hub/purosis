@@ -57,8 +57,8 @@ class _BrochureViewState extends State<BrochureView> {
                                     AppRoutes.editBrochures,
                                     arguments: controller
                                         .brochuresModelFilterList[index],
-                                  )?.then((value){
-                                    if(value == true){
+                                  )?.then((value) {
+                                    if (value == true) {
                                       controller.getBrochuresApi();
                                     }
                                   });

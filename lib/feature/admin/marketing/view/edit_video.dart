@@ -37,117 +37,120 @@ class _EditVideoState extends State<EditVideo> {
         builder: (controller) {
           return controller.isEditLoading
               ? CommonWidget.commonLoading()
-              :SingleChildScrollView(
-            padding: const EdgeInsets.all(8.0),
-            child: Form(
-              key: controller.validationKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppTextField(
-                    labelText: "Title",
-                    controller: controller.titleTEC,
-                    validator: CommonValidation.fieldValidation,
-                  ),
-                  SizedBox(height: 10),
-                  AppDropDown(
-                    label: "Category",
-                    items: (p0, p1) async =>
-                        (await CommonApi().getDetailApi()).products ?? [],
-                    compareFn: (p0, p1) => p0.productName == p1.productName,
-                    itemAsString: (p0) => p0.productName,
-                    selectedItem: controller.selectedCategory,
-                    onChanged: (value) {
-                      controller.selectedCategory = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  AppDropDown(
-                    label: "Type",
-                    items: (p0, p1) async =>
-                        (await CommonApi().getDetailApi()).videoType ?? [],
-                    compareFn: (p0, p1) => p0.value == p1.value,
-                    itemAsString: (p0) => p0.value,
-                    selectedItem: controller.selectedType,
-                    onChanged: (value) {
-                      controller.selectedType = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  AppText(text: "Media File"),
-                  SizedBox(height: 5),
-                  AppImageUpload(
-                    title: controller.selectedMediaFileName ?? "",
-                    allowedExtensions: ["mp4", "mov", "avi"],
-                    onFileSelected: (value) {
-                      controller.selectedMediaFile = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  AppText(text: "Thumbnail Image"),
-                  SizedBox(height: 5),
-                  AppImageUpload(
-                    title: controller.selectedFileName ?? "",
-                    allowedExtensions: ["jpg", "jpeg", "png"],
-                    onFileSelected: (value) {
-                      controller.selectedFile = value;
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AppDropDown(
-                          label: "Month",
-                          showSearchBox: false,
-                          items: (p0, p1) => controller.monthList,
-                          compareFn: (p0, p1) => p0 == p1,
-                          selectedItem: controller.selectedMonth,
-                          onChanged: (value) {
-                            controller.selectedMonth = value;
-                          },
-                          validator: CommonValidation.dropdownValidation,
+              : SingleChildScrollView(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: controller.validationKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppTextField(
+                          labelText: "Title",
+                          controller: controller.titleTEC,
+                          validator: CommonValidation.fieldValidation,
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: AppDropDown(
-                          label: "Year",
-                          showSearchBox: false,
-                          items: (p0, p1) => controller.yearList,
-                          compareFn: (p0, p1) => p0 == p1,
-                          selectedItem: controller.selectedYear,
+                        SizedBox(height: 10),
+                        AppDropDown(
+                          label: "Category",
+                          items: (p0, p1) async =>
+                              (await CommonApi().getDetailApi()).products ?? [],
+                          compareFn: (p0, p1) =>
+                              p0.productName == p1.productName,
+                          itemAsString: (p0) => p0.productName,
+                          selectedItem: controller.selectedCategory,
                           onChanged: (value) {
-                            controller.selectedYear = value;
+                            controller.selectedCategory = value;
                           },
-                          validator: CommonValidation.dropdownValidation,
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 10),
+                        AppDropDown(
+                          label: "Type",
+                          items: (p0, p1) async =>
+                              (await CommonApi().getDetailApi()).videoType ??
+                              [],
+                          compareFn: (p0, p1) => p0.value == p1.value,
+                          itemAsString: (p0) => p0.value,
+                          selectedItem: controller.selectedType,
+                          onChanged: (value) {
+                            controller.selectedType = value;
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        AppText(text: "Media File"),
+                        SizedBox(height: 5),
+                        AppImageUpload(
+                          title: controller.selectedMediaFileName ?? "",
+                          allowedExtensions: ["mp4", "mov", "avi"],
+                          onFileSelected: (value) {
+                            controller.selectedMediaFile = value;
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        AppText(text: "Thumbnail Image"),
+                        SizedBox(height: 5),
+                        AppImageUpload(
+                          title: controller.selectedFileName ?? "",
+                          allowedExtensions: ["jpg", "jpeg", "png"],
+                          onFileSelected: (value) {
+                            controller.selectedFile = value;
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: AppDropDown(
+                                label: "Month",
+                                showSearchBox: false,
+                                items: (p0, p1) => controller.monthList,
+                                compareFn: (p0, p1) => p0 == p1,
+                                selectedItem: controller.selectedMonth,
+                                onChanged: (value) {
+                                  controller.selectedMonth = value;
+                                },
+                                validator: CommonValidation.dropdownValidation,
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: AppDropDown(
+                                label: "Year",
+                                showSearchBox: false,
+                                items: (p0, p1) => controller.yearList,
+                                compareFn: (p0, p1) => p0 == p1,
+                                selectedItem: controller.selectedYear,
+                                onChanged: (value) {
+                                  controller.selectedYear = value;
+                                },
+                                validator: CommonValidation.dropdownValidation,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        AppTextField(
+                          labelText: "Description",
+                          maxLines: 3,
+                          controller: controller.descriptionTEC,
+                          validator: CommonValidation.fieldValidation,
+                        ),
+                        SizedBox(height: 10),
+                        AppButton(
+                          text: "Upload",
+                          color: Color(0xFF8EBF1F),
+                          isLoading: controller.isDataLoading,
+                          onPressed: () {
+                            if (controller.validationKey.currentState
+                                    ?.validate() ??
+                                false) {
+                              controller.editVideoApi();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: 10),
-                  AppTextField(
-                    labelText: "Description",
-                    maxLines: 3,
-                    controller: controller.descriptionTEC,
-                    validator: CommonValidation.fieldValidation,
-                  ),
-                  SizedBox(height: 10),
-                  AppButton(
-                    text: "Upload",
-                    color: Color(0xFF8EBF1F),
-                    isLoading: controller.isDataLoading,
-                    onPressed: () {
-                      if (controller.validationKey.currentState?.validate() ??
-                          false) {
-                        controller.editVideoApi();
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
+                );
         },
       ),
     );

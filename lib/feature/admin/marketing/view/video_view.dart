@@ -57,8 +57,8 @@ class _VideoViewState extends State<VideoView> {
                                     AppRoutes.editVideo,
                                     arguments:
                                         controller.videoModelFilterList[index],
-                                  )?.then((value){
-                                    if(value == true){
+                                  )?.then((value) {
+                                    if (value == true) {
                                       controller.getVideoApi();
                                     }
                                   });
