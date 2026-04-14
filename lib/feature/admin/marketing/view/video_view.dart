@@ -57,7 +57,11 @@ class _VideoViewState extends State<VideoView> {
                                     AppRoutes.editVideo,
                                     arguments:
                                         controller.videoModelFilterList[index],
-                                  );
+                                  )?.then((value){
+                                    if(value == true){
+                                      controller.getVideoApi();
+                                    }
+                                  });
                                 },
                                 child: Card(
                                   color: Colors.white,
@@ -72,7 +76,7 @@ class _VideoViewState extends State<VideoView> {
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .videoModelFilterList[index]
-                                                .mediaFile,
+                                                .thumbnailImage,
                                             fit: BoxFit.fill,
                                           ),
                                         ),

@@ -37,7 +37,7 @@ class _BrochureViewState extends State<BrochureView> {
                 SizedBox(height: 5),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () async => await controller.getBrochuresApi(),
+                    onRefresh: () => controller.getBrochuresApi(),
                     child: controller.isBrochuresLoading
                         ? CommonWidget.commonLoading()
                         : controller.brochuresModelFilterList.isEmpty
@@ -57,7 +57,11 @@ class _BrochureViewState extends State<BrochureView> {
                                     AppRoutes.editBrochures,
                                     arguments: controller
                                         .brochuresModelFilterList[index],
-                                  );
+                                  )?.then((value){
+                                    if(value == true){
+                                      controller.getBrochuresApi();
+                                    }
+                                  });
                                 },
                                 child: Card(
                                   color: Colors.white,

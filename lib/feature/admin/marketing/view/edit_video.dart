@@ -35,7 +35,9 @@ class _EditVideoState extends State<EditVideo> {
       body: GetBuilder<AddContentController>(
         init: addContentController,
         builder: (controller) {
-          return SingleChildScrollView(
+          return controller.isEditLoading
+              ? CommonWidget.commonLoading()
+              :SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
             child: Form(
               key: controller.validationKey,

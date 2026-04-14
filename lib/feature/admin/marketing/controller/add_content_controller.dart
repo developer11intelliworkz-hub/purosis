@@ -39,7 +39,7 @@ class AddContentController extends GetxController {
   CategoryItem? selectedType;
   String? selectedFileName;
   String? selectedMediaFileName;
-  bool isEditLeafletLoading = false;
+  bool isEditLoading = false;
 
   List<String> yearList = List.generate(
     2040 - 2015 + 1,
@@ -109,7 +109,7 @@ class AddContentController extends GetxController {
   }
 
   setEditLeafletValue(LeafletModel value) async {
-    isEditLeafletLoading = true;
+    isEditLoading = true;
     selectedLeaflet = value;
     titleTEC.text = value.title ?? "";
     selectedMonth = value.month;
@@ -119,11 +119,12 @@ class AddContentController extends GetxController {
     }
     descriptionTEC.text = value.description ?? "";
     selectedCategory = value.category;
-    isEditLeafletLoading = false;
+    isEditLoading = false;
     update();
   }
 
   setEditVideoValue(VideoModel value) async {
+    isEditLoading = true;
     selectedVideo = value;
     titleTEC.text = value.title ?? "";
     selectedMonth = value.month;
@@ -134,6 +135,7 @@ class AddContentController extends GetxController {
     final data = await CommonApi().getDetailApi();
     selectedType = data.videoType?.firstWhere((e) => e.key == value.type);
     selectedCategory = value.category;
+    isEditLoading = false;
     update();
   }
 
@@ -157,10 +159,10 @@ class AddContentController extends GetxController {
         )
         .then((response) {
           if (response["success"] == true) {
-            Get.back();
+            Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -194,7 +196,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -224,7 +226,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -258,7 +260,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -289,7 +291,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -320,7 +322,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -352,7 +354,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -388,7 +390,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();
@@ -424,7 +426,7 @@ class AddContentController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.error(message: response['message']);
           }
           isDataLoading = false;
           update();

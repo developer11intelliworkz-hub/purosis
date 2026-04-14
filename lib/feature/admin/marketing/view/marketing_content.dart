@@ -430,7 +430,7 @@ class _MarketingContentState extends State<MarketingContent> {
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .videoModelList[index]
-                                            .mediaFile,
+                                            .thumbnailImage,
                                         fit: BoxFit.fill,
                                       ),
                                     ),

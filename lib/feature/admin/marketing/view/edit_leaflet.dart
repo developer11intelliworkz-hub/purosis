@@ -36,7 +36,7 @@ class _EditLeafletState extends State<EditLeaflet> {
       body: GetBuilder<AddContentController>(
         init: addContentController,
         builder: (controller) {
-          return controller.isEditLeafletLoading
+          return controller.isEditLoading
               ? CommonWidget.commonLoading()
               : SingleChildScrollView(
                   padding: const EdgeInsets.all(8.0),
