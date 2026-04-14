@@ -6,7 +6,8 @@ class CommonWidget {
   static AppBar appAppBar({String? title, List<Widget>? actions}) {
     return AppBar(
       title: Text(title ?? ""),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF5F5F5),
+
       foregroundColor: Colors.black,
       elevation: 0,
       scrolledUnderElevation: 0,

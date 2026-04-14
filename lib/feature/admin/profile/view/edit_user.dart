@@ -157,6 +157,7 @@ class _EditUserState extends State<EditUser> {
                         children: [
                           SizedBox(height: 10),
                           AppTextField(
+                            readOnly: true,
                             labelText: "Mobile Number",
                             controller: controller.phoneNoTEC,
                             validator: CommonValidation.fieldValidation,
@@ -293,11 +294,11 @@ class _EditUserState extends State<EditUser> {
                       onPressed: () {
                         if (controller.validationKey.currentState?.validate() ??
                             false) {
-                          controller.editUserApi();
+                          controller.editUserApi(userModel: userModel);
                         }
                       },
                       isLoading: controller.isLoading,
-                      text: "Add User",
+                      text: "Update User",
                       color: Color(0xFF8EBF1F),
                     ),
                   ),

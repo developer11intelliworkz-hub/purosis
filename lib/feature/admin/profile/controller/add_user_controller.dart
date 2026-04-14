@@ -101,11 +101,12 @@ class AddUserController extends GetxController {
         });
   }
 
-  Future<void> editUserApi() async {
+  Future<void> editUserApi({required AddedUserModel userModel}) async {
     isLoading = true;
     update();
 
     AddUserQuery addUserQuery = AddUserQuery(
+      distributorId: userModel.id,
       companyName: companyNameTEC.text,
       name: contactPersonNameTEC.text,
       gstNumber: gstNumberTEC.text,

@@ -41,7 +41,7 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                   SizedBox(height: 10),
                   Row(
                     children: [
-                      Expanded(flex: 2, child: AppText(text: "Serial No.")),
+                      Expanded(flex: 2, child: AppText(text: "S.No.")),
                       Expanded(flex: 3, child: AppText(text: "Type")),
                       Expanded(flex: 2, child: AppText(text: "Items")),
                       Expanded(flex: 2, child: AppText(text: "Quantity")),
@@ -60,13 +60,14 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                               flex: 2,
                               child: AppText(
                                 text:
-                                    controller
-                                        .historyModelList[index]
-                                        .serialNo ??
-                                    "",
+                                    (controller
+                                                .historyModelList[index]
+                                                .serialNo ??
+                                            "")
+                                        .toUpperCase(),
                               ),
                             ),
-                            SizedBox(width: 2),
+                            SizedBox(width: 5),
                             Expanded(
                               flex: 3,
                               child: Wrap(
@@ -78,16 +79,34 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                                       vertical: 5,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: Color(0xFF0067B1),
+                                      color:
+                                          (controller
+                                                      .historyModelList[index]
+                                                      .type ??
+                                                  "") ==
+                                              "inward"
+                                          ? Color(
+                                              0xFF8EBF1F,
+                                            ) // green for inward
+                                          : Color(
+                                              0xFF0067B1,
+                                            ), // blue for outward
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Icon(
-                                          Icons.arrow_circle_up_outlined,
+                                          (controller
+                                                          .historyModelList[index]
+                                                          .type ??
+                                                      "") ==
+                                                  "outward"
+                                              ? Icons.arrow_circle_up_outlined
+                                              : Icons
+                                                    .arrow_circle_down_outlined,
                                           color: Colors.white,
-                                          size: 20,
+                                          size: 16,
                                         ),
                                         AppText(
                                           text:
@@ -103,7 +122,7 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                                 ],
                               ),
                             ),
-                            SizedBox(width: 2),
+                            SizedBox(width: 10),
                             Expanded(
                               flex: 2,
                               child: AppText(
@@ -115,7 +134,7 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                                     "Unknown",
                               ),
                             ),
-                            SizedBox(width: 2),
+                            SizedBox(width: 10),
                             Expanded(
                               flex: 2,
                               child: AppText(
@@ -125,7 +144,7 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                                         .toString(),
                               ),
                             ),
-                            SizedBox(width: 2),
+                            SizedBox(width: 10),
                             Expanded(
                               flex: 2,
                               child: AppText(
@@ -134,7 +153,7 @@ class _TransactionHistoryListState extends State<TransactionHistoryList> {
                                         .historyModelList[index]
                                         .recipient
                                         ?.name ??
-                                    "Unknown",
+                                    "-",
                               ),
                             ),
                           ],

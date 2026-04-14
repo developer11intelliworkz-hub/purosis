@@ -35,112 +35,140 @@ class _UserActivityLocationState extends State<UserActivityLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "company Name"),
+      appBar: CommonWidget.appAppBar(title: data.companyName),
       body: GetBuilder<AdminProfileController>(
         init: adminProfileController,
         builder: (controller) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 40,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: controller.daysFiltersList.map((value) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: ChoiceChip(
-                        label: Text(
-                          value,
-                          style: TextStyle(
-                            color: controller.selectedDaysValue == value
-                                ? Colors.white
-                                : Colors.black,
+          return Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: controller.daysFiltersList.map((value) {
+                      final isSelected = controller.selectedDaysValue == value;
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              controller.selectedDaysValue = value;
+                              controller.filterMarker();
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: Duration(milliseconds: 200),
+                            height: 34,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? Color(0xFF8EBF1F)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                color: isSelected
+                                    ? Color(0xFF8EBF1F)
+                                    : Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                height: 14 / 12,
+                                // line-height: 14px
+                                letterSpacing: 0,
+                                color: isSelected ? Colors.white : Colors.black,
+                              ),
+                            ),
                           ),
                         ),
-                        showCheckmark: false,
-                        selected: controller.selectedDaysValue == value,
-                        selectedColor: Color(0xFF8EBF1F),
-                        backgroundColor: Colors.grey.shade200,
-                        onSelected: (isSelected) {
-                          setState(() {
-                            controller.selectedDaysValue = value;
-                            controller.filterMarker();
-                          });
-                        },
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ),
-              Row(
-                children: controller.logTypeList
-                    .map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AppRadioButton(
-                          value: e,
-                          groupValue: controller.selectedLogTypeValue,
-                          onChanged: (value) {
-                            controller.selectedLogTypeValue = value;
-                            controller.filterMarker();
-                          },
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              Expanded(
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(20.5937, 78.9629),
-                    zoom: 4.8,
+                      );
+                    }).toList(),
                   ),
-                  markers: controller.markers,
-                  onMapCreated: (mapCnt) {
-                    controller.mapController = mapCnt;
-                  },
                 ),
-              ),
-              SizedBox(
-                height: 150,
-                child: controller.isLogDataLoading
-                    ? CommonWidget.commonLoading()
-                    : controller.activityLogModelFilterList.isEmpty
-                    ? CommonWidget.commonEmpty()
-                    : controller.selectedMarkerId == null
-                    ? Center(child: AppText(text: "Select Any Mark"))
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText(
-                              text:
-                                  controller
-                                      .activityLogModelFilterList[controller
-                                              .selectedMarkerId ??
-                                          0]
-                                      .eventType ??
-                                  "",
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                            ),
-                            AppText(text: "Mumbai,India", fontSize: 10),
-                            Divider(),
-                            AppText(
-                              text:
-                                  "Date: ${CommonFunction.convertUtcToLocalFormatted(controller.activityLogModelFilterList[controller.selectedMarkerId ?? 0].eventAt ?? "").split(",").firstOrNull ?? ""}",
-                            ),
-                            AppText(
-                              text:
-                                  "Time: ${CommonFunction.convertUtcToLocalFormatted(controller.activityLogModelFilterList[controller.selectedMarkerId ?? 0].eventAt ?? "").split(",").reversed.firstOrNull ?? ""}",
-                            ),
-                          ],
+                SizedBox(height: 10),
+                Row(
+                  children: controller.logTypeList
+                      .map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AppRadioButton(
+                            value: e,
+                            groupValue: controller.selectedLogTypeValue,
+                            onChanged: (value) {
+                              controller.selectedLogTypeValue = value;
+                              controller.filterMarker();
+                            },
+                          ),
                         ),
-                      ),
-              ),
-            ],
+                      )
+                      .toList(),
+                ),
+                SizedBox(height: 10),
+
+                Expanded(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(20.5937, 78.9629),
+                      zoom: 4.8,
+                    ),
+                    markers: controller.markers,
+                    onMapCreated: (mapCnt) {
+                      controller.mapController = mapCnt;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 150,
+                  child: controller.isLogDataLoading
+                      ? CommonWidget.commonLoading()
+                      : controller.activityLogModelFilterList.isEmpty
+                      ? CommonWidget.commonEmpty()
+                      : controller.selectedMarkerId == null
+                      ? Center(child: AppText(text: "Select Any Mark"))
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AppText(
+                                text:
+                                    controller
+                                        .activityLogModelFilterList[controller
+                                                .selectedMarkerId ??
+                                            0]
+                                        .eventType
+                                        ?.capitalizeFirst ??
+                                    "",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 14,
+                              ),
+                              AppText(text: "Mumbai,India", fontSize: 10),
+                              Divider(),
+                              AppText(
+                                text:
+                                    "Date: ${CommonFunction.convertUtcToLocalFormatted(controller.activityLogModelFilterList[controller.selectedMarkerId ?? 0].eventAt ?? "").split(",").firstOrNull ?? ""}",
+                              ),
+                              AppText(
+                                text:
+                                    "Time: ${CommonFunction.convertUtcToLocalFormatted(controller.activityLogModelFilterList[controller.selectedMarkerId ?? 0].eventAt ?? "").split(",").reversed.firstOrNull ?? ""}",
+                              ),
+                            ],
+                          ),
+                        ),
+                ),
+              ],
+            ),
           );
         },
       ),

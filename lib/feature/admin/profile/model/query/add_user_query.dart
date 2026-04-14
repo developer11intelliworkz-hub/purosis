@@ -36,7 +36,7 @@ class AddUserQuery {
     landlineNo = json['landline_no'];
   }
 
-  String? distributorId;
+  int? distributorId;
   String? name;
   String? email;
   String? phoneNo;

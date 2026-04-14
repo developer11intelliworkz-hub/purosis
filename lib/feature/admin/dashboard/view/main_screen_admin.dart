@@ -13,6 +13,12 @@ class MainScreenAdmin extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: CommonWidget.appAppBar(
+            actions: [
+              IconButton(
+                onPressed: () {},
+                icon: Image(image: AssetImage("assets/icon/notification.png")),
+              ),
+            ],
             title: controller.screenNameList[controller.currentIndex],
           ),
           body: controller.screenList[controller.currentIndex],

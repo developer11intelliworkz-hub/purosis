@@ -90,19 +90,20 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
                   AppTextField(
                     labelText: "Admin Name",
                     controller: controller.adminNameTEC,
                     validator: CommonValidation.fieldValidation,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   AppTextField(
                     labelText: "Mobile Number",
                     controller: controller.mobileNumberTEC,
                     validator: CommonValidation.fieldValidation,
                     readOnly: true,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   AppTextField(
                     labelText: "Email Address",
                     controller: controller.emailAddressTEC,
