@@ -90,9 +90,9 @@ class ProductController extends GetxController {
     isBuyNowLoading = true;
     update();
     AddToCartQuery addToCartQuery = AddToCartQuery(
-      colorCode: productDetailModel
+      colorId: productDetailModel
           ?.productColorsImages?[selectedProductIndex]
-          .colorCode,
+          .colorId,
       productId: productDetailModel?.id,
       qty: productQuantity,
     );
@@ -115,9 +115,9 @@ class ProductController extends GetxController {
     isAddToCartLoading = true;
     update();
     AddToCartQuery addToCartQuery = AddToCartQuery(
-      colorCode: productDetailModel
+      colorId: productDetailModel
           ?.productColorsImages?[selectedProductIndex]
-          .colorCode,
+          .colorId,
       productId: productDetailModel?.id,
       qty: productQuantity,
     );

@@ -7,17 +7,18 @@ import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
-import '../controller/marketing_controller.dart';
+import '../../marketing/controller/marketing_controller.dart';
 
-class BrochuresViewDistributor extends StatefulWidget {
-  const BrochuresViewDistributor({super.key});
+class BrochuresViewDistributorDashboard extends StatefulWidget {
+  const BrochuresViewDistributorDashboard({super.key});
 
   @override
-  State<BrochuresViewDistributor> createState() =>
-      _BrochuresViewDistributorState();
+  State<BrochuresViewDistributorDashboard> createState() =>
+      _BrochuresViewDistributorDashboardState();
 }
 
-class _BrochuresViewDistributorState extends State<BrochuresViewDistributor> {
+class _BrochuresViewDistributorDashboardState
+    extends State<BrochuresViewDistributorDashboard> {
   MarketingController marketingController = Get.find();
 
   @override

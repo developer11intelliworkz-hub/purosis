@@ -57,7 +57,11 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                     AppRoutes.editPost,
                                     arguments:
                                         controller.postsModelFilterList[index],
-                                  );
+                                  )?.then((value) {
+                                    if (value == true) {
+                                      controller.getPostsApi();
+                                    }
+                                  });
                                 },
                                 child: Card(
                                   color: Colors.white,

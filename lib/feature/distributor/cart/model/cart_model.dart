@@ -101,14 +101,21 @@ class Product {
 }
 
 class ProductColorImage {
+  int? colorId;
   String? colorName;
   String? colorCode;
   List<String>? images;
 
-  ProductColorImage({this.colorName, this.colorCode, this.images});
+  ProductColorImage({
+    this.colorId,
+    this.colorName,
+    this.colorCode,
+    this.images,
+  });
 
   factory ProductColorImage.fromJson(Map<String, dynamic> json) {
     return ProductColorImage(
+      colorId: json['color_id'],
       colorName: json['color_name'],
       colorCode: json['color_code'],
       images: json['images'] != null ? List<String>.from(json['images']) : [],
@@ -116,6 +123,11 @@ class ProductColorImage {
   }
 
   Map<String, dynamic> toJson() {
-    return {'color_name': colorName, 'color_code': colorCode, 'images': images};
+    return {
+      'color_id': colorId,
+      'color_name': colorName,
+      'color_code': colorCode,
+      'images': images,
+    };
   }
 }

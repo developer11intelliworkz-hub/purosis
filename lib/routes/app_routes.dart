@@ -41,6 +41,7 @@ abstract class AppRoutes {
   static const editStock = '/edit_stock';
   static const editProduct = '/edit_product';
   static const imageEditView = '/image_edit_view';
+  static const addImageView = '/add_image_view';
 
   //distributor
   static const distributorDashboard = '/distributor_dashboard';

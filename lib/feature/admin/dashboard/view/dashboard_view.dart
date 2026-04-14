@@ -42,14 +42,14 @@ class _DashboardViewState extends State<DashboardView> {
                           children: [
                             Expanded(
                               child: CardWidget(
-                                icon: AppImage.checkIcon,
+                                icon: AppImage.cartIcon,
                                 count:
                                     (controller
                                                 .dashboardDataModel
-                                                ?.confirmedOrders ??
+                                                ?.pendingOrders ??
                                             0)
                                         .toString(),
-                                bottomText: "Approved Orders",
+                                bottomText: "Pending Orders",
                               ),
                             ),
                             SizedBox(width: 10),
@@ -72,14 +72,14 @@ class _DashboardViewState extends State<DashboardView> {
                           children: [
                             Expanded(
                               child: CardWidget(
-                                icon: AppImage.manIcon,
+                                icon: AppImage.checkIcon,
                                 count:
                                     (controller
                                                 .dashboardDataModel
-                                                ?.totalDealers ??
+                                                ?.confirmedOrders ??
                                             0)
                                         .toString(),
-                                bottomText: "Dealers",
+                                bottomText: "Approved",
                               ),
                             ),
                             SizedBox(width: 10),

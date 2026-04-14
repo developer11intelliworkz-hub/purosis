@@ -85,7 +85,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           (controller
                                                       .orderHistoryModelFilter
                                                       ?.summary
-                                                      ?.confirm ??
+                                                      ?.inProgress ??
                                                   0)
                                               .toString(),
                                       bottomText: 'In Progress',
@@ -99,7 +99,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                           (controller
                                                       .orderHistoryModelFilter
                                                       ?.summary
-                                                      ?.failed ??
+                                                      ?.completed ??
                                                   0)
                                               .toString(),
                                       bottomText: 'Completed',

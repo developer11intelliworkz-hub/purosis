@@ -18,6 +18,12 @@ class _DistributorMainScreenState extends State<DistributorMainScreen> {
   );
 
   @override
+  void initState() {
+    dashboardController.setHeader();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
       init: dashboardController,

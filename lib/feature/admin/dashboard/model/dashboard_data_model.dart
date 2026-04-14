@@ -1,4 +1,5 @@
 class DashboardDataModel {
+  int? pendingOrders;
   int? confirmedOrders;
   int? totalOrders;
   int? totalDistributors;
@@ -7,6 +8,7 @@ class DashboardDataModel {
   int? marketingAssets;
 
   DashboardDataModel({
+    this.pendingOrders,
     this.confirmedOrders,
     this.totalOrders,
     this.totalDistributors,
@@ -16,6 +18,7 @@ class DashboardDataModel {
   });
 
   DashboardDataModel.fromJson(Map<String, dynamic> json) {
+    pendingOrders = json['pending_orders'];
     confirmedOrders = json['confirmed_orders'];
     totalOrders = json['total_orders'];
     totalDistributors = json['total_distributors'];
@@ -26,6 +29,7 @@ class DashboardDataModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'pending_orders': pendingOrders,
       'confirmed_orders': confirmedOrders,
       'total_orders': totalOrders,
       'total_distributors': totalDistributors,

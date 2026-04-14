@@ -2,28 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/product/controller/add_product_controller.dart';
-import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
 import 'package:purosis/widget/common_widget.dart';
-import 'package:purosis/widget/image_picker_network.dart';
 
 import '../../../../utils/common_validation.dart';
 import '../../../../widget/app_button.dart';
 import '../../../../widget/app_text_field.dart';
+import '../../../../widget/image_picker.dart';
 
-class ImageEditView extends StatefulWidget {
-  const ImageEditView({super.key});
+class AddImageView extends StatefulWidget {
+  const AddImageView({super.key});
 
   @override
-  State<ImageEditView> createState() => _ImageEditViewState();
+  State<AddImageView> createState() => _AddImageViewState();
 }
 
-class _ImageEditViewState extends State<ImageEditView> {
-  final AddProductController addProductController = Get.find();
-  ProductColorImage? productColorImage = Get.arguments;
+class _AddImageViewState extends State<AddImageView> {
+  AddProductController addProductController = Get.find();
 
   @override
   void initState() {
-    addProductController.setImageEdit(productColorImage);
     super.initState();
   }
 
@@ -38,10 +35,10 @@ class _ImageEditViewState extends State<ImageEditView> {
             padding: const EdgeInsets.all(8),
             child: Column(
               children: [
-                ImagePickerNetwork(
-                  images: controller.imageItemList,
-                  onAdd: controller.addImagesEdit,
-                  onRemove: controller.removeImageEdit,
+                ImagePicker(
+                  images: controller.selectedImages,
+                  onAdd: controller.addImages,
+                  onRemove: controller.removeImage,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,8 +109,8 @@ class _ImageEditViewState extends State<ImageEditView> {
                     if ((controller.imageValidationKey.currentState
                                 ?.validate() ??
                             false) &&
-                        controller.imageItemList.isNotEmpty) {
-                      controller.updateImageApi(productColorImage);
+                        controller.selectedImages.isNotEmpty) {
+                      controller.addImageApi();
                     }
                   },
                 ),

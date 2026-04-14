@@ -8,6 +8,7 @@ import 'package:purosis/feature/admin/product/model/image_model.dart';
 import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
 import 'package:purosis/feature/admin/product/model/product_model.dart'
     hide ProductColorImage;
+import 'package:purosis/feature/admin/product/model/query/add_update_image_query.dart';
 import 'package:purosis/utils/api_service.dart';
 import 'package:purosis/utils/app_toast.dart';
 
@@ -15,6 +16,7 @@ import '../../../../consts/app_url.dart';
 import '../../../../utils/commmon_function.dart';
 import '../model/product_categories.dart';
 import '../model/query/add_product_query.dart';
+import '../model/query/delete_product_query.dart';
 import '../model/query/sub_category_query.dart';
 import '../model/sub_category_model.dart';
 
@@ -22,6 +24,8 @@ class AddProductController extends GetxController {
   final ApiService apiService = ApiService();
   bool productCategoriesLoading = false;
   bool isAddProductLoading = false;
+  bool isAddImageLoading = false;
+  RxBool isDeleteLoading = false.obs;
   ProductCategories? selectedProductCategories;
   SubCategoryModel? selectedSubCategoryModel;
   Map<String, dynamic> selectedFilter = {};
@@ -206,6 +210,157 @@ class AddProductController extends GetxController {
         })
         .catchError((value) {
           isAddProductLoading = false;
+          update();
+        });
+  }
+
+  Future<void> updateProductApi() async {
+    isAddProductLoading = true;
+    update();
+    AddProductQuery addProductQuery = AddProductQuery(
+      productId: selectedProductDetailModel?.id,
+      productName: productNameTEC.text,
+      categoryId: selectedProductCategories?.id,
+      subCategoryId: selectedSubCategoryModel?.id,
+      description: descriptionTEC.text,
+      unitsPerBox: unitPerBoxTEC.text,
+      weightPerBox: weightPerBoxTEC.text,
+      length: lengthTEC.text,
+      width: widthTEC.text,
+      height: heightTEC.text,
+      technicalVideoUrl: technicalVideoUrlTEC.text,
+      specifications: listOfSpecification,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.addUpdateProductUrl,
+          await addProductQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            AppToast.success(response["message"]);
+          } else {
+            AppToast.error(message: response["message"]);
+          }
+          isAddProductLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isAddProductLoading = false;
+          update();
+        });
+  }
+
+  Future<void> addImageApi() async {
+    isAddImageLoading = true;
+    update();
+    AddUpdateImageQuery addUpdateImageQuery = AddUpdateImageQuery(
+      productId: selectedProductDetailModel?.id,
+      colorCode: CommonFunction.colorToHex(selectedColor),
+      colorImages: selectedImages,
+      colorName: colorNameTEC.text,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.updateProductColorImageUrl,
+          await addUpdateImageQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            ProductColorImage productColorImage = ProductColorImage.fromJson(
+              response["data"],
+            );
+            selectedProductDetailModel?.productColorsImages?.add(
+              productColorImage,
+            );
+            Get.back(result: selectedProductDetailModel);
+            AppToast.success(response["message"]);
+          } else {
+            AppToast.error(message: response["message"]);
+          }
+          isAddImageLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isAddImageLoading = false;
+          update();
+        });
+  }
+
+  Future<void> updateImageApi(ProductColorImage? productColorImage) async {
+    isAddImageLoading = true;
+    update();
+    AddUpdateImageQuery addUpdateImageQuery = AddUpdateImageQuery(
+      productId: selectedProductDetailModel?.id,
+      existingImgNames: imageItemList
+          .map((e) => e.url?.split("/").last)
+          .whereType<String>()
+          .toList(),
+      colorId: productColorImage?.colorId,
+      colorCode: CommonFunction.colorToHex(selectedColor),
+      colorImages: imageItemList
+          .map((e) => e.file)
+          .whereType<PlatformFile>()
+          .toList(),
+      colorName: colorNameTEC.text,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.updateProductColorImageUrl,
+          await addUpdateImageQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            ProductColorImage productColorImage = ProductColorImage.fromJson(
+              response["data"],
+            );
+            selectedProductDetailModel
+                    ?.productColorsImages?[selectedProductDetailModel
+                        ?.productColorsImages
+                        ?.indexWhere(
+                          (e) => e.colorId == productColorImage.colorId,
+                        ) ??
+                    -1] =
+                productColorImage;
+            Get.back(result: selectedProductDetailModel);
+            AppToast.success(response["message"]);
+          } else {
+            AppToast.error(message: response["message"]);
+          }
+          isAddImageLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isAddImageLoading = false;
+          update();
+        });
+  }
+
+  Future<void> deleteImageApi(int? colorId) async {
+    isDeleteLoading.value = true;
+    update();
+    DeleteProductColorQuery deleteProductColorQuery = DeleteProductColorQuery(
+      colorId: colorId,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.deleteProductColorUrl,
+          await deleteProductColorQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            imageEditList.removeWhere((e) => e.colorId == colorId);
+            Get.back();
+            // AppToast.success(response["message"]);
+          } else {
+            AppToast.error(message: response["message"]);
+          }
+          isDeleteLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isDeleteLoading.value = false;
           update();
         });
   }

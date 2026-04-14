@@ -9,12 +9,10 @@ class AppDialogs {
     required VoidCallback onDelete,
     String title = "Delete Item",
     String message = "Are you sure you want to delete?",
-    bool isLoading = false,
+    required RxBool isLoading,
   }) {
     Get.dialog(
       AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: Row(
           children: const [
             Icon(Icons.warning, color: Colors.red),
@@ -32,13 +30,16 @@ class AppDialogs {
               color: const Color(0xFF8EBF1F),
             ),
           ),
-          SizedBox(
-            width: 100,
-            child: AppButton(
-              isLoading: isLoading,
-              text: "Delete",
-              color: const Color(0xFF8EBF1F),
-              onPressed: onDelete,
+
+          Obx(
+            () => SizedBox(
+              width: 100,
+              child: AppButton(
+                isLoading: isLoading.value,
+                text: "Delete",
+                color: const Color(0xFF8EBF1F),
+                onPressed: onDelete,
+              ),
             ),
           ),
         ],

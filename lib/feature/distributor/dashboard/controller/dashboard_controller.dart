@@ -7,7 +7,10 @@ import 'package:purosis/feature/distributor/dashboard/view/dashboard_view.dart';
 import 'package:purosis/utils/api_service.dart';
 
 import '../../../../consts/app_url.dart';
+import '../../../../consts/storage_keys.dart';
 import '../../../../utils/app_toast.dart';
+import '../../../../utils/storage_service.dart';
+import '../../../auth/model/user_model.dart';
 import '../../marketing/model/posts_model.dart';
 import '../../marketing/model/reels_model.dart';
 import '../../marketing/view/marketing_assets_view.dart';
@@ -19,6 +22,7 @@ import '../model/notification_model.dart';
 
 class DashboardController extends GetxController {
   final ApiService apiService = ApiService();
+  final storage = Get.find<StorageService>();
   List<String> screenNameList = [
     "Dashboard",
     "Products",
@@ -45,6 +49,17 @@ class DashboardController extends GetxController {
   bool isProductLoading = false;
   bool isDashboardDataLoading = false;
   int bannerCurrentIndex = 0;
+
+  setHeader() {
+    final data = storage.read(StorageKeys.userData);
+    UserModel userModel = UserModel.fromJson(data);
+    screenNameList = [
+      "Hi, ${userModel.companyName ?? ""}",
+      "Products",
+      "Marketing Assets",
+      "Profile",
+    ];
+  }
 
   Future<void> getDashboardDataApi() async {
     isDashboardDataLoading = true;

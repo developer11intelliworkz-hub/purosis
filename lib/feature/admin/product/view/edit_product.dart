@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/admin/product/controller/add_product_controller.dart';
 import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/utils/app_toast.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_button_outline.dart';
 import 'package:purosis/widget/app_dialog.dart';
 import 'package:purosis/widget/app_drop_down.dart';
 import 'package:purosis/widget/app_text.dart';
@@ -31,7 +33,7 @@ class _EditProductState extends State<EditProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Add New Product"),
+      appBar: CommonWidget.appAppBar(title: "Edit Product"),
       body: GetBuilder<AddProductController>(
         init: addProductController,
         builder: (controller) {
@@ -148,15 +150,24 @@ class _EditProductState extends State<EditProduct> {
                                       Get.toNamed(
                                         AppRoutes.imageEditView,
                                         arguments: e,
-                                      );
+                                      )?.then((value) {
+                                        if (value != null) {}
+                                      });
                                     },
                                     icon: Icon(Icons.edit, color: Colors.grey),
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      AppDialogs.showDeleteDialog(
-                                        onDelete: () {},
-                                      );
+                                      if (controller.imageEditList.length > 1) {
+                                        AppDialogs.showDeleteDialog(
+                                          isLoading: controller.isDeleteLoading,
+                                          onDelete: () async {
+                                            controller.deleteImageApi(
+                                              e.colorId,
+                                            );
+                                          },
+                                        );
+                                      }
                                     },
                                     icon: Icon(
                                       Icons.delete,
@@ -169,6 +180,15 @@ class _EditProductState extends State<EditProduct> {
                           ),
                         )
                         .toList(),
+                  ),
+                  SizedBox(height: 10),
+                  AppButtonOutline(
+                    text: "Add Image",
+                    prefixIcon: Icon(Icons.add),
+                    color: Colors.grey,
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.addImageView);
+                    },
                   ),
                   SizedBox(height: 10),
                   Row(
@@ -260,18 +280,14 @@ class _EditProductState extends State<EditProduct> {
                     text: "Edit Product",
                     color: Color(0xFF8EBF1F),
                     onPressed: () {
-                      if (controller.imageModelList.isEmpty) {
-                        if ((controller.imageValidationKey.currentState
-                                    ?.validate() ??
-                                false) &&
-                            controller.selectedImages.isNotEmpty) {
-                          controller.addImageToList();
-                          if ((controller.allFieldValidationKey.currentState
-                                  ?.validate() ??
-                              false)) {
-                            controller.addProductApi();
-                          }
+                      if (controller.imageEditList.isNotEmpty) {
+                        if ((controller.allFieldValidationKey.currentState
+                                ?.validate() ??
+                            false)) {
+                          controller.updateProductApi();
                         }
+                      } else {
+                        AppToast.error(message: "Add Product Image");
                       }
                     },
                     isLoading: controller.isAddProductLoading,

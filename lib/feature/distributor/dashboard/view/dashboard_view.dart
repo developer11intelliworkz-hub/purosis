@@ -112,6 +112,7 @@ class _DashboardViewState extends State<DashboardView> {
                           ),
                         ],
                       ),
+                    SizedBox(height: 20),
                     Row(
                       children: [
                         SizedBox(width: 10),

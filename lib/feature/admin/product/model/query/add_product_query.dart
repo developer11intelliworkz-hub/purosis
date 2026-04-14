@@ -3,6 +3,7 @@ import 'package:purosis/feature/admin/product/model/image_model.dart';
 
 class AddProductQuery {
   AddProductQuery({
+    this.productId,
     this.productName,
     this.categoryId,
     this.subCategoryId,
@@ -18,6 +19,7 @@ class AddProductQuery {
   });
 
   AddProductQuery.fromJson(dynamic json) {
+    productId = json['product_id'];
     productName = json['product_name'];
     categoryId = json['category_id'];
     subCategoryId = json['sub_category_id'];
@@ -31,6 +33,7 @@ class AddProductQuery {
     specifications = json['specifications'];
     imageModelList = json['image_model_list'];
   }
+  int? productId;
   String? productName;
   num? categoryId;
   num? subCategoryId;
@@ -46,6 +49,7 @@ class AddProductQuery {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['product_id'] = productId;
     map['product_name'] = productName;
     map['category_id'] = categoryId;
     map['sub_category_id'] = subCategoryId;
@@ -63,6 +67,7 @@ class AddProductQuery {
   Future<FormData> toFormData() async {
     final Map<String, dynamic> map = {};
 
+    if (productId != null) map['product_id'] = productId;
     if (productName != null) map['product_name'] = productName;
     if (categoryId != null) map['category_id'] = categoryId;
     if (subCategoryId != null) map['sub_category_id'] = subCategoryId;

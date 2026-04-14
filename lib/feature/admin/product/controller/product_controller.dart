@@ -75,8 +75,12 @@ class ProductController extends GetxController {
     return productModelFilterList;
   }
 
-  Future<void> getProductDetailApi(String productId) async {
+  Future<void> getProductDetailApi(
+    String productId, {
+    bool isUpdate = false,
+  }) async {
     isProductDetailLoading = true;
+    if (isUpdate) update();
     await apiService
         .get(AppUrl.getProductsUrl, queryParameters: {"product_id": productId})
         .then((response) async {

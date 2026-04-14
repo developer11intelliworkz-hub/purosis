@@ -8,6 +8,7 @@ import 'package:purosis/feature/admin/marketing/view/edit_leaflet.dart';
 import 'package:purosis/feature/admin/marketing/view/edit_video.dart';
 import 'package:purosis/feature/admin/marketing/view/reels_view.dart';
 import 'package:purosis/feature/admin/marketing/view/social_media_post.dart';
+import 'package:purosis/feature/admin/product/view/add_image_view.dart';
 import 'package:purosis/feature/admin/product/view/product_detail_view.dart';
 import 'package:purosis/feature/admin/profile/view/add_banner_view.dart';
 import 'package:purosis/feature/admin/profile/view/admin_profile_edit.dart';
@@ -66,7 +67,7 @@ import '../feature/dealer/profile/view/dealer_profile_view.dart';
 import '../feature/distributor/cart/view/review_view.dart';
 import '../feature/distributor/cart/view/transport_view.dart';
 import '../feature/distributor/dashboard/view/distributor_main_screen.dart';
-import '../feature/distributor/marketing/view/brochures_view_distributor.dart';
+import '../feature/distributor/dashboard/view/brochures_view_distributor.dart';
 import '../feature/distributor/marketing/view/leafleats_view_distributor.dart';
 import '../feature/distributor/marketing/view/video_view.dart';
 import '../feature/distributor/profile/view/address_view.dart';
@@ -159,6 +160,7 @@ class AppPages {
     GetPage(name: AppRoutes.editStock, page: () => const EditStock()),
     GetPage(name: AppRoutes.editProduct, page: () => const EditProduct()),
     GetPage(name: AppRoutes.imageEditView, page: () => const ImageEditView()),
+    GetPage(name: AppRoutes.addImageView, page: () => const AddImageView()),
 
     //Distributor
     GetPage(
@@ -171,7 +173,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.brochuresViewDistributor,
-      page: () => const BrochuresViewDistributor(),
+      page: () => const BrochuresViewDistributorDashboard(),
     ),
     GetPage(
       name: AppRoutes.videoViewDistributor,

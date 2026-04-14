@@ -32,24 +32,24 @@ class OrderHistoryModel {
 class Summary {
   int? totalOrders;
   int? pending;
-  int? confirm;
-  int? failed;
+  int? inProgress;
+  int? completed;
 
-  Summary({this.totalOrders, this.pending, this.confirm, this.failed});
+  Summary({this.totalOrders, this.pending, this.inProgress, this.completed});
 
   Summary.fromJson(Map<String, dynamic> json) {
     totalOrders = json['total_orders'];
     pending = json['pending'];
-    confirm = json['confirm'];
-    failed = json['failed'];
+    inProgress = json['in_progress'];
+    completed = json['completed'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['total_orders'] = totalOrders;
     data['pending'] = pending;
-    data['confirm'] = confirm;
-    data['failed'] = failed;
+    data['in_progress'] = inProgress;
+    data['completed'] = completed;
     return data;
   }
 }

@@ -48,13 +48,20 @@ class ProductModel {
 }
 
 class ProductColorImage {
+  int? colorId;
   String? colorName;
   String? colorCode;
   List<String>? images;
 
-  ProductColorImage({this.colorName, this.colorCode, this.images});
+  ProductColorImage({
+    this.colorId,
+    this.colorName,
+    this.colorCode,
+    this.images,
+  });
 
   ProductColorImage.fromJson(Map<String, dynamic> json) {
+    colorId = json['color_id'];
     colorName = json['color_name'];
     colorCode = json['color_code'];
 
@@ -67,6 +74,7 @@ class ProductColorImage {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data['color_id'] = colorId;
     data['color_name'] = colorName;
     data['color_code'] = colorCode;
     data['images'] = images;

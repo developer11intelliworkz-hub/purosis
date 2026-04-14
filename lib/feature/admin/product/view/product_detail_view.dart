@@ -39,14 +39,19 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   Get.toNamed(
                     AppRoutes.editProduct,
                     arguments: controller.productDetailModel,
-                  );
+                  )?.then((value) {
+                    productController.getProductDetailApi(
+                      productId,
+                      isUpdate: true,
+                    );
+                  });
                 },
                 icon: Icon(Icons.edit, color: Colors.grey),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.delete, color: Colors.grey),
-              ),
+              // IconButton(
+              //   onPressed: () {},
+              //   icon: Icon(Icons.delete, color: Colors.grey),
+              // ),
             ],
           ),
           body: controller.isProductDetailLoading
