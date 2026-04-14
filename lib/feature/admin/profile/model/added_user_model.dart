@@ -55,7 +55,7 @@ class AddedUserModel {
   int? isActive;
   num? totalOrders;
   num? assetsDownloaded;
-  num? lastActive;
+  String? lastActive;
   String? alternateMobileNo;
   String? landlineNo;
   String? logo;

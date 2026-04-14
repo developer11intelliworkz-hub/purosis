@@ -44,6 +44,7 @@ class _UserManagementState extends State<UserManagement> {
                       : RefreshIndicator(
                           onRefresh: () async => await controller.getUserApi(),
                           child: ListView.builder(
+                            padding: EdgeInsets.only(bottom: 200, top: 20),
                             itemBuilder: (context, index) {
                               return Card(
                                 elevation: 0,
@@ -68,7 +69,7 @@ class _UserManagementState extends State<UserManagement> {
                                               text:
                                                   controller
                                                       .addUserModelFilterList[index]
-                                                      .name
+                                                      .companyName
                                                       ?.trim()[0] ??
                                                   "",
                                               color: Color(0xFF0067B1),
@@ -111,7 +112,18 @@ class _UserManagementState extends State<UserManagement> {
                                                 SizedBox(height: 5),
                                                 Row(
                                                   children: [
-                                                    Icon(Icons.call),
+                                                    SizedBox(
+                                                      height: 15,
+                                                      width: 15,
+                                                      child: Image(
+                                                        image: AssetImage(
+                                                          "assets/icon/Icon.png",
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 10),
+
+                                                    // Icon(Icons.call),
                                                     AppText(
                                                       text:
                                                           controller
@@ -120,6 +132,14 @@ class _UserManagementState extends State<UserManagement> {
                                                           "",
                                                     ),
                                                   ],
+                                                ),
+                                                SizedBox(height: 5),
+                                                AppText(
+                                                  text:
+                                                      "Last login: ${controller.addUserModelFilterList[index].lastActive ?? ""} days ago",
+                                                  color: Color(0xFF000000),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ],
                                             ),

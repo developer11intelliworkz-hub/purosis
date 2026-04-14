@@ -17,9 +17,9 @@ import 'package:purosis/utils/commmon_function.dart';
 import '../../../../consts/app_url.dart';
 import '../../../../utils/app_toast.dart';
 import '../../../../utils/storage_service.dart';
+import '../model/added_user_model.dart';
 import '../model/query/activity_log_query.dart';
 import '../model/query/update_support_query.dart';
-import '../model/added_user_model.dart';
 import '../model/query/update_user_status_query.dart';
 
 class AdminProfileController extends GetxController {
@@ -50,9 +50,9 @@ class AdminProfileController extends GetxController {
   GoogleMapController? mapController;
   String selectedLogTypeValue = "Both";
   List<String> logTypeList = ["App Open", "Orders", "Both"];
-  final List<String> daysFiltersList = ["Today", "7 Days", "30 Days", "All"];
+  final List<String> daysFiltersList = ["Today", "7 Days", "30 Days", "Custom"];
   int? selectedMarkerId;
-  String selectedDaysValue = "All";
+  String selectedDaysValue = "Custom";
 
   TextEditingController mobileNumberSupportTEC = TextEditingController();
   TextEditingController officeTimeSupportTEC = TextEditingController();

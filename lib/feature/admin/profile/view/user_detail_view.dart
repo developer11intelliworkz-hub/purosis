@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/widget/app_button_outline.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
@@ -22,7 +23,7 @@ class _UserDetailViewState extends State<UserDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidget.appAppBar(
-        title: data.area,
+        title: data.companyName,
         actions: [
           InkWell(
             onTap: () {
@@ -59,14 +60,18 @@ class _UserDetailViewState extends State<UserDetailView> {
               children: [
                 Expanded(
                   child: CardWidget(
-                    icon: AppImage.cartIcon,
+                    icon: AppImage.watchIcon,
                     count: '${data.lastActive ?? 0} Days Ago',
                     bottomText: "Last Active",
                   ),
                 ),
                 Expanded(
                   child: CardWidget(
-                    icon: AppImage.imageIcon,
+                    onTap: () {
+                      print("object");
+                      Get.toNamed(AppRoutes.activityLocation, arguments: data);
+                    },
+                    icon: AppImage.mapIcon,
                     count: 'Map Tracker',
                     bottomText: "View Activity Map",
                   ),
@@ -187,9 +192,87 @@ class _UserDetailViewState extends State<UserDetailView> {
                 ),
               ),
             ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ActiveToggle(
+                  isActive: data.isActive == 1 ? true : false,
+                ),
+              ),
+            ),
+            // With callback
+            SizedBox(height: 20),
+
+            AppButtonOutline(
+              color: Color(0xFF888888),
+              text: "Close",
+              onPressed: () {
+                Get.back();
+              },
+            ),
+
+            SizedBox(height: 100),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ActiveToggle extends StatelessWidget {
+  const ActiveToggle({super.key, this.isActive = true});
+
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AnimatedContainer(
+          duration: Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          width: 55,
+          height: 30,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: isActive ? Color(0xFF7CB518) : Colors.grey.shade300,
+          ),
+          child: AnimatedAlign(
+            duration: Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            alignment: isActive ? Alignment.centerRight : Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 10),
+        Text(
+          isActive ? 'Active' : 'Inactive',
+          style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: isActive ? Color(0xFF333333) : Colors.grey,
+          ),
+        ),
+      ],
     );
   }
 }

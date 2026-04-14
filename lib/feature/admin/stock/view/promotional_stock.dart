@@ -21,6 +21,18 @@ class _PromotionalStockState extends State<PromotionalStock> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF0067B1),
+        shape: CircleBorder(),
+        onPressed: () {
+          Get.toNamed(AppRoutes.inwardPromotionalStock)?.then((value) {
+            if (value == true) {
+              stockController.getItemApi();
+            }
+          });
+        },
+        child: Icon(Icons.add, color: Colors.white, size: 28),
+      ),
       appBar: CommonWidget.appAppBar(title: "Promotional Stock"),
       body: GetBuilder<StockController>(
         init: stockController,
@@ -30,6 +42,13 @@ class _PromotionalStockState extends State<PromotionalStock> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                AppText(
+                  text: "Manage promotional items and stock",
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF888888),
+                  fontSize: 14,
+                ),
+                SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
@@ -39,11 +58,16 @@ class _PromotionalStockState extends State<PromotionalStock> {
                             value,
                           ) {
                             if (value == true) {
+                              controller.selectedList = 1;
+
                               controller.getItemApi();
                             }
                           });
                         },
                         child: AppButton(
+                          prefixIcon: Image(
+                            image: AssetImage("assets/icon/inward.png"),
+                          ),
                           text: "Inward",
                           color: Color(0xFF8EBF1F),
                         ),
@@ -57,11 +81,15 @@ class _PromotionalStockState extends State<PromotionalStock> {
                             value,
                           ) {
                             if (value == true) {
+                              controller.selectedList = 2;
                               controller.getHistoryApi();
                             }
                           });
                         },
                         child: AppButton(
+                          prefixIcon: Image(
+                            image: AssetImage("assets/icon/outward.png"),
+                          ),
                           text: "Outward",
                           color: Color(0xFF0067B1),
                         ),
@@ -80,16 +108,23 @@ class _PromotionalStockState extends State<PromotionalStock> {
                         },
                         child: Container(
                           height: 40,
+                          width: 93,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                            border: controller.selectedList == 1
+                                ? Border.all(color: Colors.grey, width: 2)
+                                : null,
+                            borderRadius: BorderRadius.circular(50),
                             color: controller.selectedList == 1
-                                ? Colors.grey.shade200
-                                : Colors.grey.shade50,
+                                ? Colors.grey
+                                : Colors.white,
                           ),
                           child: AppText(
                             text: "Items",
                             fontWeight: FontWeight.w600,
+                            color: controller.selectedList == 1
+                                ? Colors.white
+                                : Color(0xFF888888),
                           ),
                         ),
                       ),
@@ -105,14 +140,17 @@ class _PromotionalStockState extends State<PromotionalStock> {
                           height: 40,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(50),
                             color: controller.selectedList == 2
-                                ? Colors.grey.shade200
-                                : Colors.grey.shade50,
+                                ? Colors.grey
+                                : Colors.white,
                           ),
                           child: AppText(
                             text: "Transactions History",
                             fontWeight: FontWeight.w600,
+                            color: controller.selectedList == 2
+                                ? Colors.white
+                                : Color(0xFF888888),
                           ),
                         ),
                       ),

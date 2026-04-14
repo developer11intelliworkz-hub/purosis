@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_button_outline.dart';
 import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -45,7 +46,7 @@ class StockInward extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   AppButton(
-                    text: "Submit",
+                    text: "Add Stock",
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isDataLoading,
                     onPressed: () {
@@ -53,6 +54,15 @@ class StockInward extends StatelessWidget {
                           false) {
                         controller.inwardStockApi();
                       }
+                    },
+                  ),
+                  SizedBox(height: 10),
+
+                  AppButtonOutline(
+                    text: "Cancel",
+                    color: Color(0xFF888888),
+                    onPressed: () {
+                      Get.back();
                     },
                   ),
                 ],

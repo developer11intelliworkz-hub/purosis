@@ -24,125 +24,209 @@ class _SupportMessageViewState extends State<SupportMessageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Support Message"),
+      appBar: CommonWidget.appAppBar(title: "Support Messages"),
       body: GetBuilder<AdminProfileController>(
         init: adminProfileController,
         builder: (controller) {
-          return controller.isSupportMessageLoading
-              ? CommonWidget.commonLoading()
-              : controller.supportMessageModelList.isEmpty
-              ? CommonWidget.commonEmpty()
-              : ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: controller.supportMessageModelList.length,
-                  itemBuilder: (context, index) {
-                    final item = controller.supportMessageModelList[index];
+          if (controller.isSupportMessageLoading) {
+            return CommonWidget.commonLoading();
+          }
+          if (controller.supportMessageModelList.isEmpty) {
+            return CommonWidget.commonEmpty();
+          }
+          return ListView.builder(
+            padding: const EdgeInsets.all(12),
+            itemCount: controller.supportMessageModelList.length,
+            itemBuilder: (context, index) {
+              final item = controller.supportMessageModelList[index];
 
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      child: Card(
-                        elevation: 3,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.07),
+                      blurRadius: 8,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ── Header ──────────────────────
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Color(0xFF8EBF1F).withOpacity(0.1),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(14),
+                          topRight: Radius.circular(14),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.support_agent,
+                            size: 16,
+                            color: Color(0xFF8EBF1F),
+                          ),
+                          SizedBox(width: 6),
+                          AppText(
+                            text: "Support Request #${index + 1}",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF8EBF1F),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // ── Body ────────────────────────
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Subject
+                          _LabelValue(
+                            label: "Subject",
+                            value: item.subject ?? "N/A",
+                            icon: Icons.title,
+                            iconColor: Colors.blue,
+                            bold: true,
+                          ),
+
+                          SizedBox(height: 6),
+
+                          // Message Box
+                          _LabelValue(
+                            label: "Message",
+                            value: item.message ?? "N/A",
+                            icon: Icons.message_outlined,
+                            iconColor: Colors.purple,
+                            isMessageBox: true,
+                          ),
+
+                          SizedBox(height: 8),
+
+                          // Distributor + Product in a row
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.subject,
-                                    size: 18,
-                                    color: Colors.blue,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: AppText(
-                                      text: item.subject ?? "",
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ],
+                              Expanded(
+                                child: _LabelValue(
+                                  label: "Company",
+                                  value: item.distributor?.companyName ?? "N/A",
+                                  icon: Icons.business,
+                                  iconColor: Colors.orange,
+                                ),
                               ),
-
-                              const SizedBox(height: 8),
-
-                              AppText(
-                                text: item.message ?? "",
-                                fontSize: 14,
-                                color: Colors.grey[700],
-                              ),
-
-                              const Divider(height: 20),
-
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.business,
-                                    size: 18,
-                                    color: Colors.orange,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: AppText(
-                                      text:
-                                          item.distributor?.companyName ??
-                                          "N/A",
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 6),
-
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.email,
-                                    size: 18,
-                                    color: Colors.red,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: AppText(
-                                      text: item.distributor?.email ?? "N/A",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.shopping_bag,
-                                    size: 18,
-                                    color: Colors.green,
-                                  ),
-                                  const SizedBox(width: 6),
-                                  Expanded(
-                                    child: AppText(
-                                      text:
-                                          item.product?.productName ??
-                                          "No Product",
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: _LabelValue(
+                                  label: "Product",
+                                  value: item.product?.productName ?? "N/A",
+                                  icon: Icons.shopping_bag_outlined,
+                                  iconColor: Color(0xFF8EBF1F),
+                                ),
                               ),
                             ],
                           ),
-                        ),
+
+                          SizedBox(height: 6),
+
+                          // Email
+                          _LabelValue(
+                            label: "Email",
+                            value: item.distributor?.email ?? "N/A",
+                            icon: Icons.email_outlined,
+                            iconColor: Colors.red,
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                );
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
         },
       ),
+    );
+  }
+}
+
+// ── Reusable Label + Value ────────────────────────────────────
+class _LabelValue extends StatelessWidget {
+  const _LabelValue({
+    required this.label,
+    required this.value,
+    required this.icon,
+    required this.iconColor,
+    this.bold = false,
+    this.isMessageBox = false,
+  });
+
+  final String label;
+  final String value;
+  final IconData icon;
+  final Color iconColor;
+  final bool bold;
+  final bool isMessageBox;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 16, color: iconColor),
+        SizedBox(width: 6),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 2),
+              isMessageBox
+                  ? Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: Colors.grey.shade200),
+                      ),
+                      child: Text(
+                        value,
+                        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                      ),
+                    )
+                  : Text(
+                      value,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

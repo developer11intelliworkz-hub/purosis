@@ -99,7 +99,7 @@ class AppPages {
       page: () => const AdminProfileEdit(),
     ),
     GetPage(name: AppRoutes.userManagement, page: () => const UserManagement()),
-    GetPage(name: AppRoutes.userManagement, page: () => const UserManagement()),
+    // GetPage(name: AppRoutes.userManagement, page: () => const UserManagement()),
     GetPage(name: AppRoutes.userDetail, page: () => const UserDetailView()),
     GetPage(
       name: AppRoutes.activityLocation,

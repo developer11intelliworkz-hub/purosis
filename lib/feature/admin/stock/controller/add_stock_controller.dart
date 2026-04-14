@@ -78,6 +78,7 @@ class AddStockController extends GetxController {
         .then((response) {
           if (response["success"] == true) {
             Get.back(result: true);
+
             AppToast.success(response['message']);
           } else {
             AppToast.error();

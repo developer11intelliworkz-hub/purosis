@@ -1,7 +1,10 @@
 class AppUrl {
-  static const String _baseUrl = "http://intelliworkz.co";
-  static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
+  // static const String _baseUrl = "http://intelliworkz.co";
 
+  static const String _baseUrl = "http://192.168.0.58/";
+
+  // static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
+  static const String baseUrlApi = "$_baseUrl/purosis_laravel_app/public/api/";
   static const String sendOTPUrl = "/admin/send-otp";
   static const String verifyOTPUrl = "/admin/verify-otp";
   static const String sendUserOTPUrl = "/user/send-otp";
