@@ -32,7 +32,7 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
       body: GetBuilder<AdminProfileController>(
         init: adminProfileController,
         builder: (controller) {
-          return Padding(
+          return SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
             child: Form(
               key: controller.validationKey,

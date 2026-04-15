@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/routes/app_routes.dart';
 
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -21,6 +22,7 @@ class _PostsViewDealerState extends State<PostsViewDealer> {
 
   @override
   void initState() {
+    marketingController.filterPostSelectedValue = {};
     marketingController.getPostsApi();
     super.initState();
   }
@@ -46,28 +48,28 @@ class _PostsViewDealerState extends State<PostsViewDealer> {
                         onChanged: controller.filterPosts,
                       ),
                     ),
-                    // AppBadgeWidget(
-                    //   showBadge:
-                    //       controller.filterPostSelectedValue?.isNotEmpty ??
-                    //       false,
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       Get.toNamed(
-                    //         AppRoutes.filterMarketingPost,
-                    //         arguments: controller.filterPostSelectedValue,
-                    //       )?.then((value) {
-                    //         if (value != null) {
-                    //           controller.filterPostSelectedValue = value;
-                    //           controller.getPostsApi(
-                    //             queryParameters:
-                    //                 controller.filterPostSelectedValue,
-                    //           );
-                    //         }
-                    //       });
-                    //     },
-                    //     icon: Icon(Icons.tune),
-                    //   ),
-                    // ),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterPostSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingPost,
+                            arguments: controller.filterPostSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterPostSelectedValue = value;
+                              controller.getPostsApi(
+                                queryParameters:
+                                    controller.filterPostSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -77,7 +79,9 @@ class _PostsViewDealerState extends State<PostsViewDealer> {
                       : controller.postsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getPostsApi(),
+                          onRefresh: () async => await controller.getPostsApi(
+                            queryParameters: controller.filterPostSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(

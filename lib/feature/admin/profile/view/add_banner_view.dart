@@ -24,6 +24,12 @@ class _AddBannerViewState extends State<AddBannerView> {
   }
 
   @override
+  void dispose() {
+    bannerController.clearData();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidget.appAppBar(title: "Add Banner"),
@@ -88,8 +94,9 @@ class _AddBannerViewState extends State<AddBannerView> {
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isBannerAddLoading,
                     onPressed: () {
-                      if (controller.validationKey.currentState?.validate() ??
-                          false) {
+                      if ((controller.validationKey.currentState?.validate() ??
+                              false) &&
+                          controller.selectedFile != null) {
                         controller.addBannerApi();
                       }
                     },

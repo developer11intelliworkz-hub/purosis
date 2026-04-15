@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:media_store_plus/media_store_plus.dart';
 import 'package:purosis/routes/app_pages.dart';
 import 'package:purosis/utils/app_theme.dart';
 import 'package:purosis/utils/notification_handler.dart';
@@ -14,24 +17,25 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Background handler
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-  // Init notification service
-  await NotificationHandler.init();
   await initDependencies();
   runApp(const MyApp());
 }
 
 Future<void> initDependencies() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Background handler
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+  await NotificationHandler.init();
+
   Get.put(StorageService(), permanent: true);
-  // await FlutterDownloader.initialize(
-  //   debug: true,
-  //   ignoreSsl: true,
-  // );
+
+  if (Platform.isAndroid) {
+    await MediaStore.ensureInitialized();
+    MediaStore.appFolder = "Purosis";
+  }
 }
 
 class MyApp extends StatelessWidget {

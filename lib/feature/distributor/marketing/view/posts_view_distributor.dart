@@ -32,7 +32,7 @@ class _PostsViewDistributorState extends State<PostsViewDistributor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Social Media Post"),
+      appBar: CommonWidget.appAppBar(title: "Posts"),
       body: GetBuilder<MarketingController>(
         init: marketingController,
         builder: (controller) {

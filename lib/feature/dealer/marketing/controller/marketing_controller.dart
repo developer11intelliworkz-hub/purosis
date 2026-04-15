@@ -25,12 +25,14 @@ class MarketingController extends GetxController {
   bool isVideoLoading = false;
   bool isLeafletLoading = false;
   List<BrochuresModel> brochuresModelList = [];
+  List<BrochuresModel> brochuresModelViewList = [];
   List<BrochuresModel> brochuresModelFilterList = [];
   List<PostsModel> postsModelList = [];
   List<PostsModel> postsModelFilterList = [];
   List<ReelsModel> reelsModelList = [];
   List<ReelsModel> reelsModelFilterList = [];
   List<LeafletModel> leafletModelList = [];
+  List<LeafletModel> leafletModelViewList = [];
   List<LeafletModel> leafletModelFilterList = [];
   List<VideoModel> videoModelList = [];
   List<VideoModel> videoModelFilterList = [];
@@ -75,7 +77,7 @@ class MarketingController extends GetxController {
 
   filterBrochure(String query) {
     if (query.isNotEmpty && query.length >= 4) {
-      final item = brochuresModelList
+      final item = brochuresModelViewList
           .where(
             (item) =>
                 (item.title?.toLowerCase().contains(query.toLowerCase()) ??
@@ -87,7 +89,7 @@ class MarketingController extends GetxController {
     }
     if (query.isEmpty) {
       brochuresModelFilterList.clear();
-      brochuresModelFilterList.addAll(brochuresModelList);
+      brochuresModelFilterList.addAll(brochuresModelViewList);
       update();
     }
   }
@@ -132,7 +134,7 @@ class MarketingController extends GetxController {
 
   filterLeaflet(String query) {
     if (query.isNotEmpty && query.length >= 4) {
-      final item = leafletModelList
+      final item = leafletModelViewList
           .where(
             (item) =>
                 (item.title?.toLowerCase().contains(query.toLowerCase()) ??
@@ -144,7 +146,7 @@ class MarketingController extends GetxController {
     }
     if (query.isEmpty) {
       leafletModelFilterList.clear();
-      leafletModelFilterList.addAll(leafletModelList);
+      leafletModelFilterList.addAll(leafletModelViewList);
       update();
     }
   }
@@ -177,12 +179,18 @@ class MarketingController extends GetxController {
           queryParameters: {"filter": jsonEncode(queryParameters)},
         )
         .then((response) {
-          brochuresModelList.clear();
+          if (queryParameters?.isEmpty ?? true) {
+            brochuresModelList.clear();
+          }
           brochuresModelFilterList.clear();
+          brochuresModelViewList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
-              brochuresModelList.add(BrochuresModel.fromJson(data));
+              if (queryParameters?.isEmpty ?? true) {
+                brochuresModelList.add(BrochuresModel.fromJson(data));
+              }
               brochuresModelFilterList.add(BrochuresModel.fromJson(data));
+              brochuresModelViewList.add(BrochuresModel.fromJson(data));
             }
           }
           isBrochuresLoading = false;
@@ -255,12 +263,18 @@ class MarketingController extends GetxController {
           queryParameters: {"filter": jsonEncode(queryParameters)},
         )
         .then((response) {
-          leafletModelList.clear();
+          if (queryParameters?.isEmpty ?? true) {
+            leafletModelList.clear();
+          }
           leafletModelFilterList.clear();
+          leafletModelViewList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
-              leafletModelList.add(LeafletModel.fromJson(data));
+              if (queryParameters?.isEmpty ?? true) {
+                leafletModelList.add(LeafletModel.fromJson(data));
+              }
               leafletModelFilterList.add(LeafletModel.fromJson(data));
+              leafletModelViewList.add(LeafletModel.fromJson(data));
             }
           }
           isLeafletLoading = false;

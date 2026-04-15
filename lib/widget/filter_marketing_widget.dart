@@ -215,7 +215,7 @@ class _FilterMarketingWidgetState extends State<FilterMarketingWidget> {
           // }
           return ListView.builder(
             padding: const EdgeInsets.all(12),
-            itemCount: asyncSnapshot.data?.postCategory?.length ?? 0,
+            itemCount: categoriesData.length,
             itemBuilder: (context, index) {
               int? item = categoriesData[index].id;
               bool isSelected = selectedCategories.contains(item);

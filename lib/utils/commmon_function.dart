@@ -6,9 +6,11 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import 'package:media_store_plus/media_store_plus.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/rendering.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:purosis/utils/app_toast.dart';
 
 class CommonFunction {
   static Future<List<PlatformFile>> pickMultipleImages({
@@ -82,7 +84,7 @@ class CommonFunction {
     );
   }
 
-  static Future<File?> convertCardToImage(GlobalKey key) async {
+  static Future<void> convertCardToImage(GlobalKey key) async {
     try {
       RenderRepaintBoundary boundary =
           key.currentContext!.findRenderObject() as RenderRepaintBoundary;
@@ -93,52 +95,38 @@ class CommonFunction {
         format: ui.ImageByteFormat.png,
       );
 
-      if (byteData == null) return null;
+      if (byteData == null) return;
 
       Uint8List pngBytes = byteData.buffer.asUint8List();
 
-      final dir = await getApplicationDocumentsDirectory();
+      final dir = await getApplicationCacheDirectory();
 
       final file = File(
         "${dir.path}/festival_post_${DateTime.now().millisecondsSinceEpoch}.png",
       );
 
-      await file.writeAsBytes(pngBytes);
-      final fileDownload = await saveToDownload(pngBytes);
-      //
-      // if (file != null) {
-      //   print("Saved in Download: ${file.path}");
-      // }
-
-      return file;
+      final fileWrite = await file.writeAsBytes(pngBytes);
+      final result = await saveToDownload(fileWrite.path);
+      if (result?.isSuccessful ?? false) {
+        await OpenFilex.open(fileWrite.path);
+      } else {
+        AppToast.error();
+      }
     } catch (e) {
-      debugPrint("Capture Error: $e");
-      return null;
+      AppToast.error();
     }
   }
 
-  static Future<File?> saveToDownload(Uint8List bytes) async {
+  static Future<SaveInfo?> saveToDownload(String filePath) async {
     try {
-      /// Ask permission
-      var status = await Permission.storage.request();
-
-      if (!status.isGranted) {
-        print("Permission Denied");
-        return null;
-      }
-
-      /// Download folder path (Android)
-      Directory directory = Directory("/storage/emulated/0/Download");
-
-      /// Create file
-      String filePath =
-          "${directory.path}/festival_${DateTime.now().millisecondsSinceEpoch}.png";
-
-      File file = File(filePath);
-
-      await file.writeAsBytes(bytes);
-
-      return file;
+      final mediaStore = MediaStore();
+      final result = await mediaStore.saveFile(
+        tempFilePath: filePath,
+        dirType: DirType.download,
+        dirName: DirName.download,
+      );
+      print("Saved: ${result?.uri}");
+      return result;
     } catch (e) {
       print("Save Error: $e");
       return null;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -19,6 +21,7 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
 
   @override
   void initState() {
+    marketingController.filterVideoSelectedValue = {};
     marketingController.getVideoApi();
     super.initState();
   }
@@ -44,28 +47,28 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
                         onChanged: controller.filterVideo,
                       ),
                     ),
-                    // AppBadgeWidget(
-                    //   showBadge:
-                    //       controller.filterVideoSelectedValue?.isNotEmpty ??
-                    //       false,
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       Get.toNamed(
-                    //         AppRoutes.filterMarketingVideo,
-                    //         arguments: controller.filterVideoSelectedValue,
-                    //       )?.then((value) {
-                    //         if (value != null) {
-                    //           controller.filterVideoSelectedValue = value;
-                    //           controller.getVideoApi(
-                    //             queryParameters:
-                    //                 controller.filterVideoSelectedValue,
-                    //           );
-                    //         }
-                    //       });
-                    //     },
-                    //     icon: Icon(Icons.tune),
-                    //   ),
-                    // ),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterVideoSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingVideo,
+                            arguments: controller.filterVideoSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterVideoSelectedValue = value;
+                              controller.getVideoApi(
+                                queryParameters:
+                                    controller.filterVideoSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -75,7 +78,10 @@ class _VideoViewDealerState extends State<VideoViewDealer> {
                       : controller.videoModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getVideoApi(),
+                          onRefresh: () async => await controller.getVideoApi(
+                            queryParameters:
+                                controller.filterVideoSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -16,6 +18,11 @@ class LeafleatsViewDealer extends StatefulWidget {
 
 class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
   final MarketingController marketingController = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,28 +43,28 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
                         onChanged: controller.filterLeaflet,
                       ),
                     ),
-                    // AppBadgeWidget(
-                    //   showBadge:
-                    //       controller.filterLeafletsSelectedValue?.isNotEmpty ??
-                    //       false,
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       Get.toNamed(
-                    //         AppRoutes.filterMarketingLeaflets,
-                    //         arguments: controller.filterLeafletsSelectedValue,
-                    //       )?.then((value) {
-                    //         if (value != null) {
-                    //           controller.filterLeafletsSelectedValue = value;
-                    //           controller.getLeafletApi(
-                    //             queryParameters:
-                    //                 controller.filterLeafletsSelectedValue,
-                    //           );
-                    //         }
-                    //       });
-                    //     },
-                    //     icon: Icon(Icons.tune),
-                    //   ),
-                    // ),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterLeafletsSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingLeaflets,
+                            arguments: controller.filterLeafletsSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterLeafletsSelectedValue = value;
+                              controller.getLeafletApi(
+                                queryParameters:
+                                    controller.filterLeafletsSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -67,8 +74,10 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
                       : controller.leafletModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async =>
-                              await controller.getLeafletApi(),
+                          onRefresh: () async => await controller.getLeafletApi(
+                            queryParameters:
+                                controller.filterLeafletsSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(

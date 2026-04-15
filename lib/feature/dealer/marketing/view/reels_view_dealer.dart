@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -20,6 +22,7 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
 
   @override
   void initState() {
+    marketingController.filterReelSelectedValue = {};
     marketingController.getReelApi();
     super.initState();
   }
@@ -45,28 +48,28 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
                         onChanged: controller.filterReel,
                       ),
                     ),
-                    // AppBadgeWidget(
-                    //   showBadge:
-                    //       controller.filterReelSelectedValue?.isNotEmpty ??
-                    //       false,
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       Get.toNamed(
-                    //         AppRoutes.filterMarketingReel,
-                    //         arguments: controller.filterReelSelectedValue,
-                    //       )?.then((value) {
-                    //         if (value != null) {
-                    //           controller.filterReelSelectedValue = value;
-                    //           controller.getReelApi(
-                    //             queryParameters:
-                    //                 controller.filterReelSelectedValue,
-                    //           );
-                    //         }
-                    //       });
-                    //     },
-                    //     icon: Icon(Icons.tune),
-                    //   ),
-                    // ),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterReelSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingReel,
+                            arguments: controller.filterReelSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterReelSelectedValue = value;
+                              controller.getReelApi(
+                                queryParameters:
+                                    controller.filterReelSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -76,7 +79,9 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
                       : controller.reelsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getReelApi(),
+                          onRefresh: () async => await controller.getReelApi(
+                            queryParameters: controller.filterReelSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(

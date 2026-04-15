@@ -109,7 +109,10 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                           milliseconds: 800,
                         ),
                         viewportFraction: 1,
-                        onPageChanged: (index, reason) {},
+                        onPageChanged: (index, reason) {
+                          dashboardController.bannerCurrentIndex = index;
+                          marketingController.update();
+                        },
                       ),
                       items:
                           dashboardController.dashboardDataModel?.banners
@@ -161,7 +164,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    AppText(text: "Post", fontWeight: FontWeight.w600),
+                    AppText(text: "Posts", fontWeight: FontWeight.w600),
                     Spacer(),
                     ViewAllWidget(
                       onTap: () {
@@ -305,7 +308,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    AppText(text: "Video", fontWeight: FontWeight.w600),
+                    AppText(text: "Videos", fontWeight: FontWeight.w600),
                     Spacer(),
                     ViewAllWidget(
                       onTap: () {
@@ -338,7 +341,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                                       width: double.maxFinite,
                                       imageUrl: controller
                                           .videoModelList[index]
-                                          .mediaFile,
+                                          .thumbnailImage,
                                       fit: BoxFit.fill,
                                     ),
                                   ),

@@ -34,6 +34,11 @@ class BannerController extends GetxController {
     }
   }
 
+  clearData() {
+    selectedFile = null;
+    selectedOfferFor = null;
+  }
+
   Future<void> addBannerApi() async {
     isBannerAddLoading = true;
     update();
@@ -48,7 +53,7 @@ class BannerController extends GetxController {
             Get.back(result: true);
             AppToast.success(response['message']);
           } else {
-            AppToast.error();
+            AppToast.success(response['message']);
           }
           isBannerAddLoading = false;
           update();

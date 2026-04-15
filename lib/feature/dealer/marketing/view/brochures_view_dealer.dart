@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_badge_widget.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -37,28 +39,28 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
                         onChanged: controller.filterBrochure,
                       ),
                     ),
-                    // AppBadgeWidget(
-                    //   showBadge:
-                    //       controller.filterBrochuresSelectedValue?.isNotEmpty ??
-                    //       false,
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       Get.toNamed(
-                    //         AppRoutes.filterMarketingBrochures,
-                    //         arguments: controller.filterBrochuresSelectedValue,
-                    //       )?.then((value) {
-                    //         if (value != null) {
-                    //           controller.filterBrochuresSelectedValue = value;
-                    //           controller.getBrochuresApi(
-                    //             queryParameters:
-                    //                 controller.filterBrochuresSelectedValue,
-                    //           );
-                    //         }
-                    //       });
-                    //     },
-                    //     icon: Icon(Icons.tune),
-                    //   ),
-                    // ),
+                    AppBadgeWidget(
+                      showBadge:
+                          controller.filterBrochuresSelectedValue?.isNotEmpty ??
+                          false,
+                      child: IconButton(
+                        onPressed: () {
+                          Get.toNamed(
+                            AppRoutes.filterMarketingBrochures,
+                            arguments: controller.filterBrochuresSelectedValue,
+                          )?.then((value) {
+                            if (value != null) {
+                              controller.filterBrochuresSelectedValue = value;
+                              controller.getBrochuresApi(
+                                queryParameters:
+                                    controller.filterBrochuresSelectedValue,
+                              );
+                            }
+                          });
+                        },
+                        icon: Icon(Icons.tune),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -69,7 +71,10 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
                           onRefresh: () async =>
-                              await controller.getBrochuresApi(),
+                              await controller.getBrochuresApi(
+                                queryParameters:
+                                    controller.filterBrochuresSelectedValue,
+                              ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(

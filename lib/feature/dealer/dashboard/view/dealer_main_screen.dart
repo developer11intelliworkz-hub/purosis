@@ -21,6 +21,13 @@ class _DealerMainScreenState extends State<DealerMainScreen> {
   final DashboardController dashboardController = Get.put(
     DashboardController(),
   );
+
+  @override
+  void initState() {
+    dashboardController.setHeader();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(

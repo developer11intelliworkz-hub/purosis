@@ -6,6 +6,7 @@ import 'package:purosis/widget/app_image_view.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/app_text_field.dart';
 
+import '../../../../widget/common_widget.dart';
 import '../controller/marketing_controller.dart';
 import '../model/posts_model.dart';
 
@@ -30,7 +31,7 @@ class _CustomizePostDistributorState extends State<CustomizePostDistributor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CommonWidget.appAppBar(title: "Customize"),
       body: GetBuilder<MarketingController>(
         init: marketingController,
         builder: (controller) {

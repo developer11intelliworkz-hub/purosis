@@ -27,6 +27,7 @@ class _CustomizePostPreviewDistributorState
     extends State<CustomizePostPreviewDistributor> {
   final CustomizePostModel postModel = Get.arguments;
   final GlobalKey repaintKey = GlobalKey();
+  bool isDownloadLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +129,7 @@ class _CustomizePostPreviewDistributorState
                 Expanded(
                   child: AppButton(
                     text: "Download",
-                    isLoading: false,
+                    isLoading: isDownloadLoading,
                     onPressed: generateCardImage,
                     color: Color(0xFF8EBF1F),
                   ),
@@ -147,16 +148,17 @@ class _CustomizePostPreviewDistributorState
   }
 
   Future<void> generateCardImage() async {
+    setState(() {
+      isDownloadLoading = true;
+    });
     await preloadImages(context);
 
     await Future.delayed(const Duration(milliseconds: 300));
 
-    final file = await CommonFunction.convertCardToImage(repaintKey);
-
-    // print(await get());
-    if (file != null) {
-      debugPrint("Saved at: ${file.path}");
-    }
+    await CommonFunction.convertCardToImage(repaintKey);
+    setState(() {
+      isDownloadLoading = false;
+    });
   }
 
   Future<void> generateAndShare() async {
