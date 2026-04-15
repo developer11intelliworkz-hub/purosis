@@ -90,17 +90,18 @@ class AddNewBrochure extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     AppButton(
-                      text: "Upload",
+                      text: "Upload Content",
                       color: Color(0xFF8EBF1F),
+
                       onPressed: () {
-                        if (controller.selectedFile == null) {
-                          AppToast.error(message: "Please upload the file");
-                        }
                         if ((controller.validationKey.currentState
-                                    ?.validate() ??
-                                false) &&
-                            controller.selectedFile != null) {
-                          controller.addBrochureApi();
+                                ?.validate() ??
+                            false)) {
+                          if (controller.selectedFile != null) {
+                            controller.addBrochureApi();
+                          } else {
+                            AppToast.error(message: "Please upload the file");
+                          }
                         }
                       },
                       isLoading: controller.isDataLoading,

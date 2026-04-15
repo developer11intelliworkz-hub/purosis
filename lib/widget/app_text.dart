@@ -18,10 +18,15 @@ class AppText extends StatelessWidget {
     this.maxLines,
   });
 
+  String _capitalizeFirst(String value) {
+    if (value.isEmpty) return value;
+    return value[0].toUpperCase() + value.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      _capitalizeFirst(text),
       textAlign: align,
       maxLines: maxLines,
       overflow: maxLines != null ? TextOverflow.ellipsis : null,

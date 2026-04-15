@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
@@ -38,8 +40,21 @@ class _MarketingContentState extends State<MarketingContent> {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 5),
+                AppText(
+                  text: "Upload and manage social media posts",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF888888),
+                ),
+                SizedBox(height: 1.h),
+
+                AppSearchField(
+                  controller: controller.reelSearchTEC,
+                  onChanged: controller.filterReel,
+                ),
+                SizedBox(height: 1.h),
                 Row(
                   children: [
                     AppText(
@@ -233,7 +248,7 @@ class _MarketingContentState extends State<MarketingContent> {
                 Row(
                   children: [
                     AppText(
-                      text: "Reel",
+                      text: "Reels",
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
@@ -311,7 +326,7 @@ class _MarketingContentState extends State<MarketingContent> {
                 Row(
                   children: [
                     AppText(
-                      text: "Leaflet",
+                      text: "Leaflets",
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),
@@ -390,7 +405,7 @@ class _MarketingContentState extends State<MarketingContent> {
                 Row(
                   children: [
                     AppText(
-                      text: "Video",
+                      text: "Videos",
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                     ),

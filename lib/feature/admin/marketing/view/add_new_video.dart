@@ -113,17 +113,17 @@ class AddNewVideo extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   AppButton(
-                    text: "Upload",
+                    text: "Upload Content",
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isDataLoading,
                     onPressed: () {
-                      if (controller.selectedFile == null) {
-                        AppToast.error(message: "Please upload the file");
-                      }
                       if ((controller.validationKey.currentState?.validate() ??
-                              false) &&
-                          controller.selectedFile != null) {
-                        controller.addVideoApi();
+                          false)) {
+                        if (controller.selectedFile != null) {
+                          controller.addVideoApi();
+                        } else {
+                          AppToast.error(message: "Please upload the file");
+                        }
                       }
                     },
                   ),

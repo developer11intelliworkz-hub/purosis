@@ -14,7 +14,7 @@ class DashboardControllerAdmin extends GetxController {
   List<String> screenNameList = [
     "Dashboard",
     "Products",
-    "Marketing Assets",
+    "Marketing Content",
     "Profile",
   ];
   List screenList = [

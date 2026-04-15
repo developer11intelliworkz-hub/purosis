@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../utils/commmon_function.dart';
 import '../../../../widget/app_text.dart';
@@ -215,14 +216,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ),
                       SizedBox(height: 5),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: AppText(text: "Product Type :"),
+                          AppText(
+                            text: "Product Type :",
+                            // align: TextAlign.start,
                           ),
+                          SizedBox(width: 2.w),
                           Expanded(
-                            flex: 3,
+                            // flex: 2,
                             child: AppText(
+                              // align: TextAlign.start,
+                              // color: Colors.red,
                               text:
                                   controller
                                       .productDetailModel
@@ -236,13 +241,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       SizedBox(height: 5),
                       Row(
                         children: [
+                          AppText(text: "Gross Weight :"),
+                          SizedBox(width: 2.w),
+
                           Expanded(
-                            flex: 1,
-                            child: AppText(text: "Gross Weight :"),
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: AppText(text: "10.50 KG(Approx.)"),
+                            child: AppText(
+                              text:
+                                  "${controller.productDetailModel?.weightPerBox ?? ''} KG(Approx.)",
+                            ),
                           ),
                         ],
                       ),

@@ -95,17 +95,18 @@ class AddNewLeaflet extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   AppButton(
-                    text: "Upload",
+                    text: "Upload Content",
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isDataLoading,
+
                     onPressed: () {
-                      if (controller.selectedImages.isEmpty) {
-                        AppToast.error(message: "Please upload the file");
-                      }
                       if ((controller.validationKey.currentState?.validate() ??
-                              false) &&
-                          controller.selectedImages.isNotEmpty) {
-                        controller.addLeafletApi();
+                          false)) {
+                        if (controller.selectedImages.isEmpty) {
+                          controller.addLeafletApi();
+                        } else {
+                          AppToast.error(message: "Please upload the file");
+                        }
                       }
                     },
                   ),

@@ -3,7 +3,9 @@ class AppUrl {
   static const String _baseUrl = "https://testintelliworkz.tech";
   // static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
   static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
+  // static const String baseUrlApi = "$_baseUrl/purosis_laravel_app/public/api/";
 
+  static const String getNotificationsUrl = "admin/get-notifications";
   static const String sendOTPUrl = "/admin/send-otp";
   static const String verifyOTPUrl = "/admin/verify-otp";
   static const String sendUserOTPUrl = "/user/send-otp";

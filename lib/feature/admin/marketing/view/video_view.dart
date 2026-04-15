@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_image_view.dart';
@@ -26,12 +27,46 @@ class _VideoViewState extends State<VideoView> {
         init: marketingController,
         builder: (controller) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppSearchField(
-                  controller: controller.videoSearchTEC,
-                  onChanged: controller.filterVideo,
+                AppText(
+                  text: "Upload and manage social media posts",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF888888),
+                ),
+                SizedBox(height: 1.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.videoSearchTEC,
+                        onChanged: controller.filterVideo,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 2.h,
+                            width: 2.h,
+                            child: Image.asset("assets/icon/filter.png"),
+                          ),
+                          SizedBox(width: 2.w),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(

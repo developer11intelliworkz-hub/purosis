@@ -22,6 +22,7 @@ class EditReel extends StatefulWidget {
 class _EditReelState extends State<EditReel> {
   ReelsModel reelsModel = Get.arguments;
   AddContentController addContentController = AddContentController();
+
   @override
   void initState() {
     addContentController.setEditReelValue(reelsModel);
@@ -120,7 +121,7 @@ class _EditReelState extends State<EditReel> {
                   ),
                   SizedBox(height: 10),
                   AppButton(
-                    text: "Upload",
+                    text: "Upload Content",
                     color: Color(0xFF8EBF1F),
                     isLoading: controller.isDataLoading,
                     onPressed: () {

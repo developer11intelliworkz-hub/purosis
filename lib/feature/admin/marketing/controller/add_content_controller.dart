@@ -12,9 +12,9 @@ import 'package:purosis/utils/app_toast.dart';
 import 'package:purosis/utils/common_api.dart';
 
 import '../../../../consts/app_url.dart';
+import '../../../../model/detail_model.dart';
 import '../../../../utils/commmon_function.dart';
 import '../model/brochures_model.dart';
-import '../../../../model/detail_model.dart';
 import '../model/leaflet_model.dart';
 import '../model/query/add_leaflet_query.dart';
 import '../model/query/add_reel_query.dart';
