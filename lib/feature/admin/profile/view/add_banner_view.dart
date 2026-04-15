@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 import 'package:purosis/feature/admin/profile/controller/banner_controller.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -8,15 +8,27 @@ import '../../../../widget/app_button.dart';
 import '../../../../widget/app_drop_down.dart';
 import '../../../../widget/app_text.dart';
 
-class AddBannerView extends StatelessWidget {
+class AddBannerView extends StatefulWidget {
   const AddBannerView({super.key});
+
+  @override
+  State<AddBannerView> createState() => _AddBannerViewState();
+}
+
+class _AddBannerViewState extends State<AddBannerView> {
+  BannerController bannerController = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonWidget.appAppBar(title: "Add Banner"),
       body: GetBuilder<BannerController>(
-        init: BannerController(),
+        init: bannerController,
         builder: (controller) {
           return Padding(
             padding: const EdgeInsets.all(8.0),

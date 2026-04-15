@@ -192,6 +192,7 @@ class AddProductController extends GetxController {
       height: heightTEC.text,
       technicalVideoUrl: technicalVideoUrlTEC.text,
       imageModelList: imageModelList,
+      specifications: listOfSpecification,
     );
     await apiService
         .postFormData(

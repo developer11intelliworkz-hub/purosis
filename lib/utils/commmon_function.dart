@@ -104,7 +104,7 @@ class CommonFunction {
       );
 
       await file.writeAsBytes(pngBytes);
-      // final file = await saveToDownload(pngBytes);
+      final fileDownload = await saveToDownload(pngBytes);
       //
       // if (file != null) {
       //   print("Saved in Download: ${file.path}");

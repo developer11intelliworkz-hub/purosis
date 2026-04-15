@@ -67,7 +67,7 @@ import '../feature/dealer/profile/view/dealer_profile_view.dart';
 import '../feature/distributor/cart/view/review_view.dart';
 import '../feature/distributor/cart/view/transport_view.dart';
 import '../feature/distributor/dashboard/view/distributor_main_screen.dart';
-import '../feature/distributor/dashboard/view/brochures_view_distributor.dart';
+import '../feature/distributor/marketing/view/brochures_view_distributor.dart';
 import '../feature/distributor/marketing/view/leafleats_view_distributor.dart';
 import '../feature/distributor/marketing/view/video_view.dart';
 import '../feature/distributor/profile/view/address_view.dart';

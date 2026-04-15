@@ -153,6 +153,7 @@ class _CustomizePostPreviewDistributorState
 
     final file = await CommonFunction.convertCardToImage(repaintKey);
 
+    // print(await get());
     if (file != null) {
       debugPrint("Saved at: ${file.path}");
     }

@@ -63,7 +63,7 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                                           width: double.maxFinite,
                                           imageUrl: controller
                                               .videoModelFilterList[index]
-                                              .mediaFile,
+                                              .thumbnailImage,
                                           fit: BoxFit.fill,
                                         ),
                                       ),

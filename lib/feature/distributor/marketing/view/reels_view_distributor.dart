@@ -15,7 +15,19 @@ class ReelsViewDistributor extends StatefulWidget {
 }
 
 class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
-  final MarketingController marketingController = Get.find();
+  late MarketingController marketingController;
+
+  @override
+  void initState() {
+    if (Get.isRegistered<MarketingController>()) {
+      marketingController = Get.find();
+    } else {
+      marketingController = MarketingController();
+      marketingController.getReelApi();
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
