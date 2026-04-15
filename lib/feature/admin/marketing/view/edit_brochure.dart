@@ -109,7 +109,7 @@ class _EditBrochureState extends State<EditBrochure> {
                     ),
                     SizedBox(height: 10),
                     AppButton(
-                      text: "Upload",
+                      text: "Upload Content",
                       color: Color(0xFF8EBF1F),
                       onPressed: () {
                         if (controller.validationKey.currentState?.validate() ??

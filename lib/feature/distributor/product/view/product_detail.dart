@@ -295,19 +295,19 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 5),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: AppText(text: "Gross Weight :"),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: AppText(text: "10.50 KG(Approx.)"),
-                                ),
-                              ],
-                            ),
+                            // SizedBox(height: 5),
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       flex: 1,
+                            //       child: AppText(text: "Gross Weight :"),
+                            //     ),
+                            //     Expanded(
+                            //       flex: 3,
+                            //       child: AppText(text: "10.50 KG(Approx.)"),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/admin/dashboard/controller/dashboard_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_text.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../consts/app_image.dart';
 import '../../../../widget/card_widget.dart';
@@ -33,9 +34,17 @@ class _DashboardViewState extends State<DashboardView> {
         return controller.isDashboardLoading
             ? CommonWidget.commonLoading()
             : SingleChildScrollView(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    AppText(
+                      text: "Manage orders, products, and content",
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xFF888888),
+                    ),
+                    SizedBox(height: 1.h),
                     Column(
                       children: [
                         Row(

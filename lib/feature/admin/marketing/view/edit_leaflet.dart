@@ -109,7 +109,7 @@ class _EditLeafletState extends State<EditLeaflet> {
                         ),
                         SizedBox(height: 10),
                         AppButton(
-                          text: "Upload",
+                          text: "Upload Content",
                           color: Color(0xFF8EBF1F),
                           isLoading: controller.isDataLoading,
                           onPressed: () {

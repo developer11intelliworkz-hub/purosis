@@ -6,8 +6,7 @@ import 'package:purosis/routes/app_pages.dart';
 import 'package:purosis/utils/app_theme.dart';
 import 'package:purosis/utils/notification_handler.dart';
 import 'package:purosis/utils/storage_service.dart';
-
-import 'firebase_options.dart';
+import 'package:sizer/sizer.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -15,11 +14,9 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Background handler
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-  // Init notification service
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   await NotificationHandler.init();
   await initDependencies();
   runApp(const MyApp());
@@ -36,14 +33,22 @@ Future<void> initDependencies() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Purosis',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.themeData(),
-      initialRoute: AppPages.initial,
-      getPages: AppPages.routes,
+    return Sizer(
+      builder: (context, orientation, screenType) {
+        return SafeArea(
+          top: false,
+          child: GetMaterialApp(
+            title: 'Purosis',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.themeData(),
+            initialRoute: AppPages.initial,
+            getPages: AppPages.routes,
+          ),
+        );
+      },
     );
   }
 }

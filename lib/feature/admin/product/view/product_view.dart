@@ -4,6 +4,7 @@ import 'package:purosis/feature/admin/product/controller/product_controller.dart
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_image_view.dart';
 import 'package:purosis/widget/common_widget.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -42,12 +43,13 @@ class _ProductViewState extends State<ProductView> {
                         onChanged: controller.filterProduct,
                       ),
                     ),
+                    SizedBox(width: 3.w),
                     Badge(
                       smallSize: 8,
                       isLabelVisible: controller.selectedFilter.isNotEmpty,
                       backgroundColor: Colors.red,
-                      child: IconButton(
-                        onPressed: () {
+                      child: InkWell(
+                        onTap: () {
                           Get.toNamed(
                             AppRoutes.filter,
                             arguments: controller.selectedFilter,
@@ -60,7 +62,18 @@ class _ProductViewState extends State<ProductView> {
                             }
                           });
                         },
-                        icon: Icon(Icons.tune),
+                        child: Row(
+                          children: [
+                            Icon(Icons.tune),
+                            SizedBox(width: 2.w),
+                            AppText(
+                              text: "Filters",
+                              fontSize: 13,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF666666),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -76,6 +89,7 @@ class _ProductViewState extends State<ProductView> {
                             queryParameters: controller.selectedFilter,
                           ),
                           child: GridView.builder(
+                            padding: EdgeInsets.only(bottom: 20.h, top: 2.h),
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
@@ -91,13 +105,15 @@ class _ProductViewState extends State<ProductView> {
                                   color: Colors.white,
                                   clipBehavior: Clip.antiAlias,
                                   child: SizedBox(
-                                    width: 200,
+                                    // color: Colors.red,
+                                    width: 20.h,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: AppImageView(
+                                            // height: 17.h,
                                             imageUrl:
                                                 (controller
                                                         .productModelFilterList[index]
@@ -132,6 +148,7 @@ class _ProductViewState extends State<ProductView> {
                                                 maxLines: 1,
                                                 fontWeight: FontWeight.w700,
                                               ),
+                                              SizedBox(height: 0.5.h),
                                               AppText(
                                                 text:
                                                     controller
@@ -142,6 +159,8 @@ class _ProductViewState extends State<ProductView> {
                                                 maxLines: 2,
                                                 color: Colors.grey,
                                               ),
+                                              SizedBox(height: 0.5.h),
+
                                               Container(
                                                 height: 40,
                                                 width: double.maxFinite,

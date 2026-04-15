@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/model/video_model.dart';
+import 'package:purosis/widget/app_button_outline.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../utils/common_api.dart';
 import '../../../../utils/common_validation.dart';
@@ -22,6 +24,7 @@ class EditVideo extends StatefulWidget {
 class _EditVideoState extends State<EditVideo> {
   VideoModel videoModel = Get.arguments;
   AddContentController addContentController = AddContentController();
+
   @override
   void initState() {
     addContentController.setEditVideoValue(videoModel);
@@ -136,7 +139,7 @@ class _EditVideoState extends State<EditVideo> {
                         ),
                         SizedBox(height: 10),
                         AppButton(
-                          text: "Upload",
+                          text: "Upload Content",
                           color: Color(0xFF8EBF1F),
                           isLoading: controller.isDataLoading,
                           onPressed: () {
@@ -146,6 +149,14 @@ class _EditVideoState extends State<EditVideo> {
                               controller.editVideoApi();
                             }
                           },
+                        ),
+                        SizedBox(height: 1.h),
+                        AppButtonOutline(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          text: "Cancel",
+                          color: Color(0xFF888888),
                         ),
                       ],
                     ),

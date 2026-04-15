@@ -142,13 +142,13 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                       ],
                                     ),
                                     SizedBox(height: 3),
-                                    Row(
-                                      children: [
-                                        Image.asset(AppImage.truckIcon),
-                                        SizedBox(width: 5),
-                                        AppText(text: "Blue Dart Express"),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   children: [
+                                    //     Image.asset(AppImage.truckIcon),
+                                    //     SizedBox(width: 5),
+                                    //     AppText(text: "Blue Dart Express"),
+                                    //   ],
+                                    // ),
                                     SizedBox(height: 5),
                                     Row(
                                       children: [

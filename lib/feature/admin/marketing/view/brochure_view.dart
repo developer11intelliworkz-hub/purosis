@@ -4,6 +4,7 @@ import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/common_widget.dart';
+import 'package:sizer/sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../widget/app_search_field.dart';
@@ -27,12 +28,47 @@ class _BrochureViewState extends State<BrochureView> {
         init: marketingController,
         builder: (controller) {
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.symmetric(horizontal: 2.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppSearchField(
-                  onChanged: controller.filterBrochure,
-                  controller: controller.brochureSearchTEC,
+                AppText(
+                  text: "Upload and manage social media posts",
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF888888),
+                ),
+                SizedBox(height: 1.h),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.brochureSearchTEC,
+                        onChanged: controller.filterBrochure,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 2.h,
+                            width: 2.h,
+                            child: Image.asset("assets/icon/filter.png"),
+                          ),
+                          SizedBox(width: 2.w),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
