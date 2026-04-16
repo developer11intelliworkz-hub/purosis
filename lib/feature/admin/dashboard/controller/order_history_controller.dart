@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:purosis/feature/admin/dashboard/model/order_detail_model.dart';
 import 'package:purosis/feature/admin/dashboard/model/query/approve_decline_query.dart';
@@ -28,9 +27,42 @@ class OrderHistoryController extends GetxController {
   String? selectedType;
   int? changeStatusIndex;
 
-  sortOrder() {
-    isLatest = !isLatest;
-    orderHistoryModelFilterList = orderHistoryModelFilterList.reversed.toList();
+  Map<int, String> tempSelectedStatus = {};
+
+  void sortOrder() {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: shippingStatusList.map((e) {
+            return ListTile(
+              title: Text(e.value ?? ""),
+              onTap: () {
+                Get.back();
+                applySortByStatus(e.key ?? "");
+              },
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  String getStatusLabel(String key) {
+    return shippingStatusList.firstWhereOrNull((e) => e.key == key)?.value ??
+        key;
+  }
+
+  void applySortByStatus(String status) {
+    orderHistoryModelFilterList = orderHistoryModelList
+        .where((e) => e.shippingStatus == status)
+        .toList();
+
     update();
   }
 
@@ -54,6 +86,17 @@ class OrderHistoryController extends GetxController {
       orderHistoryModelFilterList = orderHistoryModelList;
       update();
     }
+  }
+
+  List<CategoryItem> get filteredShippingStatusList {
+    return shippingStatusList
+        .where(
+          (e) =>
+              e.key == "in-process" ||
+              e.key == "shipped" ||
+              e.key == "delivered",
+        )
+        .toList();
   }
 
   Future<void> getHistoryApi() async {
@@ -180,20 +223,27 @@ class OrderHistoryController extends GetxController {
   }
 
   Color getStatusColor(String status) {
-    if (status.toLowerCase() == "pending") {
-      return Color(0xFFF2EBD2);
-    } else if (status.toLowerCase() == "approved") {
-      return Color(0xFFF2EBD2);
-    } else if (status.toLowerCase() == "confirmed") {
-      return Color(0xFFF2EBD2);
-    } else if (status.toLowerCase() == "in-process") {
-      return Color(0xFFD2E8F2);
-    } else if (status.toLowerCase() == "delivered") {
-      return Color(0xFFE5D0EF);
-    } else if (status.toLowerCase() == "declined") {
-      return Color(0xFFF2D2D2);
-    } else {
-      return Color(0xFFF2EBD2);
+    switch (status.toLowerCase()) {
+      case "pending":
+      case "approved":
+      case "confirmed":
+        return const Color(0xFFF2EBD2); // Yellow
+
+      case "in-process":
+      case "processing":
+        return const Color(0xFFD2E8F2); // Blue
+
+      case "shipped":
+        return const Color(0xFFD2E8F2); // Blue (same group)
+
+      case "delivered":
+        return const Color(0xFFE5D0EF); // Purple
+
+      case "declined":
+        return const Color(0xFFF2D2D2); // Red
+
+      default:
+        return const Color(0xFFF2EBD2);
     }
   }
 }
