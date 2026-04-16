@@ -1,8 +1,10 @@
 class AppUrl {
-  // static const String _baseUrl = "http://intelliworkz.co";
-  static const String _baseUrl = "https://testintelliworkz.tech";
-  // static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
+  static const String _baseUrl = "http://intelliworkz.co";
+
+  // static const String _baseUrl = "https://testintelliworkz.tech";
   static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
+
+  // static const String baseUrlApi = "$_baseUrl/purosis/public/api/";
   // static const String baseUrlApi = "$_baseUrl/purosis_laravel_app/public/api/";
 
   static const String getNotificationsUrl = "admin/get-notifications";

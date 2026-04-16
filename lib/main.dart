@@ -11,6 +11,8 @@ import 'package:purosis/utils/notification_handler.dart';
 import 'package:purosis/utils/storage_service.dart';
 import 'package:sizer/sizer.dart';
 
+import 'firebase_options.dart';
+
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }
@@ -39,6 +41,7 @@ Future<void> initDependencies() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Sizer(

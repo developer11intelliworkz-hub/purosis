@@ -4,9 +4,11 @@ import 'package:purosis/feature/admin/dashboard/controller/order_history_control
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_button_outline.dart';
+import 'package:purosis/widget/app_dialog.dart';
 import 'package:purosis/widget/app_drop_down.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/common_widget.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../consts/app_image.dart';
 import '../../../../model/detail_model.dart';
@@ -45,15 +47,25 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                       child: AppSearchField(onChanged: controller.search),
                     ),
                     SizedBox(width: 5),
-                    GestureDetector(
+                    InkWell(
                       onTap: controller.sortOrder,
-                      child: Image.asset(
-                        controller.isLatest
-                            ? AppImage.shortArrowIcon
-                            : AppImage.shortArrow2Icon,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 2.h,
+                            width: 2.h,
+                            child: Image.asset("assets/icon/filter.png"),
+                          ),
+                          SizedBox(width: 2.w),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(width: 5),
                   ],
                 ),
                 SizedBox(height: 5),
@@ -97,11 +109,12 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                             ),
                                           ),
                                           child: AppText(
-                                            text:
-                                                controller
-                                                    .orderHistoryModelFilterList[index]
-                                                    .shippingStatus ??
-                                                "",
+                                            text: controller.getStatusLabel(
+                                              controller
+                                                      .orderHistoryModelFilterList[index]
+                                                      .shippingStatus ??
+                                                  "",
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -112,7 +125,7 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                         SizedBox(width: 5),
                                         AppText(
                                           text:
-                                              "Distributor : Mumbai Water Solutions",
+                                              "Distributor : ${controller.orderHistoryModelFilterList[index].distributor?.companyName ?? ""}",
                                         ),
                                       ],
                                     ),
@@ -250,6 +263,7 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                           ),
                                         ],
                                       ),
+                                    SizedBox(height: 1.h),
                                     if (controller
                                             .orderHistoryModelFilterList[index]
                                             .shippingStatus
@@ -266,7 +280,7 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                               ),
                                             ),
                                             Expanded(
-                                              flex: 2,
+                                              flex: 3,
                                               child:
                                                   controller
                                                           .isUpdateShippingStatusLoading &&
@@ -291,30 +305,61 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                                       label: "Status",
                                                       showSearchBox: false,
                                                       selectedItem: controller
-                                                          .shippingStatusList
+                                                          .filteredShippingStatusList
                                                           .firstWhereOrNull(
                                                             (e) =>
                                                                 e.key ==
-                                                                controller
-                                                                    .orderHistoryModelFilterList[index]
-                                                                    .shippingStatus,
+                                                                (controller
+                                                                        .tempSelectedStatus[controller
+                                                                        .orderHistoryModelFilterList[index]
+                                                                        .id] ??
+                                                                    controller
+                                                                        .orderHistoryModelFilterList[index]
+                                                                        .shippingStatus),
                                                           ),
-                                                      items: (p0, p1) =>
-                                                          controller
-                                                              .shippingStatusList,
+                                                      items: (p0, p1) => controller
+                                                          .filteredShippingStatusList,
                                                       compareFn: (p0, p1) =>
                                                           p0 == p1,
                                                       itemAsString: (p0) =>
                                                           p0.value ?? '',
                                                       onChanged: (value) {
-                                                        controller
-                                                            .updateShippingStatusApi(
-                                                              value?.key ?? "",
-                                                              controller
-                                                                      .orderHistoryModelFilterList[index]
-                                                                      .id ??
-                                                                  -1,
-                                                            );
+                                                        if (value == null) {
+                                                          return;
+                                                        }
+
+                                                        final orderId =
+                                                            controller
+                                                                .orderHistoryModelFilterList[index]
+                                                                .id ??
+                                                            -1;
+
+                                                        final currentStatus =
+                                                            controller
+                                                                .orderHistoryModelFilterList[index]
+                                                                .shippingStatus;
+
+                                                        if (value.key ==
+                                                            currentStatus) {
+                                                          return;
+                                                        }
+
+                                                        AppDialogs.showStatusDialog(
+                                                          message:
+                                                              "Change status to ${value.value}?",
+                                                          isLoading: controller
+                                                              .isUpdateShippingStatusLoading
+                                                              .obs,
+
+                                                          onConfirm: () {
+                                                            Get.back();
+                                                            controller
+                                                                .updateShippingStatusApi(
+                                                                  value.key!,
+                                                                  orderId,
+                                                                );
+                                                          },
+                                                        );
                                                       },
                                                     ),
                                             ),
