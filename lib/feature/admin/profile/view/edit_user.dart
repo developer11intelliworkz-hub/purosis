@@ -6,7 +6,7 @@ import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
 import '../../../../widget/app_button.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/app_text_field.dart';
 import '../model/added_user_model.dart';
@@ -53,7 +53,7 @@ class _EditUserState extends State<EditUser> {
                             child: controller.selectedFile != null
                                 ? Image.file(controller.selectedFile!)
                                 : userModel.logo != null
-                                ? AppImageView(imageUrl: userModel.logo)
+                                ? AppImageViewThumb(imageUrl: userModel.logo)
                                 : Image.asset(
                                     AppImage.imageIcon,
                                     color: Colors.grey,

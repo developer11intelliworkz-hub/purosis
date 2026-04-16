@@ -69,7 +69,7 @@ class _TransportViewState extends State<TransportView> {
                     ),
                   ],
                 ),
-                AppText(text: "Type", fontWeight: FontWeight.w700),
+                AppText(text: "Type *", fontWeight: FontWeight.w700),
                 Row(
                   children: controller.typeList.map((type) {
                     return Row(
@@ -95,6 +95,20 @@ class _TransportViewState extends State<TransportView> {
                     controller: controller.remarksTEC,
                     validator: CommonValidation.fieldValidation,
                   ),
+                ),
+                SizedBox(height: 5),
+                AppButton(
+                  text: "Add New Address",
+                  color: Color(0xFF0067B1),
+                  prefixIcon: Icon(Icons.add, color: Colors.white),
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.addAddressView)?.then((value) {
+                      if (value == true) {
+                        cartController.getAddressApi();
+                        controller.update();
+                      }
+                    });
+                  },
                 ),
                 SizedBox(height: 5),
                 Expanded(
@@ -208,7 +222,7 @@ class _TransportViewState extends State<TransportView> {
                 ),
                 SizedBox(height: 8),
                 AppButton(
-                  text: "Next",
+                  text: "Review",
                   isLoading: false,
                   onPressed: () {
                     if (controller.validationKey.currentState?.validate() ??

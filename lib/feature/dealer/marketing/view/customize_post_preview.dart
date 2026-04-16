@@ -13,7 +13,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../../consts/app_image.dart';
 import '../../../../widget/app_button.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 
 class CustomizePostPreview extends StatefulWidget {
   const CustomizePostPreview({super.key});
@@ -45,7 +45,7 @@ class _CustomizePostPreviewState extends State<CustomizePostPreview> {
                     children: [
                       SizedBox(
                         width: double.maxFinite,
-                        child: AppImageView(
+                        child: AppImageViewThumb(
                           imageUrl: postModel.imageUrl,
                           fit: BoxFit.fill,
                         ),
@@ -57,7 +57,9 @@ class _CustomizePostPreviewState extends State<CustomizePostPreview> {
                             SizedBox(
                               width: 100,
                               height: 100,
-                              child: AppImageView(imageUrl: postModel.logoUrl),
+                              child: AppImageViewThumb(
+                                imageUrl: postModel.logoUrl,
+                              ),
                             ),
                             const SizedBox(width: 3),
                             Expanded(

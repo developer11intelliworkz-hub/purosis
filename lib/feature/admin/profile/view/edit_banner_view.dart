@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/profile/model/banner_model.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 
 import '../../../../utils/common_validation.dart';
 import '../../../../widget/app_button.dart';
@@ -72,7 +72,7 @@ class _EditBannerViewState extends State<EditBannerView> {
                       child:
                           bannerModel.image != null &&
                               controller.selectedFile == null
-                          ? AppImageView(imageUrl: bannerModel.image)
+                          ? AppImageViewThumb(imageUrl: bannerModel.image)
                           : controller.selectedFile != null
                           ? Image.file(
                               controller.selectedFile!,

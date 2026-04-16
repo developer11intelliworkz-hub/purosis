@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/profile/controller/profile_controller.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
@@ -51,7 +51,7 @@ class _EditProfileViewState extends State<EditProfileView> {
                             child: controller.selectedFile != null
                                 ? Image.file(controller.selectedFile!)
                                 : controller.userModel?.logo != null
-                                ? AppImageView(
+                                ? AppImageViewThumb(
                                     imageUrl: controller.userModel?.logo,
                                   )
                                 : Image.asset(
@@ -60,37 +60,39 @@ class _EditProfileViewState extends State<EditProfileView> {
                                   ),
                           ),
                           SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  controller.pickFile();
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: Colors.grey),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.upload, color: Colors.grey),
-                                      AppText(
-                                        text: "Upload Logo",
-                                        color: Colors.grey,
-                                      ),
-                                    ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.pickFile();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(color: Colors.grey),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.upload, color: Colors.grey),
+                                        AppText(
+                                          text: "Upload Logo",
+                                          color: Colors.grey,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 3),
-                              AppText(
-                                text:
-                                    "Your logo will appear on marketing\nmaterials you customize",
-                                color: Colors.grey,
-                              ),
-                            ],
+                                SizedBox(height: 3),
+                                AppText(
+                                  text:
+                                      "Your logo will appear on marketing materials you customize",
+                                  color: Colors.grey,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

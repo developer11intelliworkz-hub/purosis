@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/app_dialog.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -56,6 +57,7 @@ class _AddressViewState extends State<AddressView> {
                                           ? "Billing Address"
                                           : "Shipping Address",
                                       color: Color(0xFF0067B1),
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                   SizedBox(
@@ -74,31 +76,24 @@ class _AddressViewState extends State<AddressView> {
                                   SizedBox(
                                     height: 45,
                                     width: 45,
-                                    child: controller.deleteIndex == index
-                                        ? Align(
-                                            alignment: Alignment.center,
-                                            child: SizedBox(
-                                              height: 20,
-                                              width: 20,
-                                              child: CircularProgressIndicator(
-                                                color: Color(0xFF8EBF1F),
-                                              ),
-                                            ),
-                                          )
-                                        : IconButton(
-                                            onPressed: () {
-                                              controller.deleteAddressApi(
-                                                controller
-                                                    .addressModelList[index]
-                                                    .id,
-                                                index,
-                                              );
-                                            },
-                                            icon: Icon(
-                                              Icons.delete_outline,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        AppDialogs.showDeleteDialog(
+                                          onDelete: () {
+                                            controller.deleteAddressApi(
+                                              controller
+                                                  .addressModelList[index]
+                                                  .id,
+                                            );
+                                          },
+                                          isLoading: controller.isDeleteLoading,
+                                        );
+                                      },
+                                      icon: Icon(
+                                        Icons.delete_outline,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),

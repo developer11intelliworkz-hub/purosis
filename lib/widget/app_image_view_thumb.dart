@@ -1,0 +1,47 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+
+class AppImageViewThumb extends StatelessWidget {
+  const AppImageViewThumb({
+    super.key,
+    this.imageUrl,
+    this.width,
+    this.height,
+    this.fit,
+    this.color,
+    this.borderRadius,
+  });
+
+  final String? imageUrl;
+  final double? width;
+  final double? height;
+  final BoxFit? fit;
+  final Color? color;
+  final double? borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(borderRadius ?? 12),
+        topLeft: Radius.circular(borderRadius ?? 12),
+        bottomRight: Radius.circular(borderRadius ?? 0),
+        bottomLeft: Radius.circular(borderRadius ?? 0),
+      ),
+      child: CachedNetworkImage(
+        width: width,
+        height: height,
+        fit: fit,
+        imageUrl: imageUrl?.trim() ?? "",
+        color: color,
+        placeholder: (context, url) => Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Container(width: 200, height: 200, color: Colors.white),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.broken_image_outlined),
+      ),
+    );
+  }
+}

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/product/controller/product_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/common_widget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -44,36 +44,43 @@ class _ProductViewState extends State<ProductView> {
                       ),
                     ),
                     SizedBox(width: 3.w),
-                    Badge(
-                      smallSize: 8,
-                      isLabelVisible: controller.selectedFilter.isNotEmpty,
-                      backgroundColor: Colors.red,
-                      child: InkWell(
-                        onTap: () {
-                          Get.toNamed(
-                            AppRoutes.filter,
-                            arguments: controller.selectedFilter,
-                          )?.then((value) {
-                            if (value != null) {
-                              controller.selectedFilter = value;
-                              controller.getProductApi(
-                                queryParameters: controller.selectedFilter,
-                              );
-                            }
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            Icon(Icons.tune),
-                            SizedBox(width: 2.w),
-                            AppText(
-                              text: "Filters",
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFF666666),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filter,
+                          arguments: controller.selectedFilter,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.selectedFilter = value;
+                            controller.getProductApi(
+                              queryParameters: controller.selectedFilter,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller.selectedFilter.isNotEmpty,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                top: 8.0,
+                                right: 8,
+                              ),
+                              child: Image.asset("assets/icon/filter.png"),
                             ),
-                          ],
-                        ),
+                          ),
+                          SizedBox(width: 2.w),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -112,7 +119,7 @@ class _ProductViewState extends State<ProductView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             // height: 17.h,
                                             imageUrl:
                                                 (controller

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/utils/api_service.dart';
@@ -32,6 +34,12 @@ class MarketingController extends GetxController {
   TextEditingController reelSearchTEC = TextEditingController();
   TextEditingController leafletSearchTEC = TextEditingController();
   TextEditingController videoSearchTEC = TextEditingController();
+
+  Map<String, dynamic>? filterBrochuresSelectedValue = {};
+  Map<String, dynamic>? filterReelSelectedValue = {};
+  Map<String, dynamic>? filterVideoSelectedValue = {};
+  Map<String, dynamic>? filterLeafletsSelectedValue = {};
+  Map<String, dynamic>? filterPostSelectedValue = {};
 
   filterBrochure(String query) {
     if (query.isNotEmpty && query.length >= 4) {
@@ -128,15 +136,18 @@ class MarketingController extends GetxController {
     }
   }
 
-  Future<void> getBrochuresApi() async {
+  Future<void> getBrochuresApi({Map<String, dynamic>? queryParameters}) async {
     isBrochuresLoading = true;
     update();
     await apiService
-        .get(AppUrl.getBrochuresUrl)
+        .get(
+          AppUrl.getBrochuresUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          brochuresModelList.clear();
+          brochuresModelFilterList.clear();
           if (response["success"] == true) {
-            brochuresModelList.clear();
-            brochuresModelFilterList.clear();
             for (final data in response['data']) {
               brochuresModelList.add(BrochuresModel.fromJson(data));
               brochuresModelFilterList.add(BrochuresModel.fromJson(data));
@@ -151,15 +162,18 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getPostsApi() async {
+  Future<void> getPostsApi({Map<String, dynamic>? queryParameters}) async {
     isPostsLoading = true;
     update();
     await apiService
-        .get(AppUrl.getPostUrl)
+        .get(
+          AppUrl.getPostUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          postsModelList.clear();
+          postsModelFilterList.clear();
           if (response["success"] == true) {
-            postsModelList.clear();
-            postsModelFilterList.clear();
             for (final data in response['data']) {
               postsModelList.add(PostsModel.fromJson(data));
               postsModelFilterList.add(PostsModel.fromJson(data));
@@ -174,15 +188,18 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getReelApi() async {
+  Future<void> getReelApi({Map<String, dynamic>? queryParameters}) async {
     isReelsLoading = true;
     update();
     await apiService
-        .get(AppUrl.getReelsUrl)
+        .get(
+          AppUrl.getReelsUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          reelsModelList.clear();
+          reelsModelFilterList.clear();
           if (response["success"] == true) {
-            reelsModelList.clear();
-            reelsModelFilterList.clear();
             for (final data in response['data']) {
               reelsModelList.add(ReelsModel.fromJson(data));
               reelsModelFilterList.add(ReelsModel.fromJson(data));
@@ -197,15 +214,18 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getLeafletApi() async {
+  Future<void> getLeafletApi({Map<String, dynamic>? queryParameters}) async {
     isLeafletLoading = true;
     update();
     await apiService
-        .get(AppUrl.getLeafletsUrl)
+        .get(
+          AppUrl.getLeafletsUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          leafletModelList.clear();
+          leafletModelFilterList.clear();
           if (response["success"] == true) {
-            leafletModelList.clear();
-            leafletModelFilterList.clear();
             for (final data in response['data']) {
               leafletModelList.add(LeafletModel.fromJson(data));
               leafletModelFilterList.add(LeafletModel.fromJson(data));
@@ -220,15 +240,18 @@ class MarketingController extends GetxController {
         });
   }
 
-  Future<void> getVideoApi() async {
+  Future<void> getVideoApi({Map<String, dynamic>? queryParameters}) async {
     isVideoLoading = true;
     update();
     await apiService
-        .get(AppUrl.getVideoUrl)
+        .get(
+          AppUrl.getVideoUrl,
+          queryParameters: {"filter": jsonEncode(queryParameters)},
+        )
         .then((response) {
+          videoModelList.clear();
+          videoModelFilterList.clear();
           if (response["success"] == true) {
-            videoModelList.clear();
-            videoModelFilterList.clear();
             for (final data in response['data']) {
               videoModelList.add(VideoModel.fromJson(data));
               videoModelFilterList.add(VideoModel.fromJson(data));

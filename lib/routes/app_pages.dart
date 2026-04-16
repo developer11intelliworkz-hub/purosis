@@ -161,6 +161,10 @@ class AppPages {
     GetPage(name: AppRoutes.editProduct, page: () => const EditProduct()),
     GetPage(name: AppRoutes.imageEditView, page: () => const ImageEditView()),
     GetPage(name: AppRoutes.addImageView, page: () => const AddImageView()),
+    GetPage(
+      name: AppRoutes.filterPageAdmin,
+      page: () => const FilterMarketingWidget(typeOfCategories: ''),
+    ),
 
     //Distributor
     GetPage(

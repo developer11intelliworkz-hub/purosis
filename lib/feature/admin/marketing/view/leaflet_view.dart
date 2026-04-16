@@ -4,7 +4,7 @@ import 'package:purosis/widget/common_widget.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../controller/marketing_controller.dart';
@@ -49,15 +49,35 @@ class _LeafletViewState extends State<LeafletView> {
                     ),
                     SizedBox(width: 4.w),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterLeafletsSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterLeafletsSelectedValue = value;
+                            controller.getReelApi(
+                              queryParameters:
+                                  controller.filterLeafletsSelectedValue,
+                            );
+                          }
+                        });
+                      },
                       child: Row(
                         children: [
-                          SizedBox(
-                            height: 2.h,
-                            width: 2.h,
-                            child: Image.asset("assets/icon/filter.png"),
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterLeafletsSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
                           ),
-                          SizedBox(width: 2.w),
                           AppText(
                             text: "Filters",
                             fontSize: 13,
@@ -76,8 +96,10 @@ class _LeafletViewState extends State<LeafletView> {
                       : controller.leafletModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async =>
-                              await controller.getLeafletApi(),
+                          onRefresh: () async => await controller.getLeafletApi(
+                            queryParameters:
+                                controller.filterLeafletsSelectedValue,
+                          ),
                           child: GridView.builder(
                             padding: EdgeInsets.only(bottom: 200, top: 20),
 
@@ -111,7 +133,7 @@ class _LeafletViewState extends State<LeafletView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .leafletModelFilterList[index]

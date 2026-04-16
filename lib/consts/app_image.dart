@@ -4,6 +4,7 @@ class AppImage {
   static const purosisLogoWhite = "assets/logo/purosis_logo_white.png";
 
   static const cartIcon = "assets/icon/cart.png";
+  static const announcementIcon = "assets/icon/announcement_icon.png";
   static const watchIcon = "assets/icon/watch.png";
   static const mapIcon = "assets/icon/map.png";
 

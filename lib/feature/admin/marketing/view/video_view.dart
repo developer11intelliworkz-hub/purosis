@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -48,15 +48,35 @@ class _VideoViewState extends State<VideoView> {
                     ),
                     SizedBox(width: 4.w),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterVideoSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterVideoSelectedValue = value;
+                            controller.getVideoApi(
+                              queryParameters:
+                                  controller.filterVideoSelectedValue,
+                            );
+                          }
+                        });
+                      },
                       child: Row(
                         children: [
-                          SizedBox(
-                            height: 2.h,
-                            width: 2.h,
-                            child: Image.asset("assets/icon/filter.png"),
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterVideoSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
                           ),
-                          SizedBox(width: 2.w),
                           AppText(
                             text: "Filters",
                             fontSize: 13,
@@ -75,10 +95,12 @@ class _VideoViewState extends State<VideoView> {
                       : controller.videoModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getVideoApi(),
+                          onRefresh: () async => await controller.getVideoApi(
+                            queryParameters:
+                                controller.filterVideoSelectedValue,
+                          ),
                           child: GridView.builder(
                             padding: EdgeInsets.only(bottom: 200, top: 20),
-
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -109,7 +131,7 @@ class _VideoViewState extends State<VideoView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .videoModelFilterList[index]

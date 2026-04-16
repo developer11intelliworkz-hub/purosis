@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../widget/app_image_view.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -20,7 +21,7 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Video"),
+      appBar: CommonWidget.appAppBar(title: "Videos"),
       body: GetBuilder<MarketingController>(
         init: marketingController,
         builder: (controller) {
@@ -28,9 +29,54 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(
-                  controller: controller.videoSearchTEC,
-                  onChanged: controller.filterVideo,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.videoSearchTEC,
+                        onChanged: controller.filterVideo,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterVideoSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterVideoSelectedValue = value;
+                            controller.getVideoApi(
+                              queryParameters:
+                                  controller.filterVideoSelectedValue,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterVideoSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
+                          ),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
@@ -39,7 +85,10 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                       : controller.videoModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getVideoApi(),
+                          onRefresh: () async => await controller.getVideoApi(
+                            queryParameters:
+                                controller.filterVideoSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -59,7 +108,7 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: AppImageView(
+                                        child: AppImageViewThumb(
                                           width: double.maxFinite,
                                           imageUrl: controller
                                               .videoModelFilterList[index]

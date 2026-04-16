@@ -79,9 +79,13 @@ class CartController extends GetxController {
   }
 
   getSelectedAddress() {
-    selectedAddressModelList = addressModelList
-        .where((e) => e.id == selectedDealerInfo || e.id == selectedTransport)
-        .toList();
+    selectedAddressModelList.clear();
+    selectedAddressModelList.add(
+      addressModelList.firstWhere((e) => e.id == selectedDealerInfo),
+    );
+    selectedAddressModelList.add(
+      addressModelList.firstWhere((e) => e.id == selectedTransport),
+    );
   }
 
   Future<void> addOrderApi() async {

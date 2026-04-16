@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
@@ -206,7 +206,7 @@ class _MarketingContentState extends State<MarketingContent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .postsModelList[index]
@@ -284,7 +284,7 @@ class _MarketingContentState extends State<MarketingContent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .reelsModelList[index]
@@ -362,7 +362,7 @@ class _MarketingContentState extends State<MarketingContent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         imageUrl:
                                             controller
                                                 .leafletModelList[index]
@@ -441,7 +441,7 @@ class _MarketingContentState extends State<MarketingContent> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .videoModelList[index]

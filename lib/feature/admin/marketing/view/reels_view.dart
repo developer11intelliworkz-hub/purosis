@@ -4,7 +4,7 @@ import 'package:purosis/feature/admin/marketing/controller/marketing_controller.
 import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -49,15 +49,35 @@ class _ReelsViewState extends State<ReelsView> {
                     ),
                     SizedBox(width: 4.w),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterReelSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterReelSelectedValue = value;
+                            controller.getReelApi(
+                              queryParameters:
+                                  controller.filterReelSelectedValue,
+                            );
+                          }
+                        });
+                      },
                       child: Row(
                         children: [
-                          SizedBox(
-                            height: 2.h,
-                            width: 2.h,
-                            child: Image.asset("assets/icon/filter.png"),
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterReelSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
                           ),
-                          SizedBox(width: 2.w),
                           AppText(
                             text: "Filters",
                             fontSize: 13,
@@ -76,7 +96,9 @@ class _ReelsViewState extends State<ReelsView> {
                       : controller.reelsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getReelApi(),
+                          onRefresh: () async => await controller.getReelApi(
+                            queryParameters: controller.filterReelSelectedValue,
+                          ),
                           child: GridView.builder(
                             padding: EdgeInsets.only(bottom: 200, top: 20),
 
@@ -110,7 +132,7 @@ class _ReelsViewState extends State<ReelsView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .reelsModelFilterList[index]

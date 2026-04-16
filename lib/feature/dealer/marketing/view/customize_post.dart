@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/app_text_field.dart';
 
@@ -43,7 +43,7 @@ class _CustomizePostState extends State<CustomizePost> {
                   SizedBox(
                     width: double.maxFinite,
                     height: 400,
-                    child: AppImageView(imageUrl: postsModel.mediaFile),
+                    child: AppImageViewThumb(imageUrl: postsModel.mediaFile),
                   ),
                   Row(
                     children: [
@@ -51,7 +51,7 @@ class _CustomizePostState extends State<CustomizePost> {
                           ? SizedBox(
                               width: 100,
                               height: 100,
-                              child: AppImageView(
+                              child: AppImageViewThumb(
                                 imageUrl: controller.userModel?.logo,
                               ),
                             )

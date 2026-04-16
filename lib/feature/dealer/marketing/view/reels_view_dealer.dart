@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_badge_widget.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -101,7 +101,7 @@ class _ReelsViewDealerState extends State<ReelsViewDealer> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: AppImageView(
+                                        child: AppImageViewThumb(
                                           width: double.maxFinite,
                                           imageUrl: controller
                                               .reelsModelFilterList[index]

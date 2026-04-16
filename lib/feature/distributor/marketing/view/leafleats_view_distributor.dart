@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../widget/app_image_view.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -29,9 +30,54 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(
-                  controller: controller.leafletSearchTEC,
-                  onChanged: controller.filterLeaflet,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.leafletSearchTEC,
+                        onChanged: controller.filterLeaflet,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterLeafletsSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterLeafletsSelectedValue = value;
+                            controller.getLeafletApi(
+                              queryParameters:
+                                  controller.filterLeafletsSelectedValue,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterLeafletsSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
+                          ),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
@@ -40,8 +86,10 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
                       : controller.leafletModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async =>
-                              await controller.getLeafletApi(),
+                          onRefresh: () async => await controller.getLeafletApi(
+                            queryParameters:
+                                controller.filterLeafletsSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -61,7 +109,7 @@ class _LeafleatsViewDistributorState extends State<LeafleatsViewDistributor> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: AppImageView(
+                                        child: AppImageViewThumb(
                                           width: double.maxFinite,
                                           imageUrl: controller
                                               .leafletModelFilterList[index]

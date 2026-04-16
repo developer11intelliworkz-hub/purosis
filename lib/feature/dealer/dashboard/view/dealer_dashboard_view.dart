@@ -6,6 +6,7 @@ import 'package:purosis/feature/dealer/marketing/controller/marketing_controller
 import 'package:purosis/feature/dealer/marketing/view/widget/view_all_widget.dart';
 
 import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
 
@@ -37,57 +38,6 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
         return SingleChildScrollView(
           child: Column(
             children: [
-              // Stack(
-              //   alignment: Alignment.bottomCenter,
-              //   children: [
-              //     SizedBox(
-              //       width: double.maxFinite,
-              //       height: 250,
-              //       child: CarouselSlider(
-              //         options: CarouselOptions(
-              //           height: double.maxFinite,
-              //           autoPlay: true,
-              //           autoPlayInterval: const Duration(seconds: 3),
-              //           autoPlayAnimationDuration: const Duration(
-              //             milliseconds: 800,
-              //           ),
-              //           viewportFraction: 1,
-              //         ),
-              //         items: [
-              //           Container(color: Colors.red),
-              //           Container(color: Colors.green),
-              //         ],
-              //       ),
-              //     ),
-              //     Positioned(
-              //       bottom: 5,
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: List.generate(
-              //           2,
-              //           (index) => Container(
-              //             margin: const EdgeInsets.symmetric(horizontal: 4),
-              //             width: //_currentIndex == index
-              //             true
-              //                 ? 10
-              //                 : 8,
-              //             height: // _currentIndex == index
-              //             true
-              //                 ? 10
-              //                 : 8,
-              //             decoration: BoxDecoration(
-              //               shape: BoxShape.circle,
-              //               color:
-              //                   true //_currentIndex == index
-              //                   ? Colors.grey
-              //                   : Colors.grey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
@@ -193,7 +143,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: AppImageView(
+                                    child: AppImageViewThumb(
                                       width: double.maxFinite,
                                       imageUrl: controller
                                           .postsModelList[index]
@@ -265,7 +215,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: AppImageView(
+                                    child: AppImageViewThumb(
                                       width: double.maxFinite,
                                       imageUrl: controller
                                           .reelsModelList[index]
@@ -337,7 +287,7 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Expanded(
-                                    child: AppImageView(
+                                    child: AppImageViewThumb(
                                       width: double.maxFinite,
                                       imageUrl: controller
                                           .videoModelList[index]

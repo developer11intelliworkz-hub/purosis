@@ -5,7 +5,7 @@ import 'package:purosis/consts/app_image.dart';
 import 'package:purosis/widget/app_text.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/card_widget.dart';
 import '../../../../widget/common_widget.dart';
 import '../../marketing/view/widget/view_all_widget.dart';
@@ -70,7 +70,7 @@ class _DashboardViewState extends State<DashboardView> {
                               items:
                                   controller.dashboardDataModel?.banners
                                       ?.map(
-                                        (e) => AppImageView(
+                                        (e) => AppImageViewThumb(
                                           imageUrl: e.image,
                                           fit: BoxFit.fill,
                                           width: double.maxFinite,
@@ -181,7 +181,7 @@ class _DashboardViewState extends State<DashboardView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .postsModelList[index]
@@ -258,7 +258,7 @@ class _DashboardViewState extends State<DashboardView> {
                                       children: [
                                         Expanded(
                                           child: Center(
-                                            child: AppImageView(
+                                            child: AppImageViewThumb(
                                               imageUrl:
                                                   (controller
                                                           .productModelList[index]
@@ -401,7 +401,7 @@ class _DashboardViewState extends State<DashboardView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .reelsModelList[index]

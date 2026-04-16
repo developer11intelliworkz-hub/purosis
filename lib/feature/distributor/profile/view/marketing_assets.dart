@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:purosis/widget/app_text.dart';
+import 'package:purosis/widget/common_widget.dart';
 
 class MarketingAssets extends StatelessWidget {
   const MarketingAssets({super.key});
@@ -7,7 +8,7 @@ class MarketingAssets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: CommonWidget.appAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

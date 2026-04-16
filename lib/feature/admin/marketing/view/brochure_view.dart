@@ -50,15 +50,35 @@ class _BrochureViewState extends State<BrochureView> {
                     ),
                     SizedBox(width: 4.w),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterBrochuresSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterBrochuresSelectedValue = value;
+                            controller.getBrochuresApi(
+                              queryParameters:
+                                  controller.filterBrochuresSelectedValue,
+                            );
+                          }
+                        });
+                      },
                       child: Row(
                         children: [
-                          SizedBox(
-                            height: 2.h,
-                            width: 2.h,
-                            child: Image.asset("assets/icon/filter.png"),
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterBrochuresSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
                           ),
-                          SizedBox(width: 2.w),
                           AppText(
                             text: "Filters",
                             fontSize: 13,
@@ -73,7 +93,9 @@ class _BrochureViewState extends State<BrochureView> {
                 SizedBox(height: 5),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () => controller.getBrochuresApi(),
+                    onRefresh: () => controller.getBrochuresApi(
+                      queryParameters: controller.filterBrochuresSelectedValue,
+                    ),
                     child: controller.isBrochuresLoading
                         ? CommonWidget.commonLoading()
                         : controller.brochuresModelFilterList.isEmpty

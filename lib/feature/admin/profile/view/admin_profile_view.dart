@@ -4,7 +4,7 @@ import 'package:purosis/feature/admin/profile/controller/admin_profile_controlle
 import 'package:purosis/routes/app_routes.dart';
 
 import '../../../../widget/app_button.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_text.dart';
 
 class AdminProfileView extends StatefulWidget {
@@ -53,7 +53,7 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                                 child: SizedBox(
                                   width: 100,
                                   height: 100,
-                                  child: AppImageView(
+                                  child: AppImageViewThumb(
                                     imageUrl:
                                         controller.userModel?.profilePhoto ??
                                         "",

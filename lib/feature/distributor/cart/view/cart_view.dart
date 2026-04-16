@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/distributor/cart/controller/cart_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_text.dart';
 
 import '../../../../widget/common_widget.dart';
@@ -104,7 +104,7 @@ class _CartViewState extends State<CartView> {
                                               child: SizedBox(
                                                 width: 100,
                                                 height: 100,
-                                                child: AppImageView(
+                                                child: AppImageViewThumb(
                                                   imageUrl:
                                                       addedProduct
                                                           ?.images
@@ -329,7 +329,7 @@ class _CartViewState extends State<CartView> {
                           ),
                           SizedBox(height: 8),
                           AppButton(
-                            text: "Next",
+                            text: "Add Dealer Info",
                             isLoading: false,
                             onPressed: () {
                               Get.toNamed(AppRoutes.dealerInfoView);

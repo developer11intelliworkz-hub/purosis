@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/app_text_field.dart';
 
@@ -44,7 +44,7 @@ class _CustomizePostDistributorState extends State<CustomizePostDistributor> {
                   SizedBox(
                     width: double.maxFinite,
                     height: 400,
-                    child: AppImageView(imageUrl: postsModel.mediaFile),
+                    child: AppImageViewThumb(imageUrl: postsModel.mediaFile),
                   ),
                   Row(
                     children: [
@@ -52,7 +52,7 @@ class _CustomizePostDistributorState extends State<CustomizePostDistributor> {
                           ? SizedBox(
                               width: 100,
                               height: 100,
-                              child: AppImageView(
+                              child: AppImageViewThumb(
                                 imageUrl: controller.userModel?.logo,
                               ),
                             )
@@ -131,8 +131,11 @@ class _CustomizePostDistributorState extends State<CustomizePostDistributor> {
                   ),
                   SizedBox(height: 10),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
+                      SizedBox(
+                        width: 130,
+                        height: 40,
                         child: AppButton(
                           text: "Cancel",
                           isLoading: false,
@@ -143,7 +146,9 @@ class _CustomizePostDistributorState extends State<CustomizePostDistributor> {
                         ),
                       ),
                       SizedBox(width: 5),
-                      Expanded(
+                      SizedBox(
+                        width: 130,
+                        height: 40,
                         child: AppButton(
                           text: "Preview",
                           isLoading: false,

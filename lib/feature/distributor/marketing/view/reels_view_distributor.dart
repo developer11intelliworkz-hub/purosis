@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../widget/app_image_view.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -39,9 +40,54 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(
-                  controller: controller.reelSearchTEC,
-                  onChanged: controller.filterReel,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.reelSearchTEC,
+                        onChanged: controller.filterReel,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterReelSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterReelSelectedValue = value;
+                            controller.getReelApi(
+                              queryParameters:
+                                  controller.filterReelSelectedValue,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterReelSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
+                          ),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
@@ -50,7 +96,9 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
                       : controller.reelsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getReelApi(),
+                          onRefresh: () async => await controller.getReelApi(
+                            queryParameters: controller.filterReelSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -70,7 +118,7 @@ class _ReelsViewDistributorState extends State<ReelsViewDistributor> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
-                                        child: AppImageView(
+                                        child: AppImageViewThumb(
                                           width: double.maxFinite,
                                           imageUrl: controller
                                               .reelsModelFilterList[index]

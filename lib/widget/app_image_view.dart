@@ -22,23 +22,18 @@ class AppImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius ?? 12),
-
-      // default rounded
-      child: CachedNetworkImage(
-        width: width,
-        height: height,
-        fit: fit,
-        imageUrl: imageUrl?.trim() ?? "",
-        color: color,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Container(width: 200, height: 200, color: Colors.white),
-        ),
-        errorWidget: (context, url, error) => Icon(Icons.broken_image_outlined),
+    return CachedNetworkImage(
+      width: width,
+      height: height,
+      fit: fit,
+      imageUrl: imageUrl?.trim() ?? "",
+      color: color,
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(width: 200, height: 200, color: Colors.white),
       ),
+      errorWidget: (context, url, error) => Icon(Icons.broken_image_outlined),
     );
   }
 }

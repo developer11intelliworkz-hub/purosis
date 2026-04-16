@@ -63,7 +63,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                   SizedBox(width: 5),
                                   Expanded(
                                     child: CardWidget(
-                                      icon: AppImage.cartIcon,
+                                      icon: AppImage.announcementIcon,
                                       count:
                                           (controller
                                                       .orderHistoryModelFilter
@@ -94,7 +94,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                                   SizedBox(width: 5),
                                   Expanded(
                                     child: CardWidget(
-                                      icon: AppImage.cartIcon,
+                                      icon: AppImage.announcementIcon,
                                       count:
                                           (controller
                                                       .orderHistoryModelFilter
@@ -135,6 +135,7 @@ class _OrderHistoryState extends State<OrderHistory> {
                               0,
                           itemBuilder: (context, index) {
                             return Card(
+                              color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -159,7 +160,13 @@ class _OrderHistoryState extends State<OrderHistory> {
                                             borderRadius: BorderRadius.circular(
                                               20,
                                             ),
-                                            color: Color(0xFFE8F2D2),
+                                            color: controller.getStatusColor(
+                                              controller
+                                                      .orderHistoryModelFilter
+                                                      ?.orders?[index]
+                                                      .shippingStatus ??
+                                                  "",
+                                            ),
                                           ),
                                           child: AppText(
                                             text:
@@ -227,18 +234,22 @@ class _OrderHistoryState extends State<OrderHistory> {
 
                                     SizedBox(height: 10),
 
-                                    AppButton(
-                                      text: "View Details",
-                                      color: Color(0xFF8EBF1F),
-                                      onPressed: () {
-                                        Get.toNamed(
-                                          AppRoutes.orderDetail,
-                                          arguments: controller
-                                              .orderHistoryModelFilter
-                                              ?.orders?[index]
-                                              .id,
-                                        );
-                                      },
+                                    SizedBox(
+                                      width: 130,
+                                      height: 40,
+                                      child: AppButton(
+                                        text: "View Details",
+                                        color: Color(0xFF8EBF1F),
+                                        onPressed: () {
+                                          Get.toNamed(
+                                            AppRoutes.orderDetail,
+                                            arguments: controller
+                                                .orderHistoryModelFilter
+                                                ?.orders?[index]
+                                                .id,
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ],
                                 ),

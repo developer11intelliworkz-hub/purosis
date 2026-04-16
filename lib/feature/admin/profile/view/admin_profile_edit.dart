@@ -7,7 +7,7 @@ import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_text.dart';
 
 class AdminProfileEdit extends StatefulWidget {
@@ -51,7 +51,7 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
                               child: controller.selectedFile != null
                                   ? Image.file(controller.selectedFile!)
                                   : controller.userModel?.profilePhoto != null
-                                  ? AppImageView(
+                                  ? AppImageViewThumb(
                                       imageUrl:
                                           controller.userModel?.profilePhoto,
                                     )

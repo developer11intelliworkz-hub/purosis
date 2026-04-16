@@ -11,6 +11,8 @@ import 'package:purosis/utils/notification_handler.dart';
 import 'package:purosis/utils/storage_service.dart';
 import 'package:sizer/sizer.dart';
 
+import 'firebase_options.dart';
+
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 }

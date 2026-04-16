@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/profile/controller/banner_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../widget/app_text.dart';
@@ -64,7 +64,7 @@ class _BannerViewState extends State<BannerView> {
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(16),
                                 ),
-                                child: AppImageView(
+                                child: AppImageViewThumb(
                                   height: 180,
                                   width: double.infinity,
                                   fit: BoxFit.cover,

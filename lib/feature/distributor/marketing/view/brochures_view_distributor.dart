@@ -24,7 +24,7 @@ class _BrochuresViewDistributorDashboardState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonWidget.appAppBar(title: "Brochure"),
+      appBar: CommonWidget.appAppBar(title: "Brochures"),
       body: GetBuilder<MarketingController>(
         init: marketingController,
         builder: (controller) {
@@ -32,14 +32,61 @@ class _BrochuresViewDistributorDashboardState
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(
-                  controller: controller.brochureSearchTEC,
-                  onChanged: controller.filterBrochure,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.brochureSearchTEC,
+                        onChanged: controller.filterBrochure,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterBrochuresSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterBrochuresSelectedValue = value;
+                            controller.getBrochuresApi(
+                              queryParameters:
+                                  controller.filterBrochuresSelectedValue,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterBrochuresSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
+                          ),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
                   child: RefreshIndicator(
-                    onRefresh: () async => await controller.getBrochuresApi(),
+                    onRefresh: () async => await controller.getBrochuresApi(
+                      queryParameters: controller.filterBrochuresSelectedValue,
+                    ),
                     child: controller.isBrochuresLoading
                         ? CommonWidget.commonLoading()
                         : controller.brochuresModelFilterList.isEmpty

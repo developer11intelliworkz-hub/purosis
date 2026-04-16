@@ -50,6 +50,8 @@ class ProfileController extends GetxController {
   SupportModel? supportModel;
   ProductsModel? selectedCategory;
 
+  GlobalKey<FormState> myProfileValidationKey = GlobalKey<FormState>();
+
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
@@ -59,6 +61,24 @@ class ProfileController extends GetxController {
     if (result != null) {
       selectedFile = File(result.files.first.path ?? "");
       update();
+    }
+  }
+
+  Color getStatusColor(String status) {
+    if (status.toLowerCase() == "pending") {
+      return Color(0xFFF2EBD2);
+    } else if (status.toLowerCase() == "approved") {
+      return Color(0xFFF2EBD2);
+    } else if (status.toLowerCase() == "confirmed") {
+      return Color(0xFFF2EBD2);
+    } else if (status.toLowerCase() == "in-process") {
+      return Color(0xFFD2E8F2);
+    } else if (status.toLowerCase() == "delivered") {
+      return Color(0xFFE5D0EF);
+    } else if (status.toLowerCase() == "declined") {
+      return Color(0xFFF2D2D2);
+    } else {
+      return Color(0xFFF2EBD2);
     }
   }
 
@@ -94,7 +114,7 @@ class ProfileController extends GetxController {
 
   getProfileData() {
     UserModel userData = UserModel.fromJson(storage.read(StorageKeys.userData));
-    companyNameTEC.text = userData.name ?? "";
+    companyNameTEC.text = userData.companyName ?? "";
     contactPersonNameTEC.text = userData.name ?? "";
     gstNumberTEC.text = userData.gstNumber ?? "";
     areaTEC.text = userData.area ?? "";

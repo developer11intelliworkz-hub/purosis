@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/profile/controller/profile_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 
@@ -51,7 +51,7 @@ class _DealerProfileViewState extends State<DealerProfileView> {
                               child: SizedBox(
                                 width: 60,
                                 height: 60,
-                                child: AppImageView(
+                                child: AppImageViewThumb(
                                   imageUrl: controller.userModel?.logo ?? "",
                                   fit: BoxFit.cover,
                                 ),

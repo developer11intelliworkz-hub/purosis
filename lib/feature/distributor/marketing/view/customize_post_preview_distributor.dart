@@ -12,7 +12,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../../consts/app_image.dart';
 import '../../../../widget/app_button.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../model/customize_post_model.dart';
 
 class CustomizePostPreviewDistributor extends StatefulWidget {
@@ -47,7 +47,7 @@ class _CustomizePostPreviewDistributorState
                     children: [
                       SizedBox(
                         width: double.maxFinite,
-                        child: AppImageView(
+                        child: AppImageViewThumb(
                           imageUrl: postModel.imageUrl,
                           fit: BoxFit.fill,
                         ),
@@ -59,7 +59,9 @@ class _CustomizePostPreviewDistributorState
                             SizedBox(
                               width: 100,
                               height: 100,
-                              child: AppImageView(imageUrl: postModel.logoUrl),
+                              child: AppImageViewThumb(
+                                imageUrl: postModel.logoUrl,
+                              ),
                             ),
                             const SizedBox(width: 3),
                             Expanded(
@@ -72,7 +74,13 @@ class _CustomizePostPreviewDistributorState
                                     maxLines: 2,
                                   ),
                                   const SizedBox(height: 5),
-                                  AppText(text: "Mail Id : ${postModel.mail}"),
+                                  Row(
+                                    children: [
+                                      Image.asset(AppImage.mailIcon, width: 15),
+                                      SizedBox(width: 5),
+                                      AppText(text: postModel.mail ?? ""),
+                                    ],
+                                  ),
                                   const SizedBox(height: 5),
                                   Row(
                                     children: [
@@ -116,8 +124,11 @@ class _CustomizePostPreviewDistributorState
             ),
             SizedBox(height: 20),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
+                SizedBox(
+                  width: 130,
+                  height: 40,
                   child: AppButton(
                     text: "Share",
                     isLoading: false,
@@ -126,7 +137,9 @@ class _CustomizePostPreviewDistributorState
                   ),
                 ),
                 SizedBox(width: 5),
-                Expanded(
+                SizedBox(
+                  width: 130,
+                  height: 40,
                   child: AppButton(
                     text: "Download",
                     isLoading: isDownloadLoading,

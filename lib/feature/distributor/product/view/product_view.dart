@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_search_field.dart';
@@ -16,7 +16,7 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  final ProductController productController = Get.put(ProductController());
+  final ProductController productController = ProductController();
 
   @override
   void initState() {
@@ -36,26 +36,45 @@ class _ProductViewState extends State<ProductView> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: AppSearchField()),
-                    Badge(
-                      smallSize: 8,
-                      isLabelVisible: controller.selectedFilter.isNotEmpty,
-                      backgroundColor: Colors.red,
-                      child: IconButton(
-                        onPressed: () {
-                          Get.toNamed(
-                            AppRoutes.filter,
-                            arguments: controller.selectedFilter,
-                          )?.then((value) {
-                            if (value != null) {
-                              controller.selectedFilter = value;
-                              controller.getProductApi(
-                                queryParameters: controller.selectedFilter,
-                              );
-                            }
-                          });
-                        },
-                        icon: Icon(Icons.tune),
+                    Expanded(
+                      child: AppSearchField(
+                        onChanged: controller.filterProduct,
+                        controller: controller.searchTEC,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filter,
+                          arguments: controller.selectedFilter,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.selectedFilter = value;
+                            controller.getProductApi(
+                              queryParameters: controller.selectedFilter,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller.selectedFilter.isNotEmpty,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
+                          ),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -64,10 +83,12 @@ class _ProductViewState extends State<ProductView> {
                 Expanded(
                   child: controller.isProductLoading
                       ? CommonWidget.commonLoading()
-                      : controller.productModelList.isEmpty
+                      : controller.productModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () => controller.getProductApi(),
+                          onRefresh: () => controller.getProductApi(
+                            queryParameters: controller.selectedFilter,
+                          ),
                           child: GridView.builder(
                             itemBuilder: (context, index) {
                               return Card(
@@ -80,17 +101,17 @@ class _ProductViewState extends State<ProductView> {
                                     children: [
                                       Expanded(
                                         child: Center(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             imageUrl:
                                                 (controller
-                                                        .productModelList[index]
+                                                        .productModelFilterList[index]
                                                         .productColorsImages
                                                         ?.firstOrNull
                                                         ?.images
                                                         ?.isNotEmpty ??
                                                     false)
                                                 ? controller
-                                                      .productModelList[index]
+                                                      .productModelFilterList[index]
                                                       .productColorsImages
                                                       ?.first
                                                       .images
@@ -108,7 +129,7 @@ class _ProductViewState extends State<ProductView> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .productModelList[index]
+                                                      .productModelFilterList[index]
                                                       .productName ??
                                                   "",
                                               maxLines: 1,
@@ -117,7 +138,7 @@ class _ProductViewState extends State<ProductView> {
                                             AppText(
                                               text:
                                                   controller
-                                                      .productModelList[index]
+                                                      .productModelFilterList[index]
                                                       .productDescription ??
                                                   "",
                                               fontWeight: FontWeight.w700,
@@ -132,7 +153,7 @@ class _ProductViewState extends State<ProductView> {
                                                       Get.toNamed(
                                                         AppRoutes.productDetail,
                                                         arguments: controller
-                                                            .productModelList[index]
+                                                            .productModelFilterList[index]
                                                             .id
                                                             .toString(),
                                                       );
@@ -186,7 +207,7 @@ class _ProductViewState extends State<ProductView> {
                                 ),
                               );
                             },
-                            itemCount: controller.productModelList.length,
+                            itemCount: controller.productModelFilterList.length,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,

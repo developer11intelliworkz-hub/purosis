@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/feature/distributor/dashboard/controller/dashboard_controller.dart';
 import 'package:purosis/feature/distributor/profile/controller/profile_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_button.dart';
 import 'package:purosis/widget/app_text.dart';
 
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -50,7 +51,7 @@ class _ProfileViewState extends State<ProfileView> {
                               child: SizedBox(
                                 width: 100,
                                 height: 100,
-                                child: AppImageView(
+                                child: AppImageViewThumb(
                                   imageUrl: controller.userData?.logo ?? "",
                                   fit: BoxFit.cover,
                                 ),
@@ -135,10 +136,17 @@ class _ProfileViewState extends State<ProfileView> {
                       },
                       child: AppText(text: "Saved Address"),
                     ),
-                    // SizedBox(height: 10),
-                    // Divider(),
-                    // SizedBox(height: 10),
-                    // AppText(text: "Marketing Assets"),
+                    SizedBox(height: 10),
+                    Divider(),
+                    SizedBox(height: 10),
+                    GestureDetector(
+                      onTap: () {
+                        DashboardController dashboardController = Get.find();
+                        dashboardController.selectedIndex = 2;
+                        dashboardController.update();
+                      },
+                      child: AppText(text: "Marketing Assets"),
+                    ),
                     SizedBox(height: 10),
                     Divider(),
                     SizedBox(height: 10),

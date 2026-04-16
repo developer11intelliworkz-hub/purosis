@@ -32,10 +32,9 @@ class AddressController extends GetxController {
   bool isPinCodeLoading = false;
   List<PinCodeModel> pinCodeModel = [];
   bool isAddressAddLoading = false;
-  bool isDeleteLoading = false;
+  RxBool isDeleteLoading = false.obs;
   bool isAddressLoading = false;
   List<AddressModel> addressModelList = [];
-  int? deleteIndex;
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
 
   Future<void> validatePinCodeApi(String pinCode) async {
@@ -123,9 +122,8 @@ class AddressController extends GetxController {
         });
   }
 
-  Future<void> deleteAddressApi(num? addressId, int index) async {
-    isDeleteLoading = true;
-    deleteIndex = index;
+  Future<void> deleteAddressApi(num? addressId) async {
+    isDeleteLoading.value = true;
     update();
     AddressDeleteQuery addressDeleteQuery = AddressDeleteQuery(
       addressId: addressId,
@@ -139,14 +137,12 @@ class AddressController extends GetxController {
           } else {
             AppToast.error(message: response['message']);
           }
-          deleteIndex = null;
-          isDeleteLoading = false;
+          isDeleteLoading.value = false;
           update();
         })
         .catchError((value) {
           AppToast.error();
-          deleteIndex = null;
-          isDeleteLoading = false;
+          isDeleteLoading.value = false;
           update();
         });
   }

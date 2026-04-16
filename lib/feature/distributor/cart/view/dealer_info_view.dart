@@ -69,7 +69,20 @@ class _DealerInfoViewState extends State<DealerInfoView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 5),
+                AppButton(
+                  text: "Add New Address",
+                  color: Color(0xFF0067B1),
+                  prefixIcon: Icon(Icons.add, color: Colors.white),
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.addAddressView)?.then((value) {
+                      if (value == true) {
+                        cartController.getAddressApi();
+                        controller.update();
+                      }
+                    });
+                  },
+                ),
                 Expanded(
                   child: controller.isAddressLoading
                       ? CommonWidget.commonLoading()

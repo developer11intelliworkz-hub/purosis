@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
-import 'package:purosis/widget/app_image_view.dart';
+import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 import 'package:sizer/sizer.dart';
@@ -49,15 +49,35 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                     ),
                     SizedBox(width: 4.w),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterPostSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterPostSelectedValue = value;
+                            controller.getPostsApi(
+                              queryParameters:
+                                  controller.filterPostSelectedValue,
+                            );
+                          }
+                        });
+                      },
                       child: Row(
                         children: [
-                          SizedBox(
-                            height: 2.h,
-                            width: 2.h,
-                            child: Image.asset("assets/icon/filter.png"),
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterPostSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
                           ),
-                          SizedBox(width: 2.w),
                           AppText(
                             text: "Filters",
                             fontSize: 13,
@@ -76,7 +96,9 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                       : controller.postsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getPostsApi(),
+                          onRefresh: () async => await controller.getPostsApi(
+                            queryParameters: controller.filterPostSelectedValue,
+                          ),
                           child: GridView.builder(
                             padding: EdgeInsets.only(bottom: 200, top: 20),
 
@@ -110,7 +132,7 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
-                                          child: AppImageView(
+                                          child: AppImageViewThumb(
                                             width: double.maxFinite,
                                             imageUrl: controller
                                                 .postsModelFilterList[index]

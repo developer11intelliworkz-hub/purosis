@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/distributor/product/model/product_detail_model.dart';
 import 'package:purosis/feature/distributor/product/model/query/add_to_cart_query.dart';
@@ -14,6 +15,7 @@ class ProductController extends GetxController {
   ApiService apiService = ApiService();
   Map<String, dynamic> selectedFilter = {};
   List<ProductModel> productModelList = [];
+  List<ProductModel> productModelFilterList = [];
   ProductDetailModel? productDetailModel;
   bool isProductLoading = false;
   bool isProductDetailLoading = false;
@@ -21,6 +23,8 @@ class ProductController extends GetxController {
   int selectedProductIndex = 0;
   int productQuantity = 1;
   bool isBuyNowLoading = false;
+
+  TextEditingController searchTEC = TextEditingController();
 
   increaseQuantity() {
     if (productQuantity < 100) {
@@ -32,6 +36,27 @@ class ProductController extends GetxController {
   decreaseQuantity() {
     if (productQuantity > 1) {
       productQuantity -= 1;
+      update();
+    }
+  }
+
+  filterProduct(String query) {
+    if (query.isNotEmpty && query.length >= 4) {
+      final item = productModelList
+          .where(
+            (item) =>
+                (item.productName?.toLowerCase().contains(
+                  query.toLowerCase(),
+                ) ??
+                false),
+          )
+          .toList();
+      productModelFilterList = item;
+      update();
+    }
+    if (query.isEmpty) {
+      productModelFilterList.clear();
+      productModelFilterList.addAll(productModelList);
       update();
     }
   }
@@ -48,13 +73,15 @@ class ProductController extends GetxController {
         )
         .then((response) {
           productModelList.clear();
+          productModelFilterList.clear();
           if (response["success"] == true) {
             for (final data in response['data']) {
               productModelList.add(ProductModel.fromJson(data));
+              productModelFilterList.add(ProductModel.fromJson(data));
             }
-            isProductLoading = false;
-            update();
           }
+          isProductLoading = false;
+          update();
         })
         .catchError((value) {
           isProductLoading = false;

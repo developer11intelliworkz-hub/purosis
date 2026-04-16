@@ -7,7 +7,7 @@ import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/common_widget.dart';
 
 class MarketingAssetsView extends StatefulWidget {
@@ -367,7 +367,7 @@ class _MarketingAssetsViewState extends State<MarketingAssetsView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .postsModelList[index]
@@ -438,7 +438,7 @@ class _MarketingAssetsViewState extends State<MarketingAssetsView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .reelsModelList[index]

@@ -1,3 +1,4 @@
+import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/distributor/cart/controller/cart_controller.dart';
@@ -32,6 +33,33 @@ class _ReviewViewState extends State<ReviewView> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
+                EasyStepper(
+                  activeStep: 3,
+                  lineStyle: LineStyle(
+                    lineType: LineType.normal,
+                    lineThickness: 2,
+                    defaultLineColor: Colors.grey.shade300,
+                    finishedLineColor: Colors.green,
+                  ),
+                  stepRadius: 14,
+                  activeStepBorderColor: Color(0xFF8EBF1F),
+                  activeStepIconColor: Colors.white,
+                  activeStepBackgroundColor: Color(0xFF8EBF1F),
+                  activeStepTextColor: Color(0xFF8EBF1F),
+                  finishedStepBackgroundColor: Color(0xFF8EBF1F),
+                  finishedStepIconColor: Colors.white,
+                  finishedStepTextColor: Color(0xFF8EBF1F),
+                  unreachedStepBorderColor: Colors.grey,
+                  unreachedStepIconColor: Colors.grey,
+                  unreachedStepBackgroundColor: Colors.white,
+                  showLoadingAnimation: false,
+                  steps: const [
+                    EasyStep(icon: Icon(Icons.check), title: 'Products'),
+                    EasyStep(icon: Icon(Icons.check), title: 'Dealer Info'),
+                    EasyStep(icon: Icon(Icons.check), title: 'Transport'),
+                    EasyStep(icon: Icon(Icons.circle), title: 'Review'),
+                  ],
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(

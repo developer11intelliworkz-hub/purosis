@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../routes/app_routes.dart';
-import '../../../../widget/app_image_view.dart';
+import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -40,9 +40,54 @@ class _PostsViewDistributorState extends State<PostsViewDistributor> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                AppSearchField(
-                  controller: controller.postSearchTEC,
-                  onChanged: controller.filterPosts,
+                Row(
+                  children: [
+                    Expanded(
+                      child: AppSearchField(
+                        controller: controller.postSearchTEC,
+                        onChanged: controller.filterPosts,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.filterPageAdmin,
+                          arguments: controller.filterPostSelectedValue,
+                        )?.then((value) {
+                          if (value != null) {
+                            controller.filterPostSelectedValue = value;
+                            controller.getPostsApi(
+                              queryParameters:
+                                  controller.filterPostSelectedValue,
+                            );
+                          }
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Badge(
+                            smallSize: 8,
+                            isLabelVisible:
+                                controller
+                                    .filterPostSelectedValue
+                                    ?.isNotEmpty ??
+                                false,
+                            backgroundColor: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Image.asset("assets/icon/filter.png"),
+                            ),
+                          ),
+                          AppText(
+                            text: "Filters",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xFF666666),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 5),
                 Expanded(
@@ -51,7 +96,9 @@ class _PostsViewDistributorState extends State<PostsViewDistributor> {
                       : controller.postsModelFilterList.isEmpty
                       ? CommonWidget.commonEmpty()
                       : RefreshIndicator(
-                          onRefresh: () async => await controller.getPostsApi(),
+                          onRefresh: () async => await controller.getPostsApi(
+                            queryParameters: controller.filterPostSelectedValue,
+                          ),
                           child: GridView.builder(
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
@@ -67,7 +114,7 @@ class _PostsViewDistributorState extends State<PostsViewDistributor> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
-                                      child: AppImageView(
+                                      child: AppImageViewThumb(
                                         width: double.maxFinite,
                                         imageUrl: controller
                                             .postsModelFilterList[index]

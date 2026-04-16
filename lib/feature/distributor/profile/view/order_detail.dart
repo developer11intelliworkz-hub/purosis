@@ -37,6 +37,7 @@ class _OrderDetailState extends State<OrderDetail> {
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Card(
                         child: Padding(
@@ -87,6 +88,9 @@ class _OrderDetailState extends State<OrderDetail> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10),
+                      AppText(text: "Order Items", color: Color(0xFF0067B1)),
+                      SizedBox(height: 10),
                       Card(
                         elevation: 0,
                         child: Padding(
@@ -167,7 +171,6 @@ class _OrderDetailState extends State<OrderDetail> {
                           ),
                         ),
                       ),
-                      Spacer(),
                       Card(
                         elevation: 0,
                         child: Padding(
