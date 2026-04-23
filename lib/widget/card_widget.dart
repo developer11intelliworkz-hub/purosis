@@ -33,7 +33,7 @@ class CardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: Color(0xFFDEF1FF),
                 ),
-                child: Image.asset(icon),
+                child: Image.asset(icon, color: Color(0xFF0067B1)),
               ),
               SizedBox(height: 8),
               AppText(text: count, fontSize: 25, fontWeight: FontWeight.w700),

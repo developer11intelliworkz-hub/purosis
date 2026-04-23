@@ -102,7 +102,7 @@ class AddNewLeaflet extends StatelessWidget {
                     onPressed: () {
                       if ((controller.validationKey.currentState?.validate() ??
                           false)) {
-                        if (controller.selectedImages.isEmpty) {
+                        if (controller.selectedImages.isNotEmpty) {
                           controller.addLeafletApi();
                         } else {
                           AppToast.error(message: "Please upload the file");

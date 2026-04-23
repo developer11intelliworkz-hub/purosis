@@ -63,6 +63,7 @@ abstract class AppRoutes {
   static const orderHistory = '/order_history';
   static const helpSupportScreen = '/help_support_screen';
   static const customizePostDistributor = '/customize_post_distributor';
+  static const wishlistView = '/wishlist_view';
   static const customizePostPreviewDistributor =
       '/customize_post_preview_distributor';
   static const orderDetail = '/order_detail';

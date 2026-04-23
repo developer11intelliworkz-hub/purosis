@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/marketing/controller/marketing_controller.dart';
 import 'package:purosis/feature/dealer/marketing/view/widget/view_all_widget.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/app_image_viewer.dart';
+import 'package:purosis/widget/app_pdf_viewer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
@@ -59,80 +61,97 @@ class _BrandingViewDealerState extends State<BrandingViewDealer> {
                     : ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return Card(
-                            color: Colors.white,
-                            child: SizedBox(
-                              width: 180,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: Image.asset(
-                                      width: double.maxFinite,
-                                      AppImage.pdfThumbImage,
-                                      fit: BoxFit.fill,
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                AppPdfViewer(
+                                  url:
+                                      controller
+                                          .brochuresModelList[index]
+                                          .mediaFile ??
+                                      "",
+                                  header: controller
+                                      .brochuresModelList[index]
+                                      .title,
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Image.asset(
+                                        width: double.maxFinite,
+                                        AppImage.pdfThumbImage,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text:
-                                              controller
-                                                  .brochuresModelList[index]
-                                                  .title ??
-                                              "",
-                                          maxLines: 1,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        AppText(
-                                          text:
-                                              "${controller.brochuresModelList[index].month} ${controller.brochuresModelList[index].year}",
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey,
-                                        ),
-                                        SizedBox(height: 5),
-                                        InkWell(
-                                          onTap: () async {
-                                            await launchUrlString(
-                                              controller
-                                                      .brochuresModelList[index]
-                                                      .mediaFile ??
-                                                  "",
-                                            );
-                                          },
-                                          child: Container(
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFF8EBF1F),
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                AppText(
-                                                  text: "Download",
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.white,
-                                                ),
-                                                SizedBox(width: 5),
-                                                Icon(
-                                                  Icons.arrow_downward,
-                                                  color: Colors.white,
-                                                ),
-                                              ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text:
+                                                controller
+                                                    .brochuresModelList[index]
+                                                    .title ??
+                                                "",
+                                            maxLines: 1,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                          AppText(
+                                            text:
+                                                "${controller.brochuresModelList[index].month} ${controller.brochuresModelList[index].year}",
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            maxLines: 1,
+                                          ),
+                                          SizedBox(height: 5),
+                                          InkWell(
+                                            onTap: () async {
+                                              await launchUrlString(
+                                                controller
+                                                        .brochuresModelList[index]
+                                                        .mediaFile ??
+                                                    "",
+                                              );
+                                            },
+                                            child: Container(
+                                              height: 40,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFF8EBF1F),
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  AppText(
+                                                    text: "Download",
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ),
+                                                  SizedBox(width: 5),
+                                                  Icon(
+                                                    Icons.arrow_downward,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -165,47 +184,64 @@ class _BrandingViewDealerState extends State<BrandingViewDealer> {
                         scrollDirection: Axis.horizontal,
                         itemCount: controller.leafletModelList.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            color: Colors.white,
-                            child: SizedBox(
-                              width: 180,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: AppImageViewThumb(
-                                      width: double.maxFinite,
-                                      imageUrl: controller
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                AppImageViewer(
+                                  imageUrls:
+                                      controller
                                           .leafletModelList[index]
-                                          .mediaFile
-                                          ?.first,
-                                      fit: BoxFit.fill,
+                                          .mediaFile ??
+                                      [],
+                                  title:
+                                      controller.leafletModelList[index].title,
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: AppImageViewThumb(
+                                        width: double.maxFinite,
+                                        imageUrl: controller
+                                            .leafletModelList[index]
+                                            .mediaFile
+                                            ?.first,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text:
-                                              controller
-                                                  .leafletModelList[index]
-                                                  .title ??
-                                              "",
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        AppText(
-                                          text:
-                                              "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey,
-                                        ),
-                                      ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text:
+                                                controller
+                                                    .leafletModelList[index]
+                                                    .title ??
+                                                "",
+                                            fontWeight: FontWeight.w700,
+                                            maxLines: 1,
+                                          ),
+                                          AppText(
+                                            text:
+                                                "${controller.leafletModelList[index].month ?? ""} ${controller.leafletModelList[index].year ?? ""}",
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:purosis/consts/app_url.dart';
@@ -82,6 +84,7 @@ class AuthController extends GetxController {
             latitude: position?.latitude,
             longitude: position?.longitude,
             deviceToken: token,
+            deviceName: Platform.isIOS ? "IOS" : "Android",
           ).toFormData(),
         )
         .then((response) {

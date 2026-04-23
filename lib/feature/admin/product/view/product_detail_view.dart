@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/app_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../utils/commmon_function.dart';
@@ -49,10 +50,17 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 },
                 icon: Icon(Icons.edit, color: Colors.grey),
               ),
-              // IconButton(
-              //   onPressed: () {},
-              //   icon: Icon(Icons.delete, color: Colors.grey),
-              // ),
+              IconButton(
+                onPressed: () {
+                  AppDialogs.showDeleteDialog(
+                    onDelete: () {
+                      controller.deleteProductApi(int.tryParse(productId));
+                    },
+                    isLoading: controller.isDeleteProductLoading,
+                  );
+                },
+                icon: Icon(Icons.delete, color: Colors.grey),
+              ),
             ],
           ),
           body: controller.isProductDetailLoading
@@ -251,6 +259,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(height: 20),
+                      AppText(
+                        text: "Description",
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF0067B1),
+                      ),
+                      SizedBox(height: 5),
+                      AppText(
+                        text:
+                            controller.productDetailModel?.productDescription ??
+                            '',
                       ),
                     ],
                   ),

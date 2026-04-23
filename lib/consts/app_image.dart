@@ -34,6 +34,7 @@ class AppImage {
   static const brandingIcon = "assets/icon/branding_icon.png";
   static const postIcon = "assets/icon/post_icon.png";
   static const profileIcon = "assets/icon/profile_icon.png";
+  static const heartIcon = "assets/icon/heart_icon.png";
 
   static const loginLayer1 = "assets/image/login_layer1.png";
   static const loginLayer2 = "assets/image/login_layer2.png";

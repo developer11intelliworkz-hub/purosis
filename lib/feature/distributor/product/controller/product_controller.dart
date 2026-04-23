@@ -10,6 +10,7 @@ import 'package:purosis/utils/app_toast.dart';
 
 import '../../../../consts/app_url.dart';
 import '../model/product_model.dart';
+import '../model/query/add_delete_wishlist_query.dart';
 
 class ProductController extends GetxController {
   ApiService apiService = ApiService();
@@ -19,6 +20,7 @@ class ProductController extends GetxController {
   ProductDetailModel? productDetailModel;
   bool isProductLoading = false;
   bool isProductDetailLoading = false;
+  bool isAddWishlistLoading = false;
   bool isAddToCartLoading = false;
   int selectedProductIndex = 0;
   int productQuantity = 1;
@@ -109,6 +111,34 @@ class ProductController extends GetxController {
         })
         .catchError((value) {
           isProductDetailLoading = false;
+          update();
+        });
+  }
+
+  Future<void> addProductWishlistApi(
+    String? productId,
+    int? addOrDelete,
+  ) async {
+    isAddWishlistLoading = true;
+    update();
+    AddDeleteWishlistQuery addDeleteWishlistQuery = AddDeleteWishlistQuery(
+      productId: productId,
+      addOrDelete: addOrDelete,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.addDeleteWishlistUrl,
+          addDeleteWishlistQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            productDetailModel?.isWishlisted = addOrDelete == 1 ? true : false;
+          }
+          isAddWishlistLoading = false;
+          update();
+        })
+        .catchError((value) {
+          isAddWishlistLoading = false;
           update();
         });
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/widget/app_video_player.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_image_view_thumb.dart';
@@ -99,47 +100,65 @@ class _VideoViewDistributorState extends State<VideoViewDistributor> {
                                 ),
                             itemCount: controller.videoModelFilterList.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: AppImageViewThumb(
-                                          width: double.maxFinite,
-                                          imageUrl: controller
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    () => AppVideoPlayer(
+                                      videoUrl:
+                                          controller
                                               .videoModelFilterList[index]
-                                              .thumbnailImage,
-                                          fit: BoxFit.fill,
+                                              .mediaFile ??
+                                          '',
+                                      title: controller
+                                          .videoModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: AppImageViewThumb(
+                                            width: double.maxFinite,
+                                            imageUrl: controller
+                                                .videoModelFilterList[index]
+                                                .thumbnailImage,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text:
-                                                  controller
-                                                      .videoModelFilterList[index]
-                                                      .title ??
-                                                  "",
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            AppText(
-                                              text:
-                                                  "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .videoModelFilterList[index]
+                                                        .title ??
+                                                    "",
+                                                fontWeight: FontWeight.w700,
+                                                maxLines: 1,
+                                              ),
+                                              AppText(
+                                                text:
+                                                    "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey,
+                                                maxLines: 1,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

@@ -17,7 +17,9 @@ import '../../../../utils/app_toast.dart';
 import '../../../../utils/storage_service.dart';
 import '../../../admin/profile/model/support_model.dart';
 import '../../../auth/model/user_model.dart';
+import '../../product/model/query/add_delete_wishlist_query.dart';
 import '../model/order_detail_model.dart';
+import '../model/wishlist_model.dart';
 
 class ProfileController extends GetxController {
   final storage = Get.find<StorageService>();
@@ -41,6 +43,8 @@ class ProfileController extends GetxController {
   bool isLatest = true;
   bool isSupportLoading = false;
   bool isSendSupportMessageLoading = false;
+  bool isWishlistLoading = false;
+  RxBool isAddWishlistLoading = false.obs;
   GlobalKey<FormState> supportValidationKey = GlobalKey();
 
   OrderHistoryModel? orderHistoryModel;
@@ -49,6 +53,7 @@ class ProfileController extends GetxController {
   UserModel? userData;
   SupportModel? supportModel;
   ProductsModel? selectedCategory;
+  List<WishlistModel> wishlistModelList = [];
 
   GlobalKey<FormState> myProfileValidationKey = GlobalKey<FormState>();
 
@@ -281,6 +286,58 @@ class ProfileController extends GetxController {
         .catchError((value) {
           AppToast.error();
           isSendSupportMessageLoading = false;
+          update();
+        });
+  }
+
+  Future<void> getWishlistApi() async {
+    isWishlistLoading = true;
+    await apiService
+        .get(AppUrl.getWishlistsUrl)
+        .then((response) {
+          wishlistModelList.clear();
+          if (response["success"] == true) {
+            for (final data in response['data']) {
+              wishlistModelList.add(WishlistModel.fromJson(data));
+            }
+          }
+          isWishlistLoading = false;
+          update();
+        })
+        .catchError((value) {
+          AppToast.error();
+          isWishlistLoading = false;
+          update();
+        });
+  }
+
+  Future<void> addProductWishlistApi(
+    String? productId,
+    int? addOrDelete,
+  ) async {
+    isAddWishlistLoading.value = true;
+    update();
+    AddDeleteWishlistQuery addDeleteWishlistQuery = AddDeleteWishlistQuery(
+      productId: productId,
+      addOrDelete: addOrDelete,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.addDeleteWishlistUrl,
+          addDeleteWishlistQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            wishlistModelList.removeWhere(
+              (e) => e.productId.toString() == productId,
+            );
+            Get.back(result: true);
+          }
+          isAddWishlistLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isAddWishlistLoading.value = false;
           update();
         });
   }

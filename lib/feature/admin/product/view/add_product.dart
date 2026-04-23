@@ -310,11 +310,11 @@ class _AddProductState extends State<AddProduct> {
                     ],
                   ),
                   SizedBox(height: 10),
-                  AppTextField(
-                    labelText: "Technical Video URL",
-                    controller: controller.technicalVideoUrlTEC,
-                    validator: CommonValidation.fieldValidation,
-                  ),
+                  // AppTextField(
+                  //   labelText: "Technical Video URL",
+                  //   controller: controller.technicalVideoUrlTEC,
+                  //   validator: CommonValidation.fieldValidation,
+                  // ),
                   SizedBox(height: 10),
                   AppButton(
                     text: "Add Product",

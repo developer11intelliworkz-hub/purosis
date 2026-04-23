@@ -13,11 +13,17 @@ class AppUrl {
   static const String productCategoriesUrl = "/admin/get-categories";
   static const String productSubCategoriesUrl = "/admin/get-sub-categories";
   static const String getProductsUrl = "/admin/get-products";
+  static const String deleteProductUrl = "/admin/delete-product";
   static const String addUpdateProductUrl = "/admin/add-update-product";
   static const String updateProductColorImageUrl =
       "/admin/update-product-colorimage";
   static const String deleteProductColorUrl = "/admin/delete-product-color";
   static const String getBrochuresUrl = "/admin/get-brochures";
+  static const String deleteBrochuresUrl = "/admin/delete-brochure";
+  static const String deletePostUrl = "/admin/delete-post";
+  static const String deleteReelUrl = "/admin/delete-reel";
+  static const String deleteLeafletUrl = "/admin/delete-leaflet";
+  static const String deleteVideoUrl = "/admin/delete-video";
   static const String addUpdateBrochureUrl = "/admin/add-update-brochure";
   static const String addUpdatePostUrl = "/admin/add-update-post";
   static const String addUpdateLeafletUrl = "/admin/add-update-leaflet";
@@ -66,6 +72,8 @@ class AppUrl {
   static const String getOrderHistoryDetailUrl = "/distributor/order-details";
   static const String deleteCartUrl = "/distributor/delete-cart";
   static const String getNotificationUrl = "/distributor/get-notifications";
+  static const String addDeleteWishlistUrl = "/distributor/add-delete-wishlist";
+  static const String getWishlistsUrl = "/distributor/get-wishlists";
   static const String sendSupportMessageUrl =
       "/distributor/support-message-inquiry";
 

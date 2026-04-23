@@ -16,10 +16,9 @@ class BannerController extends GetxController {
   File? selectedFile;
   bool isBannerAddLoading = false;
   bool isBannerLoading = false;
-  bool isBannerDeleteLoading = false;
+  RxBool isBannerDeleteLoading = false.obs;
   String? selectedOfferFor;
   List<BannerModel> bannerModelList = [];
-  int? selectedId;
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
 
   Future<void> pickFile() async {
@@ -93,8 +92,7 @@ class BannerController extends GetxController {
   }
 
   Future<void> deleteBannerApi(int? id) async {
-    isBannerDeleteLoading = true;
-    selectedId = id;
+    isBannerDeleteLoading.value = true;
     update();
     DeleteBannerQuery deleteBannerQuery = DeleteBannerQuery(bannerId: id);
     await apiService
@@ -102,16 +100,17 @@ class BannerController extends GetxController {
         .then((response) {
           if (response["success"] == true) {
             bannerModelList.removeWhere((e) => e.id == id);
+            Get.back();
             AppToast.success(response['message']);
           } else {
             AppToast.error();
           }
-          isBannerDeleteLoading = false;
+          isBannerDeleteLoading.value = false;
           update();
         })
         .catchError((value) {
           AppToast.error();
-          isBannerDeleteLoading = false;
+          isBannerDeleteLoading.value = false;
           update();
         });
   }

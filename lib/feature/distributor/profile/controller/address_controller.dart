@@ -32,10 +32,24 @@ class AddressController extends GetxController {
   bool isPinCodeLoading = false;
   List<PinCodeModel> pinCodeModel = [];
   bool isAddressAddLoading = false;
+  bool isUpdateAddressAddLoading = false;
   RxBool isDeleteLoading = false.obs;
   bool isAddressLoading = false;
   List<AddressModel> addressModelList = [];
   GlobalKey<FormState> validationKey = GlobalKey<FormState>();
+
+  //Pending work
+  setEditAddress(AddressModel? addressModel) {
+    dealerNameTEC.text = addressModel?.dealerName ?? "";
+    contactPersonNameTEC.text = addressModel?.contactPersonName ?? "";
+    gstNumberTEC.text = addressModel?.gstNumber ?? "";
+    billingAddressTEC.text = addressModel?.address ?? "";
+    mobileNumberTEC.text = addressModel?.mobileNo ?? "";
+    emailAddressTEC.text = addressModel?.emailAddress ?? "";
+    pinCodeTEC.text = addressModel?.pincode ?? "";
+    stateTEC.text = addressModel?.state ?? "";
+    cityTEC.text = addressModel?.city ?? "";
+  }
 
   Future<void> validatePinCodeApi(String pinCode) async {
     isPinCodeLoading = true;
@@ -122,6 +136,42 @@ class AddressController extends GetxController {
         });
   }
 
+  Future<void> updateAddressApi(AddressModel? addressModel) async {
+    isUpdateAddressAddLoading = true;
+    update();
+    AddAddressQuery addAddressQuery = AddAddressQuery(
+      addressId: addressModel?.id,
+      dealerName: dealerNameTEC.text,
+      contactPersonName: contactPersonNameTEC.text,
+      gstNumber: gstNumberTEC.text,
+      pinCode: pinCodeTEC.text,
+      state: stateTEC.text,
+      city: cityTEC.text,
+      address: billingAddressTEC.text,
+      mobileNo: mobileNumberTEC.text,
+      emailAddress: emailAddressTEC.text,
+      shippingAddress: shippingAddressTEC.text,
+      isShipping: selectedType == "Same as Billing Address" ? 0 : 1,
+    );
+    await apiService
+        .postFormData(AppUrl.addUpdateAddressUrl, addAddressQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          } else {
+            AppToast.error();
+          }
+          isUpdateAddressAddLoading = false;
+          update();
+        })
+        .catchError((value) {
+          AppToast.error();
+          isUpdateAddressAddLoading = false;
+          update();
+        });
+  }
+
   Future<void> deleteAddressApi(num? addressId) async {
     isDeleteLoading.value = true;
     update();
@@ -133,6 +183,7 @@ class AddressController extends GetxController {
         .then((response) {
           if (response["success"] == true) {
             addressModelList.removeWhere((e) => e.id == addressId);
+            Get.back();
             AppToast.success(response['message']);
           } else {
             AppToast.error(message: response['message']);

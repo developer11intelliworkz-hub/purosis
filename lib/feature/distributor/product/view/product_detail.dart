@@ -261,13 +261,10 @@ class _ProductDetailState extends State<ProductDetail> {
                               ),
                             SizedBox(height: 5),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                AppText(text: "Net Weight : "),
                                 Expanded(
-                                  flex: 1,
-                                  child: AppText(text: "Net Weight :"),
-                                ),
-                                Expanded(
-                                  flex: 3,
                                   child: AppText(
                                     text:
                                         "${controller.productDetailModel?.weightPerBox ?? 0} KG(Approx)",
@@ -277,13 +274,10 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                             SizedBox(height: 5),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                AppText(text: "Product Type : "),
                                 Expanded(
-                                  flex: 1,
-                                  child: AppText(text: "Product Type :"),
-                                ),
-                                Expanded(
-                                  flex: 3,
                                   child: AppText(
                                     text:
                                         controller
@@ -308,34 +302,64 @@ class _ProductDetailState extends State<ProductDetail> {
                             //     ),
                             //   ],
                             // ),
+                            SizedBox(height: 20),
+                            AppText(
+                              text: "Description",
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF0067B1),
+                            ),
+                            SizedBox(height: 5),
+                            AppText(
+                              text:
+                                  controller
+                                      .productDetailModel
+                                      ?.productDescription ??
+                                  '',
+                            ),
+                            SizedBox(height: 5),
                           ],
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                    SizedBox(
+                      height: 50,
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(width: 10),
+                          controller.isAddWishlistLoading
+                              ? SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: CommonWidget.commonLoading(),
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    controller.addProductWishlistApi(
+                                      productId,
+                                      (controller
+                                                  .productDetailModel
+                                                  ?.isWishlisted ??
+                                              false)
+                                          ? 0
+                                          : 1,
+                                    );
+                                  },
+                                  icon:
+                                      (controller
+                                              .productDetailModel
+                                              ?.isWishlisted ??
+                                          false)
+                                      ? Icon(Icons.favorite, color: Colors.red)
+                                      : Icon(Icons.favorite_border),
+                                ),
                           Spacer(),
-                          // GestureDetector(
-                          //   onTap: (){
-                          //     controller.addToCartApi();
-                          //   },
-                          //   child: Container(
-                          //     height: 40,
-                          //     alignment: Alignment.center,
-                          //     padding: EdgeInsets.only(left: 10, right: 10),
-                          //     decoration: BoxDecoration(
-                          //       border: Border.all(color: Color(0xFF8EBF1F)),
-                          //       borderRadius: BorderRadius.circular(8),
-                          //     ),
-                          //     child: AppText(
-                          //       text: "Buy Now",
-                          //       color: Color(0xFF8EBF1F),
-                          //     ),
-                          //   ),
-                          // ),
-                          Expanded(
+                          SizedBox(
+                            width: 100,
+                            height: 40,
                             child: AppButtonOutline(
                               text: "Buy Now",
                               color: Color(0xFF8EBF1F),
@@ -346,7 +370,9 @@ class _ProductDetailState extends State<ProductDetail> {
                             ),
                           ),
                           SizedBox(width: 20),
-                          Expanded(
+                          SizedBox(
+                            width: 140,
+                            height: 40,
                             child: AppButton(
                               text: "Add to cart",
                               prefixIcon: Image.asset(

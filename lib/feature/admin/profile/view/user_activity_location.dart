@@ -54,10 +54,8 @@ class _UserActivityLocationState extends State<UserActivityLocation> {
                         padding: const EdgeInsets.only(right: 8),
                         child: GestureDetector(
                           onTap: () {
-                            setState(() {
-                              controller.selectedDaysValue = value;
-                              controller.filterMarker();
-                            });
+                            controller.selectedDaysValue = value;
+                            controller.filterMarker();
                           },
                           child: AnimatedContainer(
                             duration: Duration(milliseconds: 200),
@@ -153,7 +151,10 @@ class _UserActivityLocationState extends State<UserActivityLocation> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
                               ),
-                              AppText(text: "Mumbai,India", fontSize: 10),
+                              AppText(
+                                text: controller.selectedMarkerCity ?? "",
+                                fontSize: 10,
+                              ),
                               Divider(),
                               AppText(
                                 text:
@@ -163,6 +164,16 @@ class _UserActivityLocationState extends State<UserActivityLocation> {
                                 text:
                                     "Time: ${CommonFunction.convertUtcToLocalFormatted(controller.activityLogModelFilterList[controller.selectedMarkerId ?? 0].eventAt ?? "").split(",").reversed.firstOrNull ?? ""}",
                               ),
+                              if (controller
+                                      .activityLogModelFilterList[controller
+                                              .selectedMarkerId ??
+                                          0]
+                                      .deviceName !=
+                                  null)
+                                AppText(
+                                  text:
+                                      "Device: ${controller.activityLogModelFilterList[controller.selectedMarkerId ?? 0].deviceName}",
+                                ),
                             ],
                           ),
                         ),

@@ -14,6 +14,7 @@ class ProductDetailModel {
   List<String>? specifications;
   Category? category;
   SubCategory? subCategory;
+  bool? isWishlisted;
 
   ProductDetailModel({
     this.id,
@@ -31,6 +32,7 @@ class ProductDetailModel {
     this.specifications,
     this.category,
     this.subCategory,
+    this.isWishlisted,
   });
 
   ProductDetailModel.fromJson(Map<String, dynamic> json) {
@@ -65,6 +67,8 @@ class ProductDetailModel {
     subCategory = json['sub_category'] != null
         ? SubCategory.fromJson(json['sub_category'])
         : null;
+
+    isWishlisted = json['is_wishlisted'];
   }
 
   Map<String, dynamic> toJson() {
@@ -97,6 +101,8 @@ class ProductDetailModel {
     if (subCategory != null) {
       data['sub_category'] = subCategory!.toJson();
     }
+
+    data['is_wishlisted'] = isWishlisted;
 
     return data;
   }

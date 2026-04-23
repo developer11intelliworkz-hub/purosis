@@ -1,25 +1,23 @@
 import 'package:dio/dio.dart';
 
-class DeleteProductColorQuery {
-  int? colorId;
+class DeleteProductQuery {
+  int? productId;
 
-  DeleteProductColorQuery({this.colorId});
+  DeleteProductQuery({this.productId});
 
-  DeleteProductColorQuery.fromJson(Map<String, dynamic> json) {
-    colorId = json['color_id'];
+  DeleteProductQuery.fromJson(Map<String, dynamic> json) {
+    productId = json['product_id'];
   }
 
   Map<String, dynamic> toJson() {
-    return {'color_id': colorId};
+    return {'product_id': productId};
   }
 
-  Future<FormData> toFormData() async {
+  FormData toFormData() {
     final formData = FormData();
-
-    if (colorId != null) {
-      formData.fields.add(MapEntry('color_id', colorId.toString()));
+    if (productId != null) {
+      formData.fields.add(MapEntry('product_id', productId.toString()));
     }
-
     return formData;
   }
 }

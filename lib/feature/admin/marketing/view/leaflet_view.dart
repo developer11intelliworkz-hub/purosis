@@ -4,7 +4,9 @@ import 'package:purosis/widget/common_widget.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_dialog.dart';
 import '../../../../widget/app_image_view_thumb.dart';
+import '../../../../widget/app_image_viewer.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../controller/marketing_controller.dart';
@@ -114,15 +116,18 @@ class _LeafletViewState extends State<LeafletView> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(
-                                    AppRoutes.editLeaflet,
-                                    arguments: controller
-                                        .leafletModelFilterList[index],
-                                  )?.then((value) {
-                                    if (value == true) {
-                                      marketingController.getLeafletApi();
-                                    }
-                                  });
+                                  Get.to(
+                                    () => AppImageViewer(
+                                      imageUrls:
+                                          controller
+                                              .leafletModelFilterList[index]
+                                              .mediaFile ??
+                                          [],
+                                      title: controller
+                                          .postsModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
                                 },
                                 child: Card(
                                   color: Colors.white,
@@ -142,28 +147,101 @@ class _LeafletViewState extends State<LeafletView> {
                                             fit: BoxFit.fill,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AppText(
-                                                text:
-                                                    controller
-                                                        .leafletModelFilterList[index]
-                                                        .title ??
-                                                    "",
-                                                fontWeight: FontWeight.w700,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  top: 8.0,
+                                                  bottom: 8,
+                                                  left: 8,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    AppText(
+                                                      text:
+                                                          controller
+                                                              .leafletModelFilterList[index]
+                                                              .title ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      maxLines: 1,
+                                                    ),
+                                                    AppText(
+                                                      text:
+                                                          "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.grey,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              AppText(
-                                                text:
-                                                    "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                            PopupMenuButton<String>(
+                                              color: Colors.white,
+                                              onSelected: (value) {
+                                                if (value == 'edit') {
+                                                  Get.toNamed(
+                                                    AppRoutes.editLeaflet,
+                                                    arguments: controller
+                                                        .leafletModelFilterList[index],
+                                                  )?.then((value) {
+                                                    if (value == true) {
+                                                      marketingController
+                                                          .getLeafletApi();
+                                                    }
+                                                  });
+                                                } else if (value == 'delete') {
+                                                  AppDialogs.showDeleteDialog(
+                                                    onDelete: () async {
+                                                      await controller
+                                                          .deleteLeafletApi(
+                                                            controller
+                                                                .leafletModelFilterList[index]
+                                                                .id,
+                                                          );
+                                                    },
+                                                    isLoading: controller
+                                                        .isLeafletDeleteLoading,
+                                                  );
+                                                }
+                                              },
+                                              itemBuilder: (context) => [
+                                                const PopupMenuItem(
+                                                  value: 'edit',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Edit'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const PopupMenuItem(
+                                                  value: 'delete',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Delete'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                              icon: const Icon(Icons.more_vert),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

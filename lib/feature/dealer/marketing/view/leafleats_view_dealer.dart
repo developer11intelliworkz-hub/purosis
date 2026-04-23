@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/widget/app_image_viewer.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../widget/app_badge_widget.dart';
@@ -88,48 +89,66 @@ class _LeafleatsViewDealerState extends State<LeafleatsViewDealer> {
                                 ),
                             itemCount: controller.leafletModelFilterList.length,
                             itemBuilder: (context, index) {
-                              return Card(
-                                color: Colors.white,
-                                child: SizedBox(
-                                  width: 200,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: AppImageViewThumb(
-                                          width: double.maxFinite,
-                                          imageUrl: controller
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    AppImageViewer(
+                                      imageUrls:
+                                          controller
                                               .leafletModelFilterList[index]
-                                              .mediaFile
-                                              ?.first,
-                                          fit: BoxFit.fill,
+                                              .mediaFile ??
+                                          [],
+                                      title: controller
+                                          .leafletModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
+                                },
+                                child: Card(
+                                  color: Colors.white,
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: AppImageViewThumb(
+                                            width: double.maxFinite,
+                                            imageUrl: controller
+                                                .leafletModelFilterList[index]
+                                                .mediaFile
+                                                ?.first,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            AppText(
-                                              text:
-                                                  controller
-                                                      .leafletModelFilterList[index]
-                                                      .title ??
-                                                  "",
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                            AppText(
-                                              text:
-                                                  "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.grey,
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              AppText(
+                                                text:
+                                                    controller
+                                                        .leafletModelFilterList[index]
+                                                        .title ??
+                                                    "",
+                                                fontWeight: FontWeight.w700,
+                                                maxLines: 1,
+                                              ),
+                                              AppText(
+                                                text:
+                                                    "${controller.leafletModelFilterList[index].month ?? ""} ${controller.leafletModelFilterList[index].year ?? ""}",
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.grey,
+                                                maxLines: 1,
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );

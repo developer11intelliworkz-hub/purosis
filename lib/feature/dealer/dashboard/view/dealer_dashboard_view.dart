@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/dealer/dashboard/controller/dashboard_controller.dart';
 import 'package:purosis/feature/dealer/marketing/controller/marketing_controller.dart';
 import 'package:purosis/feature/dealer/marketing/view/widget/view_all_widget.dart';
+import 'package:purosis/widget/app_image_viewer.dart';
+import 'package:purosis/widget/app_video_player.dart';
 
 import '../../../../widget/app_image_view.dart';
 import '../../../../widget/app_image_view_thumb.dart';
@@ -135,46 +137,63 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                         scrollDirection: Axis.horizontal,
                         itemCount: controller.postsModelList.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            color: Colors.white,
-                            child: SizedBox(
-                              width: 180,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: AppImageViewThumb(
-                                      width: double.maxFinite,
-                                      imageUrl: controller
-                                          .postsModelList[index]
-                                          .mediaFile,
-                                      fit: BoxFit.fill,
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                AppImageViewer(
+                                  imageUrls: [
+                                    controller
+                                            .postsModelList[index]
+                                            .mediaFile ??
+                                        "",
+                                  ],
+                                  title: controller.postsModelList[index].title,
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: AppImageViewThumb(
+                                        width: double.maxFinite,
+                                        imageUrl: controller
+                                            .postsModelList[index]
+                                            .mediaFile,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text:
-                                              controller
-                                                  .postsModelList[index]
-                                                  .title ??
-                                              "",
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        AppText(
-                                          text:
-                                              "${controller.postsModelList[index].month ?? ""} ${controller.postsModelList[index].year ?? ""}",
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey,
-                                        ),
-                                      ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text:
+                                                controller
+                                                    .postsModelList[index]
+                                                    .title ??
+                                                "",
+                                            fontWeight: FontWeight.w700,
+                                            maxLines: 1,
+                                          ),
+                                          AppText(
+                                            text:
+                                                "${controller.postsModelList[index].month ?? ""} ${controller.postsModelList[index].year ?? ""}",
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -207,46 +226,62 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                         scrollDirection: Axis.horizontal,
                         itemCount: controller.reelsModelList.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            color: Colors.white,
-                            child: SizedBox(
-                              width: 180,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: AppImageViewThumb(
-                                      width: double.maxFinite,
-                                      imageUrl: controller
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                AppVideoPlayer(
+                                  videoUrl:
+                                      controller
                                           .reelsModelList[index]
-                                          .thumbnailImage,
-                                      fit: BoxFit.fill,
+                                          .mediaFile ??
+                                      "",
+                                  title: controller.reelsModelList[index].title,
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: AppImageViewThumb(
+                                        width: double.maxFinite,
+                                        imageUrl: controller
+                                            .reelsModelList[index]
+                                            .thumbnailImage,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text:
-                                              controller
-                                                  .reelsModelList[index]
-                                                  .title ??
-                                              "",
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        AppText(
-                                          text:
-                                              "${controller.reelsModelList[index].month ?? ""} ${controller.reelsModelList[index].year ?? ""}",
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey,
-                                        ),
-                                      ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text:
+                                                controller
+                                                    .reelsModelList[index]
+                                                    .title ??
+                                                "",
+                                            fontWeight: FontWeight.w700,
+                                            maxLines: 1,
+                                          ),
+                                          AppText(
+                                            text:
+                                                "${controller.reelsModelList[index].month ?? ""} ${controller.reelsModelList[index].year ?? ""}",
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );
@@ -279,46 +314,62 @@ class _DealerDashboardViewState extends State<DealerDashboardView> {
                         scrollDirection: Axis.horizontal,
                         itemCount: controller.videoModelList.length,
                         itemBuilder: (context, index) {
-                          return Card(
-                            color: Colors.white,
-                            child: SizedBox(
-                              width: 180,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                    child: AppImageViewThumb(
-                                      width: double.maxFinite,
-                                      imageUrl: controller
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                AppVideoPlayer(
+                                  videoUrl:
+                                      controller
                                           .videoModelList[index]
-                                          .thumbnailImage,
-                                      fit: BoxFit.fill,
+                                          .mediaFile ??
+                                      "",
+                                  title: controller.videoModelList[index].title,
+                                ),
+                              );
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: SizedBox(
+                                width: 180,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: AppImageViewThumb(
+                                        width: double.maxFinite,
+                                        imageUrl: controller
+                                            .videoModelList[index]
+                                            .thumbnailImage,
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text:
-                                              controller
-                                                  .videoModelList[index]
-                                                  .title ??
-                                              "",
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        AppText(
-                                          text:
-                                              "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey,
-                                        ),
-                                      ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text:
+                                                controller
+                                                    .videoModelList[index]
+                                                    .title ??
+                                                "",
+                                            fontWeight: FontWeight.w700,
+                                            maxLines: 1,
+                                          ),
+                                          AppText(
+                                            text:
+                                                "${controller.videoModelList[index].month ?? ""} ${controller.videoModelList[index].year ?? ""}",
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           );

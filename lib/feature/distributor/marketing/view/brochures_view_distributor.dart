@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
 import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_pdf_viewer.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -100,8 +101,21 @@ class _BrochuresViewDistributorDashboardState
                                   mainAxisSpacing: 5,
                                 ),
                             itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {},
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    () => AppPdfViewer(
+                                      url:
+                                          controller
+                                              .brochuresModelFilterList[index]
+                                              .mediaFile ??
+                                          '',
+                                      header: controller
+                                          .brochuresModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
+                                },
                                 child: Card(
                                   color: Colors.white,
                                   child: SizedBox(
@@ -130,12 +144,14 @@ class _BrochuresViewDistributorDashboardState
                                                         .title ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
+                                                maxLines: 1,
                                               ),
                                               AppText(
                                                 text:
                                                     "${controller.brochuresModelFilterList[index].month} ${controller.brochuresModelFilterList[index].year}",
                                                 fontWeight: FontWeight.w700,
                                                 color: Colors.grey,
+                                                maxLines: 1,
                                               ),
                                               SizedBox(height: 5),
                                               InkWell(

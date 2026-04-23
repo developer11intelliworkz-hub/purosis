@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/admin/marketing/controller/marketing_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_image_view_thumb.dart';
+import 'package:purosis/widget/app_image_viewer.dart';
 import 'package:purosis/widget/app_search_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../widget/app_dialog.dart';
 import '../../../../widget/app_text.dart';
 
 class SocialMediaPost extends StatefulWidget {
@@ -113,15 +115,19 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Get.toNamed(
-                                    AppRoutes.editPost,
-                                    arguments:
-                                        controller.postsModelFilterList[index],
-                                  )?.then((value) {
-                                    if (value == true) {
-                                      controller.getPostsApi();
-                                    }
-                                  });
+                                  Get.to(
+                                    () => AppImageViewer(
+                                      imageUrls: [
+                                        controller
+                                                .postsModelFilterList[index]
+                                                .mediaFile ??
+                                            "",
+                                      ],
+                                      title: controller
+                                          .postsModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
                                 },
                                 child: Card(
                                   color: Colors.white,
@@ -140,28 +146,100 @@ class _SocialMediaPostState extends State<SocialMediaPost> {
                                             fit: BoxFit.fill,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AppText(
-                                                text:
-                                                    controller
-                                                        .postsModelFilterList[index]
-                                                        .title ??
-                                                    "",
-                                                fontWeight: FontWeight.w700,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  top: 8,
+                                                  bottom: 8,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    AppText(
+                                                      text:
+                                                          controller
+                                                              .postsModelFilterList[index]
+                                                              .title ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      maxLines: 1,
+                                                    ),
+                                                    AppText(
+                                                      text:
+                                                          "${controller.postsModelFilterList[index].month ?? ""} ${controller.postsModelFilterList[index].year ?? ""}",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.grey,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              AppText(
-                                                text:
-                                                    "${controller.postsModelFilterList[index].month ?? ""} ${controller.postsModelFilterList[index].year ?? ""}",
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                            PopupMenuButton<String>(
+                                              color: Colors.white,
+                                              onSelected: (value) {
+                                                if (value == 'edit') {
+                                                  Get.toNamed(
+                                                    AppRoutes.editPost,
+                                                    arguments: controller
+                                                        .postsModelFilterList[index],
+                                                  )?.then((value) {
+                                                    if (value == true) {
+                                                      controller.getPostsApi();
+                                                    }
+                                                  });
+                                                } else if (value == 'delete') {
+                                                  AppDialogs.showDeleteDialog(
+                                                    onDelete: () async {
+                                                      await controller
+                                                          .deletePostApi(
+                                                            controller
+                                                                .postsModelFilterList[index]
+                                                                .id,
+                                                          );
+                                                    },
+                                                    isLoading: controller
+                                                        .isPostDeleteLoading,
+                                                  );
+                                                }
+                                              },
+                                              itemBuilder: (context) => [
+                                                const PopupMenuItem(
+                                                  value: 'edit',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Edit'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const PopupMenuItem(
+                                                  value: 'delete',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Delete'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                              icon: const Icon(Icons.more_vert),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

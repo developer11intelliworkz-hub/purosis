@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/widget/app_video_player.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_dialog.dart';
 import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
@@ -112,15 +114,18 @@ class _VideoViewState extends State<VideoView> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Get.toNamed(
-                                    AppRoutes.editVideo,
-                                    arguments:
-                                        controller.videoModelFilterList[index],
-                                  )?.then((value) {
-                                    if (value == true) {
-                                      controller.getVideoApi();
-                                    }
-                                  });
+                                  Get.to(
+                                    () => AppVideoPlayer(
+                                      videoUrl:
+                                          controller
+                                              .videoModelFilterList[index]
+                                              .mediaFile ??
+                                          '',
+                                      title: controller
+                                          .postsModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
                                 },
                                 child: Card(
                                   color: Colors.white,
@@ -139,28 +144,98 @@ class _VideoViewState extends State<VideoView> {
                                             fit: BoxFit.fill,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AppText(
-                                                text:
-                                                    controller
-                                                        .videoModelFilterList[index]
-                                                        .title ??
-                                                    "",
-                                                fontWeight: FontWeight.w700,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                  8.0,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    AppText(
+                                                      text:
+                                                          controller
+                                                              .videoModelFilterList[index]
+                                                              .title ??
+                                                          "",
+                                                      maxLines: 1,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                    AppText(
+                                                      text:
+                                                          "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.grey,
+                                                      maxLines: 1,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              AppText(
-                                                text:
-                                                    "${controller.videoModelFilterList[index].month ?? ""} ${controller.videoModelFilterList[index].year ?? ""}",
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                            PopupMenuButton<String>(
+                                              color: Colors.white,
+                                              onSelected: (value) {
+                                                if (value == 'edit') {
+                                                  Get.toNamed(
+                                                    AppRoutes.editVideo,
+                                                    arguments: controller
+                                                        .videoModelFilterList[index],
+                                                  )?.then((value) {
+                                                    if (value == true) {
+                                                      controller.getVideoApi();
+                                                    }
+                                                  });
+                                                } else if (value == 'delete') {
+                                                  AppDialogs.showDeleteDialog(
+                                                    onDelete: () async {
+                                                      await controller
+                                                          .deleteVideoApi(
+                                                            controller
+                                                                .videoModelFilterList[index]
+                                                                .id,
+                                                          );
+                                                    },
+                                                    isLoading: controller
+                                                        .isVideoDeleteLoading,
+                                                  );
+                                                }
+                                              },
+                                              itemBuilder: (context) => [
+                                                const PopupMenuItem(
+                                                  value: 'edit',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Edit'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const PopupMenuItem(
+                                                  value: 'delete',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Delete'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                              icon: const Icon(Icons.more_vert),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

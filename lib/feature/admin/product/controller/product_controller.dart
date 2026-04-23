@@ -5,9 +5,11 @@ import 'package:get/get.dart';
 import 'package:purosis/feature/admin/product/model/product_detail_model.dart';
 import 'package:purosis/feature/admin/product/model/product_model.dart';
 import 'package:purosis/utils/api_service.dart';
+import 'package:purosis/utils/app_toast.dart';
 
 import '../../../../consts/app_url.dart';
 import '../model/product_categories.dart';
+import '../model/query/delete_product_query.dart';
 import '../model/query/sub_category_query.dart';
 import '../model/sub_category_model.dart';
 
@@ -21,6 +23,7 @@ class ProductController extends GetxController {
   List<ProductModel> productModelFilterList = [];
   bool isProductLoading = false;
   bool isProductDetailLoading = false;
+  RxBool isDeleteProductLoading = false.obs;
   ProductDetailModel? productDetailModel;
   int selectedProductIndex = 0;
 
@@ -94,6 +97,29 @@ class ProductController extends GetxController {
         })
         .catchError((value) {
           isProductDetailLoading = false;
+          update();
+        });
+  }
+
+  Future<void> deleteProductApi(int? productId) async {
+    isDeleteProductLoading.value = true;
+    DeleteProductQuery deleteProductQuery = DeleteProductQuery(
+      productId: productId,
+    );
+    await apiService
+        .postFormData(AppUrl.deleteProductUrl, deleteProductQuery.toFormData())
+        .then((response) async {
+          if (response["success"] == true) {
+            Get.back();
+            Get.back(result: true);
+            AppToast.success(response['message']);
+          }
+          isDeleteProductLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isDeleteProductLoading.value = false;
+          AppToast.error();
           update();
         });
   }

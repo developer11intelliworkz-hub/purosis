@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: CarouselSlider(
                         options: CarouselOptions(
                           height: double.maxFinite,
-                          autoPlay: true,
+                          autoPlay: false,
                           autoPlayInterval: const Duration(seconds: 3),
                           autoPlayAnimationDuration: const Duration(
                             milliseconds: 800,

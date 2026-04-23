@@ -8,6 +8,7 @@ import '../../../../consts/app_url.dart';
 import '../model/brochures_model.dart';
 import '../model/leaflet_model.dart';
 import '../model/posts_model.dart';
+import '../model/query/delete_content_query.dart';
 import '../model/reels_model.dart';
 import '../model/video_model.dart';
 
@@ -18,6 +19,11 @@ class MarketingController extends GetxController {
   bool isReelsLoading = false;
   bool isVideoLoading = false;
   bool isLeafletLoading = false;
+  RxBool isBrochuresDeleteLoading = false.obs;
+  RxBool isPostDeleteLoading = false.obs;
+  RxBool isReelDeleteLoading = false.obs;
+  RxBool isLeafletDeleteLoading = false.obs;
+  RxBool isVideoDeleteLoading = false.obs;
   List<BrochuresModel> brochuresModelList = [];
   List<BrochuresModel> brochuresModelFilterList = [];
   List<PostsModel> postsModelList = [];
@@ -162,6 +168,32 @@ class MarketingController extends GetxController {
         });
   }
 
+  Future<void> deleteBrochuresApi(int? deleteId) async {
+    isBrochuresDeleteLoading.value = true;
+    update();
+    DeleteContentQuery deleteContentQuery = DeleteContentQuery(
+      brochureId: deleteId,
+    );
+    await apiService
+        .postFormData(
+          AppUrl.deleteBrochuresUrl,
+          deleteContentQuery.toFormData(),
+        )
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            brochuresModelList.removeWhere((e) => e.id == deleteId);
+            brochuresModelFilterList.removeWhere((e) => e.id == deleteId);
+          }
+          isBrochuresDeleteLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isBrochuresDeleteLoading.value = false;
+          update();
+        });
+  }
+
   Future<void> getPostsApi({Map<String, dynamic>? queryParameters}) async {
     isPostsLoading = true;
     update();
@@ -184,6 +216,29 @@ class MarketingController extends GetxController {
         })
         .catchError((value) {
           isPostsLoading = false;
+          update();
+        });
+  }
+
+  Future<void> deletePostApi(int? deleteId) async {
+    isPostDeleteLoading.value = true;
+    update();
+    DeleteContentQuery deleteContentQuery = DeleteContentQuery(
+      postId: deleteId,
+    );
+    await apiService
+        .postFormData(AppUrl.deletePostUrl, deleteContentQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            postsModelList.removeWhere((e) => e.id == deleteId);
+            postsModelFilterList.removeWhere((e) => e.id == deleteId);
+          }
+          isPostDeleteLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isPostDeleteLoading.value = false;
           update();
         });
   }
@@ -214,6 +269,29 @@ class MarketingController extends GetxController {
         });
   }
 
+  Future<void> deleteReelApi(int? deleteId) async {
+    isReelDeleteLoading.value = true;
+    update();
+    DeleteContentQuery deleteContentQuery = DeleteContentQuery(
+      reelId: deleteId,
+    );
+    await apiService
+        .postFormData(AppUrl.deleteReelUrl, deleteContentQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            reelsModelList.removeWhere((e) => e.id == deleteId);
+            reelsModelFilterList.removeWhere((e) => e.id == deleteId);
+          }
+          isReelDeleteLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isReelDeleteLoading.value = false;
+          update();
+        });
+  }
+
   Future<void> getLeafletApi({Map<String, dynamic>? queryParameters}) async {
     isLeafletLoading = true;
     update();
@@ -240,6 +318,29 @@ class MarketingController extends GetxController {
         });
   }
 
+  Future<void> deleteLeafletApi(int? deleteId) async {
+    isLeafletDeleteLoading.value = true;
+    update();
+    DeleteContentQuery deleteContentQuery = DeleteContentQuery(
+      leafletId: deleteId,
+    );
+    await apiService
+        .postFormData(AppUrl.deleteLeafletUrl, deleteContentQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            leafletModelList.removeWhere((e) => e.id == deleteId);
+            leafletModelFilterList.removeWhere((e) => e.id == deleteId);
+          }
+          isLeafletDeleteLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isLeafletDeleteLoading.value = false;
+          update();
+        });
+  }
+
   Future<void> getVideoApi({Map<String, dynamic>? queryParameters}) async {
     isVideoLoading = true;
     update();
@@ -262,6 +363,29 @@ class MarketingController extends GetxController {
         })
         .catchError((value) {
           isVideoLoading = false;
+          update();
+        });
+  }
+
+  Future<void> deleteVideoApi(int? deleteId) async {
+    isVideoDeleteLoading.value = true;
+    update();
+    DeleteContentQuery deleteContentQuery = DeleteContentQuery(
+      videoId: deleteId,
+    );
+    await apiService
+        .postFormData(AppUrl.deleteVideoUrl, deleteContentQuery.toFormData())
+        .then((response) {
+          if (response["success"] == true) {
+            Get.back(result: true);
+            videoModelList.removeWhere((e) => e.id == deleteId);
+            videoModelFilterList.removeWhere((e) => e.id == deleteId);
+          }
+          isVideoDeleteLoading.value = false;
+          update();
+        })
+        .catchError((value) {
+          isVideoDeleteLoading.value = false;
           update();
         });
   }

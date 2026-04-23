@@ -16,7 +16,7 @@ import '../../../../consts/app_url.dart';
 import '../../../../utils/commmon_function.dart';
 import '../model/product_categories.dart';
 import '../model/query/add_product_query.dart';
-import '../model/query/delete_product_query.dart';
+import '../model/query/delete_product_color_query.dart';
 import '../model/query/sub_category_query.dart';
 import '../model/sub_category_model.dart';
 

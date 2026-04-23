@@ -72,6 +72,7 @@ class _NotificationScreenDistributorState
                                               .message ??
                                           "",
                                       maxLines: 2,
+                                      color: Colors.grey,
                                     ),
                                   ],
                                 ),
@@ -84,6 +85,7 @@ class _NotificationScreenDistributorState
                                       "",
                                 ),
                                 fontWeight: FontWeight.w400,
+                                color: Colors.grey,
                               ),
                             ],
                           ),

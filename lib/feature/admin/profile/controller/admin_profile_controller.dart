@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:purosis/consts/storage_keys.dart';
@@ -52,6 +53,7 @@ class AdminProfileController extends GetxController {
   List<String> logTypeList = ["App Open", "Orders", "Both"];
   final List<String> daysFiltersList = ["Today", "7 Days", "30 Days", "Custom"];
   int? selectedMarkerId;
+  String? selectedMarkerCity;
   String selectedDaysValue = "Custom";
 
   TextEditingController mobileNumberSupportTEC = TextEditingController();
@@ -150,14 +152,48 @@ class AdminProfileController extends GetxController {
               activityLogModelFilterList[i].eventAt ?? "",
             ).split(",").firstOrNull,
           ),
-          onTap: () {
+          onTap: () async {
             selectedMarkerId = i;
+            selectedMarkerCity =
+                await getAddressFromLatLng(
+                  double.tryParse(
+                        activityLogModelFilterList[selectedMarkerId ?? 0]
+                                .latitude ??
+                            "0.0",
+                      ) ??
+                      0.0,
+                  double.tryParse(
+                        activityLogModelFilterList[selectedMarkerId ?? 0]
+                                .longitude ??
+                            "0.0",
+                      ) ??
+                      0.0,
+                ) ??
+                "";
             update();
           },
         ),
       );
     }
     update();
+  }
+
+  Future<String?> getAddressFromLatLng(double lat, double lng) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+
+        String city = place.locality ?? '';
+        String country = place.country ?? '';
+        print("$city , $country");
+        return "$city , $country";
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
   }
 
   logout() async {

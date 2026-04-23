@@ -103,14 +103,27 @@ class Product {
   String? productName;
   int? unitsPerBox;
   String? weightPerBox;
+  List<ProductColorImage>? productColorsImages;
 
-  Product({this.id, this.productName, this.unitsPerBox, this.weightPerBox});
+  Product({
+    this.id,
+    this.productName,
+    this.unitsPerBox,
+    this.weightPerBox,
+    this.productColorsImages,
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     productName = json['product_name'];
     unitsPerBox = json['units_per_box'];
     weightPerBox = json['weight_per_box'];
+    if (json['product_colors_images'] != null) {
+      productColorsImages = [];
+      json['product_colors_images'].forEach((v) {
+        productColorsImages!.add(ProductColorImage.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -119,6 +132,41 @@ class Product {
     data['product_name'] = productName;
     data['units_per_box'] = unitsPerBox;
     data['weight_per_box'] = weightPerBox;
+    if (productColorsImages != null) {
+      data['product_colors_images'] = productColorsImages!
+          .map((v) => v.toJson())
+          .toList();
+    }
+    return data;
+  }
+}
+
+class ProductColorImage {
+  int? colorId;
+  String? colorName;
+  String? colorCode;
+  List<String>? images;
+
+  ProductColorImage({
+    this.colorId,
+    this.colorName,
+    this.colorCode,
+    this.images,
+  });
+
+  ProductColorImage.fromJson(Map<String, dynamic> json) {
+    colorId = json['color_id'];
+    colorName = json['color_name'];
+    colorCode = json['color_code'];
+    images = json['images'] != null ? List<String>.from(json['images']) : [];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['color_id'] = colorId;
+    data['color_name'] = colorName;
+    data['color_code'] = colorCode;
+    data['images'] = images;
     return data;
   }
 }

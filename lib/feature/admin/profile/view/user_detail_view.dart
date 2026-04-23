@@ -68,7 +68,6 @@ class _UserDetailViewState extends State<UserDetailView> {
                 Expanded(
                   child: CardWidget(
                     onTap: () {
-                      print("object");
                       Get.toNamed(AppRoutes.activityLocation, arguments: data);
                     },
                     icon: AppImage.mapIcon,

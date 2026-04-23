@@ -12,7 +12,7 @@ class PostsModel {
     this.isFeatured,
   });
 
-  num? id;
+  int? id;
   String? title;
   ProductsModel? category;
   String? mediaFile;

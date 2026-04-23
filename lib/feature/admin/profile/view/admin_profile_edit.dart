@@ -3,11 +3,11 @@ import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:purosis/feature/admin/profile/controller/admin_profile_controller.dart';
 import 'package:purosis/utils/common_validation.dart';
 import 'package:purosis/widget/app_button.dart';
+import 'package:purosis/widget/app_image_view.dart';
 import 'package:purosis/widget/app_text_field.dart';
 import 'package:purosis/widget/common_widget.dart';
 
 import '../../../../consts/app_image.dart';
-import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_text.dart';
 
 class AdminProfileEdit extends StatefulWidget {
@@ -51,9 +51,19 @@ class _AdminProfileEditState extends State<AdminProfileEdit> {
                               child: controller.selectedFile != null
                                   ? Image.file(controller.selectedFile!)
                                   : controller.userModel?.profilePhoto != null
-                                  ? AppImageViewThumb(
-                                      imageUrl:
-                                          controller.userModel?.profilePhoto,
+                                  ? ClipOval(
+                                      child: SizedBox(
+                                        width: 100,
+                                        height: 100,
+                                        child: AppImageView(
+                                          imageUrl:
+                                              controller
+                                                  .userModel
+                                                  ?.profilePhoto ??
+                                              "",
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     )
                                   : Image.asset(
                                       AppImage.imageIcon,

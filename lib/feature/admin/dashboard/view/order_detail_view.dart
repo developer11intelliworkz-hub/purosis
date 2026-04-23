@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/dashboard/controller/order_history_controller.dart';
+import 'package:purosis/widget/app_image_view.dart';
 
 import '../../../../widget/app_text.dart';
 import '../../../../widget/common_widget.dart';
@@ -50,7 +51,22 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(
                                         children: [
-                                          SizedBox(width: 130),
+                                          SizedBox(
+                                            height: 100,
+                                            width: 100,
+                                            child: AppImageView(
+                                              imageUrl:
+                                                  controller
+                                                      .orderDetailModel
+                                                      ?.orderProducts?[index]
+                                                      .product
+                                                      ?.productColorsImages
+                                                      ?.firstOrNull
+                                                      ?.images
+                                                      ?.firstOrNull ??
+                                                  "",
+                                            ),
+                                          ),
                                           SizedBox(width: 10),
                                           Expanded(
                                             child: Column(
@@ -68,7 +84,8 @@ class _OrderDetailViewState extends State<OrderDetailView> {
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                                 AppText(
-                                                  text: "Color: Matt Black",
+                                                  text:
+                                                      "Color: ${controller.orderDetailModel?.orderProducts?[index].product?.productColorsImages?.firstOrNull?.colorName?.capitalizeFirst ?? ""}",
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                                 SizedBox(height: 5),

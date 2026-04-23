@@ -4,9 +4,11 @@ import 'package:purosis/feature/admin/marketing/controller/marketing_controller.
 import 'package:sizer/sizer.dart';
 
 import '../../../../routes/app_routes.dart';
+import '../../../../widget/app_dialog.dart';
 import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_search_field.dart';
 import '../../../../widget/app_text.dart';
+import '../../../../widget/app_video_player.dart';
 import '../../../../widget/common_widget.dart';
 
 class ReelsView extends StatefulWidget {
@@ -38,7 +40,6 @@ class _ReelsViewState extends State<ReelsView> {
                   color: Color(0xFF888888),
                 ),
                 SizedBox(height: 1.h),
-
                 Row(
                   children: [
                     Expanded(
@@ -113,15 +114,15 @@ class _ReelsViewState extends State<ReelsView> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Get.toNamed(
-                                    AppRoutes.editReel,
-                                    arguments:
-                                        controller.reelsModelFilterList[index],
-                                  )?.then((value) {
-                                    if (value == true) {
-                                      marketingController.getReelApi();
-                                    }
-                                  });
+                                  Get.to(
+                                    () => AppVideoPlayer(
+                                      videoUrl:
+                                          controller
+                                              .reelsModelFilterList[index]
+                                              .mediaFile ??
+                                          "",
+                                    ),
+                                  );
                                 },
                                 child: Card(
                                   color: Colors.white,
@@ -140,28 +141,99 @@ class _ReelsViewState extends State<ReelsView> {
                                             fit: BoxFit.fill,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              AppText(
-                                                text:
-                                                    controller
-                                                        .reelsModelFilterList[index]
-                                                        .title ??
-                                                    "",
-                                                fontWeight: FontWeight.w700,
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  top: 8,
+                                                  bottom: 8,
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    AppText(
+                                                      text:
+                                                          controller
+                                                              .reelsModelFilterList[index]
+                                                              .title ??
+                                                          "",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                    AppText(
+                                                      text:
+                                                          "${controller.reelsModelFilterList[index].month ?? ""} ${controller.reelsModelFilterList[index].year ?? ""}",
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                              AppText(
-                                                text:
-                                                    "${controller.reelsModelFilterList[index].month ?? ""} ${controller.reelsModelFilterList[index].year ?? ""}",
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.grey,
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                            PopupMenuButton<String>(
+                                              color: Colors.white,
+                                              onSelected: (value) {
+                                                if (value == 'edit') {
+                                                  Get.toNamed(
+                                                    AppRoutes.editReel,
+                                                    arguments: controller
+                                                        .reelsModelFilterList[index],
+                                                  )?.then((value) {
+                                                    if (value == true) {
+                                                      marketingController
+                                                          .getReelApi();
+                                                    }
+                                                  });
+                                                } else if (value == 'delete') {
+                                                  AppDialogs.showDeleteDialog(
+                                                    onDelete: () async {
+                                                      await controller
+                                                          .deleteReelApi(
+                                                            controller
+                                                                .reelsModelFilterList[index]
+                                                                .id,
+                                                          );
+                                                    },
+                                                    isLoading: controller
+                                                        .isReelDeleteLoading,
+                                                  );
+                                                }
+                                              },
+                                              itemBuilder: (context) => [
+                                                const PopupMenuItem(
+                                                  value: 'edit',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Edit'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const PopupMenuItem(
+                                                  value: 'delete',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Delete'),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                              icon: const Icon(Icons.more_vert),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

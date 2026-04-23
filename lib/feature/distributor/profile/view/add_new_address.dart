@@ -26,25 +26,25 @@ class AddNewAddress extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AppTextField(
-                    labelText: "Dealer Name",
+                    labelText: "Dealer Name *",
                     controller: controller.dealerNameTEC,
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "Contact Person Name",
+                    labelText: "Contact Person Name *",
                     controller: controller.contactPersonNameTEC,
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "GST Number",
+                    labelText: "GST Number *",
                     controller: controller.gstNumberTEC,
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "PinCode",
+                    labelText: "Pincode *",
                     controller: controller.pinCodeTEC,
                     validator: CommonValidation.fieldValidation,
                     suffixIcon: controller.isPinCodeLoading
@@ -68,25 +68,27 @@ class AddNewAddress extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "State",
+                    labelText: "State *",
                     readOnly: true,
                     controller: controller.stateTEC,
+                    validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "City",
+                    labelText: "City *",
                     readOnly: true,
                     controller: controller.cityTEC,
+                    validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "Billing Address",
+                    labelText: "Billing Address *",
                     controller: controller.billingAddressTEC,
                     validator: CommonValidation.fieldValidation,
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "Enter Mobile Number",
+                    labelText: "Enter Mobile Number *",
                     controller: controller.mobileNumberTEC,
                     validator: CommonValidation.fieldValidation,
                     keyboardType: TextInputType.number,
@@ -96,13 +98,13 @@ class AddNewAddress extends StatelessWidget {
                   ),
                   SizedBox(height: 5),
                   AppTextField(
-                    labelText: "Enter Email Address",
+                    labelText: "Enter Email Address *",
                     controller: controller.emailAddressTEC,
                     validator: CommonValidation.isValidEmail,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   SizedBox(height: 5),
-                  AppText(text: "Shipping Address"),
+                  AppText(text: "Shipping Address *"),
                   SizedBox(height: 5),
                   Row(
                     children: [

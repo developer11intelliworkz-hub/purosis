@@ -7,6 +7,8 @@ import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/app_text.dart';
 import 'package:purosis/widget/common_widget.dart';
 
+import '../../../../widget/app_dialog.dart';
+
 class DealerProfileView extends StatefulWidget {
   const DealerProfileView({super.key});
 
@@ -171,7 +173,14 @@ class _DealerProfileViewState extends State<DealerProfileView> {
                         text: "Logout",
                         color: Color(0xFF8EBF1F),
                         onPressed: () {
-                          controller.logout();
+                          AppDialogs.showStatusDialog(
+                            onConfirm: () async {
+                              await controller.logout();
+                            },
+                            title: "Logout",
+                            message: "Are you sure you want to log out?",
+                            isLoading: false.obs,
+                          );
                         },
                       ),
                     ],

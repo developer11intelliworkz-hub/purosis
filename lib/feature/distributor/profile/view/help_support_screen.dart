@@ -79,6 +79,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                     ),
                                     child: Image.asset(AppImage.callIcon),
                                   ),
+                                  SizedBox(height: 10),
                                   AppText(
                                     text: "Call Us",
                                     fontWeight: FontWeight.w700,
@@ -130,6 +131,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                     ),
                                     child: Image.asset(AppImage.mailIcon),
                                   ),
+                                  SizedBox(height: 10),
                                   AppText(
                                     text: "Email",
                                     fontWeight: FontWeight.w700,
@@ -165,13 +167,13 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                             child: Column(
                               children: [
                                 AppTextField(
-                                  labelText: "Subject",
+                                  labelText: "Subject *",
                                   controller: controller.subjectTEC,
                                   validator: CommonValidation.fieldValidation,
                                 ),
                                 SizedBox(height: 10),
                                 AppDropDown(
-                                  label: "Category",
+                                  label: "Category *",
                                   items: (p0, p1) async =>
                                       (await CommonApi().getDetailApi())
                                           .products ??
@@ -185,7 +187,7 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                 ),
                                 SizedBox(height: 10),
                                 AppTextField(
-                                  labelText: "Message",
+                                  labelText: "Message *",
                                   hintText:
                                       "Please describe your question or issue",
                                   controller: controller.messageTEC,

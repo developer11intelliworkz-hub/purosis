@@ -106,13 +106,19 @@ class _ProductViewState extends State<ProductView> {
                                         .productModelFilterList[index]
                                         .id
                                         .toString(),
-                                  );
+                                  )?.then((value) {
+                                    if (value == true) {
+                                      controller.getProductApi(
+                                        queryParameters:
+                                            controller.selectedFilter,
+                                      );
+                                    }
+                                  });
                                 },
                                 child: Card(
                                   color: Colors.white,
                                   clipBehavior: Clip.antiAlias,
                                   child: SizedBox(
-                                    // color: Colors.red,
                                     width: 20.h,
                                     child: Column(
                                       crossAxisAlignment:
@@ -120,7 +126,6 @@ class _ProductViewState extends State<ProductView> {
                                       children: [
                                         Expanded(
                                           child: AppImageViewThumb(
-                                            // height: 17.h,
                                             imageUrl:
                                                 (controller
                                                         .productModelFilterList[index]
@@ -163,7 +168,7 @@ class _ProductViewState extends State<ProductView> {
                                                         .productDescription ??
                                                     "",
                                                 fontWeight: FontWeight.w700,
-                                                maxLines: 2,
+                                                maxLines: 1,
                                                 color: Colors.grey,
                                               ),
                                               SizedBox(height: 0.5.h),

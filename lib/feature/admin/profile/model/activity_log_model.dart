@@ -7,6 +7,7 @@ class ActivityLogModel {
     this.orderId,
     this.ipAddress,
     this.userAgent,
+    this.deviceName,
     this.country,
     this.state,
     this.city,
@@ -28,6 +29,7 @@ class ActivityLogModel {
     orderId = json['order_id'];
     ipAddress = json['ip_address'];
     userAgent = json['user_agent'];
+    deviceName = json['device_name'];
     country = json['country'];
     state = json['state'];
     city = json['city'];
@@ -48,6 +50,7 @@ class ActivityLogModel {
   dynamic orderId;
   String? ipAddress;
   String? userAgent;
+  String? deviceName;
   dynamic country;
   dynamic state;
   dynamic city;
@@ -69,6 +72,7 @@ class ActivityLogModel {
     map['order_id'] = orderId;
     map['ip_address'] = ipAddress;
     map['user_agent'] = userAgent;
+    map['device_name'] = deviceName;
     map['country'] = country;
     map['state'] = state;
     map['city'] = city;

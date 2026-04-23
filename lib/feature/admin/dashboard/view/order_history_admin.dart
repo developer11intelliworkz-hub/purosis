@@ -263,7 +263,7 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                           ),
                                         ],
                                       ),
-                                    SizedBox(height: 1.h),
+                                    SizedBox(height: 10),
                                     if (controller
                                             .orderHistoryModelFilterList[index]
                                             .shippingStatus
@@ -281,87 +281,55 @@ class _OrderHistoryAdminState extends State<OrderHistoryAdmin> {
                                             ),
                                             Expanded(
                                               flex: 3,
-                                              child:
-                                                  controller
-                                                          .isUpdateShippingStatusLoading &&
-                                                      controller
-                                                              .orderHistoryModelFilterList[index]
-                                                              .id ==
-                                                          controller
-                                                              .changeStatusIndex
-                                                  ? Wrap(
-                                                      alignment:
-                                                          WrapAlignment.center,
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 20,
-                                                          width: 20,
-                                                          child:
-                                                              CircularProgressIndicator(),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  : AppDropDown<CategoryItem>(
-                                                      label: "Status",
-                                                      showSearchBox: false,
-                                                      selectedItem: controller
-                                                          .filteredShippingStatusList
-                                                          .firstWhereOrNull(
-                                                            (e) =>
-                                                                e.key ==
-                                                                (controller
-                                                                        .tempSelectedStatus[controller
-                                                                        .orderHistoryModelFilterList[index]
-                                                                        .id] ??
-                                                                    controller
-                                                                        .orderHistoryModelFilterList[index]
-                                                                        .shippingStatus),
-                                                          ),
-                                                      items: (p0, p1) => controller
-                                                          .filteredShippingStatusList,
-                                                      compareFn: (p0, p1) =>
-                                                          p0 == p1,
-                                                      itemAsString: (p0) =>
-                                                          p0.value ?? '',
-                                                      onChanged: (value) {
-                                                        if (value == null) {
-                                                          return;
-                                                        }
-
-                                                        final orderId =
-                                                            controller
-                                                                .orderHistoryModelFilterList[index]
-                                                                .id ??
-                                                            -1;
-
-                                                        final currentStatus =
-                                                            controller
-                                                                .orderHistoryModelFilterList[index]
-                                                                .shippingStatus;
-
-                                                        if (value.key ==
-                                                            currentStatus) {
-                                                          return;
-                                                        }
-
-                                                        AppDialogs.showStatusDialog(
-                                                          message:
-                                                              "Change status to ${value.value}?",
-                                                          isLoading: controller
-                                                              .isUpdateShippingStatusLoading
-                                                              .obs,
-
-                                                          onConfirm: () {
-                                                            Get.back();
-                                                            controller
-                                                                .updateShippingStatusApi(
-                                                                  value.key!,
-                                                                  orderId,
-                                                                );
-                                                          },
-                                                        );
-                                                      },
+                                              child: AppDropDown<CategoryItem>(
+                                                label: "Status",
+                                                showSearchBox: false,
+                                                selectedItem: controller
+                                                    .filteredShippingStatusList
+                                                    .firstWhereOrNull(
+                                                      (e) =>
+                                                          e.key ==
+                                                          (controller
+                                                                  .tempSelectedStatus[controller
+                                                                  .orderHistoryModelFilterList[index]
+                                                                  .id] ??
+                                                              controller
+                                                                  .orderHistoryModelFilterList[index]
+                                                                  .shippingStatus),
                                                     ),
+                                                items: (p0, p1) => controller
+                                                    .filteredShippingStatusList,
+                                                compareFn: (p0, p1) => p0 == p1,
+                                                itemAsString: (p0) =>
+                                                    p0.value ?? '',
+                                                onChanged: (value) {
+                                                  if (value != null &&
+                                                      value.key !=
+                                                          controller
+                                                              .orderHistoryModelFilterList[index]
+                                                              .shippingStatus) {
+                                                    AppDialogs.showStatusDialog(
+                                                      message:
+                                                          "Change status to ${value.value} ?",
+                                                      isLoading: controller
+                                                          .isUpdateShippingStatusLoading,
+                                                      onCancel: () {
+                                                        Get.back();
+                                                        controller.update();
+                                                      },
+                                                      onConfirm: () {
+                                                        controller
+                                                            .updateShippingStatusApi(
+                                                              value.key,
+                                                              controller
+                                                                  .orderHistoryModelFilterList[index]
+                                                                  .id,
+                                                            );
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                              ),
                                             ),
                                           ],
                                         ),

@@ -69,12 +69,13 @@ import '../feature/distributor/cart/view/transport_view.dart';
 import '../feature/distributor/dashboard/view/distributor_main_screen.dart';
 import '../feature/distributor/marketing/view/brochures_view_distributor.dart';
 import '../feature/distributor/marketing/view/leafleats_view_distributor.dart';
-import '../feature/distributor/marketing/view/video_view.dart';
+import '../feature/distributor/marketing/view/video_view_distributor.dart';
 import '../feature/distributor/profile/view/address_view.dart';
 import '../feature/distributor/profile/view/edit_profile.dart';
 import '../feature/distributor/profile/view/help_support_screen.dart';
 import '../feature/distributor/dashboard/view/notification_screen_distributor.dart';
 import '../feature/distributor/profile/view/order_detail.dart';
+import '../feature/distributor/profile/view/wishlist_view.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -215,6 +216,7 @@ class AppPages {
       name: AppRoutes.notificationScreenDistributor,
       page: () => NotificationScreenDistributor(),
     ),
+    GetPage(name: AppRoutes.wishlistView, page: () => const WishlistView()),
 
     //Dealer
     GetPage(

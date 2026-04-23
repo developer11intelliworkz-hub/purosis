@@ -18,14 +18,13 @@ class OrderHistoryController extends GetxController {
   bool isOrderHistoryLoading = false;
   bool isOrderDetailLoading = false;
   bool isApproveDeclineLoading = false;
-  bool isUpdateShippingStatusLoading = false;
+  RxBool isUpdateShippingStatusLoading = false.obs;
   List<OrderHistoryModel> orderHistoryModelList = [];
   List<OrderHistoryModel> orderHistoryModelFilterList = [];
   OrderDetailModel? orderDetailModel;
   List<CategoryItem> shippingStatusList = [];
   int? selectedApproveDeclineIndex;
   String? selectedType;
-  int? changeStatusIndex;
 
   Map<int, String> tempSelectedStatus = {};
 
@@ -62,7 +61,6 @@ class OrderHistoryController extends GetxController {
     orderHistoryModelFilterList = orderHistoryModelList
         .where((e) => e.shippingStatus == status)
         .toList();
-
     update();
   }
 
@@ -71,8 +69,14 @@ class OrderHistoryController extends GetxController {
       final item = orderHistoryModelList
           .where(
             (item) =>
-                item.orderNumber?.toLowerCase().contains(query.toLowerCase()) ??
-                false,
+                (item.orderNumber?.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ) ??
+                    false) ||
+                (item.distributor?.companyName?.toLowerCase().contains(
+                      query.toLowerCase(),
+                    ) ??
+                    false),
           )
           .toList();
       if (isLatest) {
@@ -164,10 +168,8 @@ class OrderHistoryController extends GetxController {
         });
   }
 
-  Future<void> updateShippingStatusApi(String actionType, int id) async {
-    isUpdateShippingStatusLoading = true;
-    changeStatusIndex = id;
-    // update();
+  Future<void> updateShippingStatusApi(String? actionType, int? id) async {
+    isUpdateShippingStatusLoading.value = true;
     StatusChangeQuery statusChangeQuery = StatusChangeQuery(
       shippingStatus: actionType,
       orderId: id,
@@ -179,7 +181,6 @@ class OrderHistoryController extends GetxController {
         )
         .then((response) async {
           if (response["success"] == true) {
-            changeStatusIndex = null;
             orderHistoryModelList[orderHistoryModelList.indexWhere(
                       (e) => e.id == id,
                     )]
@@ -194,12 +195,12 @@ class OrderHistoryController extends GetxController {
           } else {
             AppToast.error();
           }
-          isUpdateShippingStatusLoading = false;
+          isUpdateShippingStatusLoading.value = false;
           update();
         })
         .catchError((value) {
           AppToast.error();
-          isUpdateShippingStatusLoading = false;
+          isUpdateShippingStatusLoading.value = false;
           update();
         });
   }

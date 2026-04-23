@@ -5,6 +5,7 @@ import 'package:purosis/routes/app_routes.dart';
 import 'package:purosis/widget/app_image_view_thumb.dart';
 import 'package:purosis/widget/common_widget.dart';
 
+import '../../../../widget/app_dialog.dart';
 import '../../../../widget/app_text.dart';
 
 class BannerView extends StatefulWidget {
@@ -122,30 +123,23 @@ class _BannerViewState extends State<BannerView> {
                                         shape: BoxShape.circle,
                                       ),
                                       child: IconButton(
-                                        onPressed:
-                                            controller.isBannerDeleteLoading
-                                            ? null
-                                            : () {
-                                                controller.deleteBannerApi(
-                                                  controller
-                                                      .bannerModelList[index]
-                                                      .id,
-                                                );
-                                              },
-                                        icon:
-                                            controller.isBannerDeleteLoading &&
-                                                controller.selectedId ==
-                                                    controller
-                                                        .bannerModelList[index]
-                                                        .id
-                                            ? Padding(
-                                                padding: const EdgeInsets.all(
-                                                  8,
-                                                ),
-                                                child:
-                                                    CircularProgressIndicator(),
-                                              )
-                                            : Icon(Icons.delete, size: 20),
+                                        onPressed: () {
+                                          AppDialogs.showStatusDialog(
+                                            onConfirm: () async {
+                                              await controller.deleteBannerApi(
+                                                controller
+                                                    .bannerModelList[index]
+                                                    .id,
+                                              );
+                                            },
+                                            title: "Delete",
+                                            message:
+                                                "Are you sure you want to delete ?",
+                                            isLoading: controller
+                                                .isBannerDeleteLoading,
+                                          );
+                                        },
+                                        icon: Icon(Icons.delete, size: 20),
                                         color: Colors.red,
                                       ),
                                     ),

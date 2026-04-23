@@ -35,7 +35,7 @@ class AddressModel {
     updatedAt = json['updated_at'];
   }
 
-  num? id;
+  int? id;
   num? distributorId;
   String? dealerName;
   String? contactPersonName;

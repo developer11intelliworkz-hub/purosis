@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:purosis/feature/admin/profile/controller/admin_profile_controller.dart';
 import 'package:purosis/routes/app_routes.dart';
+import 'package:purosis/widget/app_dialog.dart';
+import 'package:purosis/widget/app_image_view.dart';
 
 import '../../../../widget/app_button.dart';
-import '../../../../widget/app_image_view_thumb.dart';
 import '../../../../widget/app_text.dart';
 
 class AdminProfileView extends StatefulWidget {
@@ -53,7 +54,7 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                                 child: SizedBox(
                                   width: 100,
                                   height: 100,
-                                  child: AppImageViewThumb(
+                                  child: AppImageView(
                                     imageUrl:
                                         controller.userModel?.profilePhoto ??
                                         "",
@@ -115,7 +116,7 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 10),
+                      // SizedBox(height: 10),
                       GestureDetector(
                         onTap: () {
                           Get.toNamed(AppRoutes.adminProfileEdit)?.then((
@@ -126,52 +127,78 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                             }
                           });
                         },
-                        child: AppText(text: "My Profile"),
+                        child: SizedBox(
+                          width: double.maxFinite,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: AppText(text: "My Profile"),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 10),
                       Divider(),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.userManagement);
-                        },
-                        child: AppText(text: "User Management"),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.userManagement);
+                            },
+                            child: AppText(text: "User Management"),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 10),
                       Divider(),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.notificationScreen);
-                        },
-                        child: AppText(text: "Notifications"),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.notificationScreen);
+                            },
+                            child: AppText(text: "Notifications"),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 10),
                       Divider(),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.bannerView);
-                        },
-                        child: AppText(text: "Offer Banners"),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.bannerView);
+                            },
+                            child: AppText(text: "Offer Banners"),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 10),
                       Divider(),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.helpSupportView);
-                        },
-                        child: AppText(text: "Help & Support"),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.helpSupportView);
+                            },
+                            child: AppText(text: "Help & Support"),
+                          ),
+                        ),
                       ),
-                      SizedBox(height: 10),
                       Divider(),
-                      SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.supportMessageView);
-                        },
-                        child: AppText(text: "Support Message"),
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.supportMessageView);
+                            },
+                            child: AppText(text: "Support Message"),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -184,7 +211,14 @@ class _AdminProfileViewState extends State<AdminProfileView> {
                   text: "Logout",
                   color: Color(0xFF8EBF1F),
                   onPressed: () async {
-                    await controller.logout();
+                    AppDialogs.showStatusDialog(
+                      onConfirm: () async {
+                        await controller.logout();
+                      },
+                      title: "Logout",
+                      message: "Are you sure you want to log out?",
+                      isLoading: false.obs,
+                    );
                   },
                 ),
               ),

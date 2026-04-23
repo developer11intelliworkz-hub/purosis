@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:purosis/widget/app_pdf_viewer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../consts/app_image.dart';
@@ -84,8 +85,21 @@ class _BrochuresViewDealerState extends State<BrochuresViewDealer> {
                                   mainAxisSpacing: 5,
                                 ),
                             itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {},
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    AppPdfViewer(
+                                      url:
+                                          controller
+                                              .brochuresModelFilterList[index]
+                                              .mediaFile ??
+                                          "",
+                                      header: controller
+                                          .brochuresModelFilterList[index]
+                                          .title,
+                                    ),
+                                  );
+                                },
                                 child: Card(
                                   color: Colors.white,
                                   child: SizedBox(

@@ -64,7 +64,7 @@ class _DashboardViewState extends State<DashboardView> {
                             SizedBox(width: 10),
                             Expanded(
                               child: CardWidget(
-                                icon: AppImage.cartIcon,
+                                icon: AppImage.announcementIcon,
                                 count:
                                     (controller
                                                 .dashboardDataModel
@@ -167,7 +167,7 @@ class _DashboardViewState extends State<DashboardView> {
                           },
                           child: _menuCard(
                             AppImage.imageIcon,
-                            "Marketing",
+                            "Marketing Material",
                             "Upload Content",
                           ),
                         ),
@@ -178,7 +178,7 @@ class _DashboardViewState extends State<DashboardView> {
                           },
                           child: _menuCard(
                             AppImage.giftIcon,
-                            "Promotional",
+                            "Promotional Item",
                             "Stock Management",
                           ),
                         ),

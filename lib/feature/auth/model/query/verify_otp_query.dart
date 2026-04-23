@@ -8,6 +8,7 @@ class VerifyOtpQuery {
     this.latitude,
     this.longitude,
     this.deviceToken,
+    this.deviceName,
   });
 
   VerifyOtpQuery.fromJson(dynamic json) {
@@ -17,6 +18,7 @@ class VerifyOtpQuery {
     latitude = json['latitude'];
     longitude = json['longitude'];
     deviceToken = json['device_token'];
+    deviceName = json['device_name'];
   }
 
   String? userType;
@@ -25,6 +27,7 @@ class VerifyOtpQuery {
   double? latitude;
   double? longitude;
   String? deviceToken;
+  String? deviceName;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -34,6 +37,7 @@ class VerifyOtpQuery {
     map['latitude'] = latitude;
     map['longitude'] = longitude;
     map['device_token'] = deviceToken;
+    map['device_name'] = deviceName;
     return map;
   }
 
@@ -45,6 +49,7 @@ class VerifyOtpQuery {
       if (latitude != null) "latitude": latitude,
       if (longitude != null) "longitude": longitude,
       if (deviceToken != null) "device_token": deviceToken,
+      if (deviceName != null) "device_name": deviceName,
     });
   }
 }

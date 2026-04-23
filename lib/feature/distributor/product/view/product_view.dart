@@ -142,7 +142,7 @@ class _ProductViewState extends State<ProductView> {
                                                       .productDescription ??
                                                   "",
                                               fontWeight: FontWeight.w700,
-                                              maxLines: 2,
+                                              maxLines: 1,
                                               color: Colors.grey,
                                             ),
                                             Row(

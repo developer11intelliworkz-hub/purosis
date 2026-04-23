@@ -69,7 +69,15 @@ class _AddressViewState extends State<AddressView> {
                                         color: Colors.grey,
                                       ),
                                       onPressed: () {
-                                        Get.toNamed(AppRoutes.editAddressView);
+                                        Get.toNamed(
+                                          AppRoutes.editAddressView,
+                                          arguments: controller
+                                              .addressModelList[index],
+                                        )?.then((value) {
+                                          if (value == true) {
+                                            controller.getAddressApi();
+                                          }
+                                        });
                                       },
                                     ),
                                   ),
@@ -79,8 +87,8 @@ class _AddressViewState extends State<AddressView> {
                                     child: IconButton(
                                       onPressed: () {
                                         AppDialogs.showDeleteDialog(
-                                          onDelete: () {
-                                            controller.deleteAddressApi(
+                                          onDelete: () async {
+                                            await controller.deleteAddressApi(
                                               controller
                                                   .addressModelList[index]
                                                   .id,
